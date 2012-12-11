@@ -1,3 +1,6 @@
 mako
 tornado
 asyncmongo
+mongoengine
+beautifulsoup4
+pycurl
