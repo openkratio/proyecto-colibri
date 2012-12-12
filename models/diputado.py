@@ -1,14 +1,14 @@
 from mongoengine import *
 
 class Diputado(Document):
-       nombre = StringField(max_length=50, required=True)
-       apellidos = StringFIeld(max_length=100, required=True)
+       nombre = StringField()
+       apellidos = StringField()
        ficha = URLField()
-       correo = EmailField(required=True)
+       correo = EmailField()
        baja = DateTimeField()
-       sustituto = StrinField()
+       sustituto = StringField()
        web = URLField()
-       twitter = URLFIeld()
+       twitter = URLField()
        partido = StringField()
        circunscripcion = StringField()
        asiento = StringField()
