@@ -25,7 +25,8 @@ def main(file):
 		print 'No votan:', totales.find('NoVotan').text
 		votaciones = root.find('Votaciones')
 		for voto in votaciones:
-			print voto.find('Asiento').text, voto.find('Diputado').text, voto.find('Voto').text
+			print '\t', voto.find('Asiento').text, voto.find('Diputado').text, voto.find('Voto').text
+		print 'Numero de votaciones', len(votaciones)
 	else:
 		print 'SE ASIENTE'
 
