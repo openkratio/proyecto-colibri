@@ -4,7 +4,7 @@ import os, sys
 from models.diputado import Diputado
 from mongoengine import connect
 import re
-from settings import DIPUTADOS_URL
+from settings import DIPUTADOS_URL, DATABASE
 
 try:
     from cStringIO import StringIO
@@ -57,7 +57,7 @@ def get_dips(url_fichas):
     return m
 
 def parser_dip(m):
-    connection = connect('colibri_db')
+    connection = connect(DATABASE)
     # get result
     for c in m:
         print "%-53s http_code %3d" % (c.url, c.http_code)
@@ -97,5 +97,6 @@ def parser_dip(m):
 url_fichas = get_urls()
 
 #Get dips
-m = get_dips(url_fichas)
-parser_dip(m)
+if len(url_fichas) > 0:
+    m = get_dips(url_fichas)
+    parser_dip(m)
