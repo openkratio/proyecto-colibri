@@ -64,7 +64,11 @@ def parser_dip(m):
 
         html_doc = c.body.getvalue()
         soup = BeautifulSoup(html_doc)
-        dip_instance = Diputado()
+        exist_dip = Diputado.objects(ficha=c.url)
+        if exist_dip:
+            dip_instance = exist_dip[0]
+        else:
+            dip_instance = Diputado()
         
         if c.http_code == 200:
             nombre_soup = soup.find(id='curriculum').find('div', 'nombre_dip')
