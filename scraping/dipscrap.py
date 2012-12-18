@@ -5,7 +5,7 @@ from models.diputado import Diputado, Asiento
 from models.partido import Partido, Grupo
 from mongoengine import connect
 import re
-from settings import DIPUTADOS_URL, DATABASE
+from settings import DIPUTADOS_URL, DATABASE, PROJECT_DIR
 from scraper import create_curl
 from bs4 import BeautifulSoup
 
@@ -57,6 +57,8 @@ def parser_dip(m):
 
             cv_soup = soup.find(id='curriculum')
             if cv_soup:
+                
+                datos_diputado = soup.find(id='datos_diputado')
 
                 exist_dip = Diputado.objects(ficha=c.url)
                 if exist_dip:
@@ -112,6 +114,19 @@ def parser_dip(m):
                     partido_nombre = partido_soup.text.strip().encode('utf8')
                     partido_instance = Partido()
                     partido_instance.nombre = partido_nombre
+                    
+                    if datos_diputado:
+                        logo_partido = datos_diputado.find(lambda tag: tag.name == 'img' and tag.parent.name == 'a')
+                        if logo_partido:
+                            logo_url = 'http://www.congreso.es' + logo_partido.attrs['src']
+                            partido_instance.logo = PROJECT_DIR + '/static/images/logos/' + logo_url.split('/')[-1].encode('utf8')
+                            logo_curl = create_curl(logo_url.encode('utf8'))
+                            logo_curl.perform()
+                            f = open("%s" % (partido_instance.logo,), 'wb')
+                            f.write(logo_curl.body.getvalue())
+                            f.close()
+                            logo_curl.close()
+
                     if grupo_soup:
                         partido_instance.grupo = grupo_instance
                     
