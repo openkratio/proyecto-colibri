@@ -65,7 +65,7 @@ def parser_dip(m):
                     dip_instance = exist_dip[0]
                 else:
                     dip_instance = Diputado()
-    
+
                 #get name
                 nombre_soup = cv_soup.find('div', 'nombre_dip')
                 if nombre_soup:
@@ -126,6 +126,8 @@ def parser_dip(m):
                             f.write(logo_curl.body.getvalue())
                             f.close()
                             logo_curl.close()
+
+                            partido_instance.web = logo_partido.parent.attrs['href'].encode('utf8')
 
                     if grupo_soup:
                         partido_instance.grupo = grupo_instance

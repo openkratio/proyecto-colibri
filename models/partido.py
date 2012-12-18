@@ -8,4 +8,5 @@ class Partido(EmbeddedDocument):
     nombre = StringField()
     color = StringField()
     logo = StringField()
+    web = URLField()
     grupo = EmbeddedDocumentField('Grupo')
