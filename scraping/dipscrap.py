@@ -1,27 +1,13 @@
 # -*- coding: utf-8 -*-
-import pycurl
 import os, sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from models.diputado import Diputado
+from models.diputado import Diputado, Asiento
+from models.partido import Partido, Grupo
 from mongoengine import connect
 import re
 from settings import DIPUTADOS_URL, DATABASE
-
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
+from scraper import create_curl
 from bs4 import BeautifulSoup
-
-def create_curl(url):
-    curl = pycurl.Curl()
-    curl.url = url
-    curl.body = StringIO()
-    curl.http_code = -1
-    curl.setopt(curl.URL, curl.url)
-    curl.setopt(curl.WRITEFUNCTION, curl.body.write)
-
-    return curl
 
 def get_urls():
     url = DIPUTADOS_URL
@@ -43,6 +29,8 @@ def get_urls():
             has_next = False
         else:
             url = paginacion.attrs['href'].__str__()
+
+        #has_next = False
 
     return url_fichas
 
@@ -72,25 +60,35 @@ def parser_dip(m):
             dip_instance = Diputado()
         
         if c.http_code == 200:
+            #get name
             nombre_soup = soup.find(id='curriculum').find('div', 'nombre_dip')
             if nombre_soup:
                 dip_instance.nombre = nombre_soup.text.split(',')[1].strip().encode('utf8')
                 dip_instance.apellidos = nombre_soup.text.split(',')[0].strip().encode('utf8')
-    
+            
+            #get url
             dip_instance.ficha = c.url
     
+            #get email
             correo_soup = soup.find(id='curriculum').find(lambda tag: tag.name == 'a' and tag.parent.name == 'div' and tag.has_key('title'), text=re.compile("([a-zA-Z0-9]*[\.])*@congreso.es"))
             if correo_soup:
                 dip_instance.correo = correo_soup.text.split()[0].encode('utf8')
-    
+            #get web
             web_soup = soup.find(id='curriculum').find(lambda tag: tag.name == 'a' and tag.parent.name == 'div' and tag.has_key('title'), text=re.compile("https?:\/\/"))
             if web_soup:
                 dip_instance.web = web_soup.attrs['href'].encode('utf8')
-    
+            #get twitter
             twitter_soup = soup.find(id='curriculum').findAll(lambda tag: tag.name == 'img' and tag.parent.name == 'a',src=re.compile("codigoTipoDireccion=tw"))
             if twitter_soup:
                 dip_instance.twitter = twitter_soup[0].parent.attrs['href'].encode('utf8')
-    
+
+            circuns_soup = soup.find(id='curriculum').find('div', 'dip_rojo', text=re.compile("Diputad[ao] por [a-zA-Z]?"))
+            if circuns_soup:
+                circuns_soup = re.sub(r'Diputad[ao] por ', '' ,circuns_soup.text).strip()
+                circuns_soup = re.sub(r'\.$', '' ,circuns_soup)
+                dip_instance.circunscripcion = circuns_soup.encode('utf8')
+
+            
             dip_instance.save()
     
             print "**********", dip_instance.nombre, "**********"
