@@ -50,49 +50,77 @@ def parser_dip(m):
     # get result
     for c in m:
         print "%-53s http_code %3d" % (c.url, c.http_code)
-
-        html_doc = c.body.getvalue()
-        soup = BeautifulSoup(html_doc)
-        exist_dip = Diputado.objects(ficha=c.url)
-        if exist_dip:
-            dip_instance = exist_dip[0]
-        else:
-            dip_instance = Diputado()
         
         if c.http_code == 200:
-            #get name
-            nombre_soup = soup.find(id='curriculum').find('div', 'nombre_dip')
-            if nombre_soup:
-                dip_instance.nombre = nombre_soup.text.split(',')[1].strip().encode('utf8')
-                dip_instance.apellidos = nombre_soup.text.split(',')[0].strip().encode('utf8')
-            
-            #get url
-            dip_instance.ficha = c.url
-    
-            #get email
-            correo_soup = soup.find(id='curriculum').find(lambda tag: tag.name == 'a' and tag.parent.name == 'div' and tag.has_key('title'), text=re.compile("([a-zA-Z0-9]*[\.])*@congreso.es"))
-            if correo_soup:
-                dip_instance.correo = correo_soup.text.split()[0].encode('utf8')
-            #get web
-            web_soup = soup.find(id='curriculum').find(lambda tag: tag.name == 'a' and tag.parent.name == 'div' and tag.has_key('title'), text=re.compile("https?:\/\/"))
-            if web_soup:
-                dip_instance.web = web_soup.attrs['href'].encode('utf8')
-            #get twitter
-            twitter_soup = soup.find(id='curriculum').findAll(lambda tag: tag.name == 'img' and tag.parent.name == 'a',src=re.compile("codigoTipoDireccion=tw"))
-            if twitter_soup:
-                dip_instance.twitter = twitter_soup[0].parent.attrs['href'].encode('utf8')
+            html_doc = c.body.getvalue()
+            soup = BeautifulSoup(html_doc)
 
-            circuns_soup = soup.find(id='curriculum').find('div', 'dip_rojo', text=re.compile("Diputad[ao] por [a-zA-Z]?"))
-            if circuns_soup:
-                circuns_soup = re.sub(r'Diputad[ao] por ', '' ,circuns_soup.text).strip()
-                circuns_soup = re.sub(r'\.$', '' ,circuns_soup)
-                dip_instance.circunscripcion = circuns_soup.encode('utf8')
+            cv_soup = soup.find(id='curriculum')
+            if cv_soup:
 
-            
-            dip_instance.save()
+                exist_dip = Diputado.objects(ficha=c.url)
+                if exist_dip:
+                    dip_instance = exist_dip[0]
+                else:
+                    dip_instance = Diputado()
     
-            print "**********", dip_instance.nombre, "**********"
-            print "************************************************************************************************"
+                #get name
+                nombre_soup = cv_soup.find('div', 'nombre_dip')
+                if nombre_soup:
+                    dip_instance.nombre = nombre_soup.text.split(',')[1].strip().encode('utf8')
+                    dip_instance.apellidos = nombre_soup.text.split(',')[0].strip().encode('utf8')
+
+                #get url
+                dip_instance.ficha = c.url
+
+                #get email
+                correo_soup = cv_soup.find(lambda tag: tag.name == 'a' and tag.parent.name == 'div' and tag.has_key('title'), text=re.compile("([a-zA-Z0-9]*[\.])*@congreso.es"))
+                if correo_soup:
+                    dip_instance.correo = correo_soup.text.split()[0].encode('utf8')
+
+                #get web
+                web_soup = cv_soup.find(lambda tag: tag.name == 'a' and tag.parent.name == 'div' and tag.has_key('title'), text=re.compile("https?:\/\/"))
+                if web_soup:
+                    dip_instance.web = web_soup.attrs['href'].encode('utf8')
+
+                #get twitter
+                twitter_soup = cv_soup.findAll(lambda tag: tag.name == 'img' and tag.parent.name == 'a',src=re.compile("codigoTipoDireccion=tw"))
+                if twitter_soup:
+                    dip_instance.twitter = twitter_soup[0].parent.attrs['href'].encode('utf8')
+
+                #get circunscripcion
+                circuns_soup = cv_soup.find('div', 'dip_rojo', text=re.compile("Diputad[ao] por [a-zA-Z]?"))
+                if circuns_soup:
+                    circuns_soup = re.sub(r'Diputad[ao] por ', '' ,circuns_soup.text).strip()
+                    circuns_soup = re.sub(r'\.$', '' ,circuns_soup)
+                    dip_instance.circunscripcion = circuns_soup.encode('utf8')
+
+                #get grupo
+                grupo_soup = cv_soup.find(lambda tag: tag.name == 'a' and tag.parent.name == 'div', text=re.compile("G\.P\. .* \( [a-zA-Z]+ \)"))
+                if grupo_soup:
+                    grupo_match = re.search('^G\.P\. (.+) (\( [a-zA-Z]+ \))',grupo_soup.text, re.M|re.I)
+                    if grupo_match:
+                        grupo_nombre = grupo_match.group(1).strip().encode('utf8')
+                        grupo_acronimo = grupo_match.group(2).strip().encode('utf8')
+                        grupo_instance = Grupo()
+                        grupo_instance.nombre = grupo_nombre
+                        grupo_instance.acronimo = grupo_acronimo
+
+                #get partido
+                partido_soup = soup.find('p', 'nombre_grupo')
+                if partido_soup:
+                    partido_nombre = partido_soup.text.strip().encode('utf8')
+                    partido_instance = Partido()
+                    partido_instance.nombre = partido_nombre
+                    if grupo_soup:
+                        partido_instance.grupo = grupo_instance
+                    
+                    dip_instance.partido = partido_instance
+
+                dip_instance.save()
+
+                print "**********", dip_instance.nombre, "**********"
+                print "************************************************************************************************"
 
     connection.disconnect()
 
