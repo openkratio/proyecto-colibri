@@ -30,7 +30,7 @@ def get_urls():
         else:
             url = paginacion.attrs['href'].__str__()
 
-        has_next = False
+        #has_next = False
 
     return url_fichas
 

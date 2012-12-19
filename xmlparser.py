@@ -1,7 +1,13 @@
-import sys
+import sys, os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import xml.etree.ElementTree as ET
+from datetime import datetime
+from bs4 import BeautifulSoup
+from scraping.scraper import create_curl, get_file
+from settings import VOTACIONES_URL
+from zipfile import ZipFile
 
-def main(file):
+def parser_xml(file):
     tree = ET.parse(file)
     root = tree.getroot()
     
@@ -30,7 +36,35 @@ def main(file):
     else:
         print 'SE ASIENTE'
 
+def extract_files(pathzip):
+    basedir = os.path.dirname(pathzip)
+    xmlzip =  ZipFile(pathzip, 'r')
+    xmlzip.extractall(basedir)
+    xmlzip.close()
+    os.remove(pathzip)
+    for xml in os.listdir(basedir):
+        parser_xml(basedir + '/' + xml)
+        os.remove(basedir + '/' + xml)
 
+    os.rmdir(os.path.dirname(pathzip))
 
-if __name__ == '__main__':
-    main(sys.argv[1])
+#get zip
+now = datetime.now().strftime('%Y/%m/13')
+now_file = datetime.now().strftime('%Y%m13')
+url = VOTACIONES_URL + now
+votaciones_curl = create_curl(url)
+votaciones_curl.perform()
+if votaciones_curl.getinfo(votaciones_curl.HTTP_CODE) == 200:
+    html_doc = votaciones_curl.body.getvalue()
+    soup = BeautifulSoup(html_doc)
+
+    xml_soup = soup.find(lambda tag: tag.name == 'a' and tag.parent.name == 'td')
+    if xml_soup:
+        xml_url = 'http://www.congreso.es' + xml_soup.attrs['href']
+        pathzip = '/tmp/votaciones' + now_file
+        if os.path.isdir(pathzip):
+            os.rmdir(pathzip)
+        os.mkdir(pathzip)
+        get_file(xml_url.encode('utf8'), pathzip + '/xmls.zip')
+        extract_files(pathzip + '/xmls.zip')
+votaciones_curl.close()
