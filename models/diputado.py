@@ -9,6 +9,7 @@ class Asiento(EmbeddedDocument):
 class Diputado(Document):
     nombre = StringField()
     apellidos = StringField()
+    foto = StringField()
     ficha = URLField()
     correo = EmailField()
     baja = DateTimeField()

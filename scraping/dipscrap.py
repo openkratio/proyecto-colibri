@@ -134,6 +134,34 @@ def parser_dip(m):
                     
                     dip_instance.partido = partido_instance
 
+                #get asiento
+                if datos_diputado:
+                    asiento_soup = datos_diputado.find('p', 'pos_hemiciclo').find('img')
+                    if asiento_soup:
+                        asiento_url = 'http://www.congreso.es' + asiento_soup.attrs['src']
+                        asiento_instance = Asiento()
+                        asiento_instance.imagen = PROJECT_DIR + '/static/images/asientos/' + asiento_url.split('/')[-1].encode('utf8')
+                        asiento_curl = create_curl(asiento_url.encode('utf8'))
+                        asiento_curl.perform()
+                        f = open("%s" % (asiento_instance.imagen,), 'wb')
+                        f.write(asiento_curl.body.getvalue())
+                        f.close()
+                        asiento_curl.close()
+                        dip_instance.asiento = asiento_instance
+
+                #get foto
+                if datos_diputado:
+                    foto_soup = datos_diputado.find(lambda tag: tag.name == 'img' and tag.parent.name == 'p')
+                    if foto_soup:
+                        foto_url = 'http://www.congreso.es' + foto_soup.attrs['src']
+                        dip_instance.foto = PROJECT_DIR + '/static/images/fotos/' + foto_url.split('/')[-1].encode('utf8')
+                        foto_curl = create_curl(foto_url.encode('utf8'))
+                        foto_curl.perform()
+                        f = open("%s" % (dip_instance.foto,), 'wb')
+                        f.write(foto_curl.body.getvalue())
+                        f.close()
+                        foto_curl.close()
+
                 dip_instance.save()
 
                 print "**********", dip_instance.nombre, "**********"
