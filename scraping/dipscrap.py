@@ -6,7 +6,7 @@ from models.partido import Partido, Grupo
 from mongoengine import connect
 import re
 from settings import DIPUTADOS_URL, DATABASE, PROJECT_DIR
-from scraper import create_curl
+from scraper import create_curl, get_file
 from bs4 import BeautifulSoup
 
 def get_urls():
@@ -30,7 +30,7 @@ def get_urls():
         else:
             url = paginacion.attrs['href'].__str__()
 
-        #has_next = False
+        has_next = False
 
     return url_fichas
 
@@ -49,8 +49,6 @@ def parser_dip(m):
     connection = connect(DATABASE)
     # get result
     for c in m:
-        print "%-53s http_code %3d" % (c.url, c.http_code)
-        
         if c.http_code == 200:
             html_doc = c.body.getvalue()
             soup = BeautifulSoup(html_doc)
@@ -120,13 +118,7 @@ def parser_dip(m):
                         if logo_partido:
                             logo_url = 'http://www.congreso.es' + logo_partido.attrs['src']
                             partido_instance.logo = PROJECT_DIR + '/static/images/logos/' + logo_url.split('/')[-1].encode('utf8')
-                            logo_curl = create_curl(logo_url.encode('utf8'))
-                            logo_curl.perform()
-                            f = open("%s" % (partido_instance.logo,), 'wb')
-                            f.write(logo_curl.body.getvalue())
-                            f.close()
-                            logo_curl.close()
-
+                            get_file(logo_url.encode('utf8'), partido_instance.logo)
                             partido_instance.web = logo_partido.parent.attrs['href'].encode('utf8')
 
                     if grupo_soup:
@@ -141,12 +133,7 @@ def parser_dip(m):
                         asiento_url = 'http://www.congreso.es' + asiento_soup.attrs['src']
                         asiento_instance = Asiento()
                         asiento_instance.imagen = PROJECT_DIR + '/static/images/asientos/' + asiento_url.split('/')[-1].encode('utf8')
-                        asiento_curl = create_curl(asiento_url.encode('utf8'))
-                        asiento_curl.perform()
-                        f = open("%s" % (asiento_instance.imagen,), 'wb')
-                        f.write(asiento_curl.body.getvalue())
-                        f.close()
-                        asiento_curl.close()
+                        get_file(asiento_url.encode('utf8'), asiento_instance.imagen)
                         dip_instance.asiento = asiento_instance
 
                 #get foto
@@ -155,17 +142,9 @@ def parser_dip(m):
                     if foto_soup:
                         foto_url = 'http://www.congreso.es' + foto_soup.attrs['src']
                         dip_instance.foto = PROJECT_DIR + '/static/images/fotos/' + foto_url.split('/')[-1].encode('utf8')
-                        foto_curl = create_curl(foto_url.encode('utf8'))
-                        foto_curl.perform()
-                        f = open("%s" % (dip_instance.foto,), 'wb')
-                        f.write(foto_curl.body.getvalue())
-                        f.close()
-                        foto_curl.close()
+                        get_file(foto_url.encode('utf8'), dip_instance.foto)
 
                 dip_instance.save()
-
-                print "**********", dip_instance.nombre, "**********"
-                print "************************************************************************************************"
 
     connection.disconnect()
 
@@ -174,5 +153,11 @@ url_fichas = get_urls()
 
 #Get dips
 if len(url_fichas) > 0:
-    m = get_dips(url_fichas)
-    parser_dip(m)
+    try:
+        m = get_dips(url_fichas)
+    except:
+        print "dips urls error"
+    try:
+        parser_dip(m)
+    except:
+        print "parser error"
