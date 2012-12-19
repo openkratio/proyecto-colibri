@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os, sys
+import os, sys, time
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from models.diputado import Diputado, Asiento
 from models.partido import Partido, Grupo
@@ -15,33 +15,39 @@ def get_urls():
     url_fichas = []
 
     while(has_next):
+        time.sleep(1)
         curl_request = create_curl(url)
-        curl_request.perform()
-        html_doc = curl_request.body.getvalue()
-        curl_request.close()
-        soup = BeautifulSoup(html_doc)
-        list_dip = soup.findAll(lambda tag: tag.name == 'a' and tag.parent.name == 'li' and tag.has_key('class'), "")
-        for dip in list_dip:
-            url_fichas.append(dip.attrs['href'].__str__())
+        try:
+            curl_request.perform()
+            html_doc = curl_request.body.getvalue()
+            curl_request.close()
+            soup = BeautifulSoup(html_doc)
+            list_dip = soup.findAll(lambda tag: tag.name == 'a' and tag.parent.name == 'li' and tag.has_key('class'), "")
+            for dip in list_dip:
+                url_fichas.append(dip.attrs['href'].__str__())
 
-        paginacion = soup.find(lambda tag: tag.name == 'a' and tag.parent.name == 'ul' and tag.has_key('class'), "", text='Página Siguiente')
-        if not paginacion:
+            paginacion = soup.find(lambda tag: tag.name == 'a' and tag.parent.name == 'ul' and tag.has_key('class'), "", text='Página Siguiente')
+            if not paginacion:
+                has_next = False
+            else:
+                url = paginacion.attrs['href'].__str__()
+        except:
             has_next = False
-        else:
-            url = paginacion.attrs['href'].__str__()
-
-        #has_next = False
 
     return url_fichas
 
 def get_dips(url_fichas):
     m = []
     for url in url_fichas:
+        time.sleep(1)
         curl = create_curl(url)
-        curl.perform()
-        curl.http_code = curl.getinfo(curl.HTTP_CODE)
-        m.append(curl)
-        curl.close()
+        try:
+            curl.perform()
+            curl.http_code = curl.getinfo(curl.HTTP_CODE)
+            m.append(curl)
+            curl.close()
+        except:
+            pass
 
     return m
 

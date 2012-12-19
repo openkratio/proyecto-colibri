@@ -11,6 +11,9 @@ def create_curl(url):
     curl.http_code = -1
     curl.setopt(curl.URL, curl.url)
     curl.setopt(curl.WRITEFUNCTION, curl.body.write)
+    curl.setopt(curl.CONNECTTIMEOUT, 30)
+    curl.setopt(pycurl.TIMEOUT, 30)
+    curl.setopt(pycurl.NOSIGNAL, 1)
     return curl
 
 def get_file(url, path):
