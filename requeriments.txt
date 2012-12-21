@@ -1,6 +1,8 @@
-mako
-tornado
-asyncmongo
-mongoengine
 beautifulsoup4
 pycurl
+django
+south
+django-tastypie
+django-admin-tools
+feedparser
+PIL
