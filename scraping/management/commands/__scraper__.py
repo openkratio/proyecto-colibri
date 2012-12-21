@@ -15,11 +15,3 @@ def create_curl(url):
     curl.setopt(pycurl.TIMEOUT, 30)
     curl.setopt(pycurl.NOSIGNAL, 1)
     return curl
-
-def get_file(url, path):
-    file_curl = create_curl(url)
-    file_curl.perform()
-    f = open("%s" % (path,), 'wb')
-    f.write(file_curl.body.getvalue())
-    f.close()
-    file_curl.close()
