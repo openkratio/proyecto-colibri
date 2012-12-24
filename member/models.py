@@ -15,11 +15,11 @@ class Member(models.Model):
     validate = models.BooleanField(default=True, verbose_name=_("Validate"))
 
     class Meta:
-        verbose_name = _("Parlamentary Group")
-        verbose_name_plural = _("Parlamentaries Groups")
+        verbose_name = _("Member")
+        verbose_name_plural = _("Members")
 
     def __unicode__(self):
-        return u'%s' % (unicode(self.name))
+        return u'%s, %s' % (unicode(self.name), unicode(self.second_name))
 
 class Seat(models.Model):
     image = models.ImageField(upload_to='images/seats', verbose_name=_("Image"))
@@ -34,16 +34,16 @@ class Seat(models.Model):
 class MemberParty(models.Model):
     party = models.ForeignKey(Party, verbose_name=("Party"))
     member = models.ForeignKey('Member', verbose_name=("Member"))
-    seat = models.ForeignKey('Seat', verbose_name=("Seat"), null=True)
-    start_date = models.DateField(verbose_name=_("Start date"))
-    end_date = models.DateField(verbose_name=_("End date"))
-    substitute = models.ForeignKey('Member', related_name="substitute", verbose_name=_("Substitute"))
+    seat = models.ForeignKey('Seat', verbose_name=("Seat"), null=True, default=None)
+    start_date = models.DateField(verbose_name=_("Start date"), null=True, default=None)
+    end_date = models.DateField(verbose_name=_("End date"), null=True, default=None)
+    substitute = models.ForeignKey('Member', related_name="substitute", verbose_name=_("Substitute"), null=True, default=None)
 
     class Meta:
         verbose_name = _("Member in party")
         verbose_name_plural = _("Members in parties")
 
     def __unicode__(self):
-        return u'%s:%s' % (unicode(self.member), unicode(self.party))
+        return u'%s: %s' % (unicode(self.member), unicode(self.party))
 
 

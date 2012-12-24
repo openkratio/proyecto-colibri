@@ -4,9 +4,10 @@ from member.models import Member, MemberParty, Seat
 from parliamentarygroup.models import Group, Party
 import re
 from colibri.settings import DIPUTADOS_URL, PROJECT_DIR
-from __scraper__ import create_curl
+from __scraper__ import create_curl, save_url_image
 from bs4 import BeautifulSoup
 from django.core.management.base import BaseCommand, CommandError
+from datetime import datetime
 
 
 class Command(BaseCommand):
@@ -32,7 +33,6 @@ class Command(BaseCommand):
                     has_next = False
                 else:
                     url = paginacion.attrs['href'].__str__()
-                has_next = False
             except:
                 has_next = False
 
@@ -65,7 +65,7 @@ class Command(BaseCommand):
                 
                     datos_diputado = soup.find(id='datos_diputado')
 
-                    member_instance, created = Member.objects.get_or_create(congress_web=curl.url)
+                    member_instance, member_created = Member.objects.get_or_create(congress_web=curl.url)
 
                     #get name
                     soup_name = cv_soup.find('div', 'nombre_dip')
@@ -97,38 +97,53 @@ class Command(BaseCommand):
                         soup_div = re.sub(r'Diputad[ao] por ', '' ,soup_div.text).strip()
                         soup_div = re.sub(r'\.$', '' ,soup_div)
                         member_instance.division = soup_div.encode('utf8')
-                    """
+                    
+                    #get foto
+                    if datos_diputado:
+                        avatar_soup = datos_diputado.find(lambda tag: tag.name == 'img' and tag.parent.name == 'p')
+                        if avatar_soup:
+                            avatar_url = 'http://www.congreso.es' + avatar_soup.attrs['src']
+                            avatar_name = avatar_url.split('/')[-1].encode('utf8')
+                            if not member_instance.avatar:
+                                save_url_image(member_instance.avatar, avatar_url.encode('utf8'), avatar_name)
+
+                    member_instance.save()
+
                     #get grupo
-                    grupo_soup = cv_soup.find(lambda tag: tag.name == 'a' and tag.parent.name == 'div', text=re.compile("G\.P\. .* \( [a-zA-Z]+ \)"))
-                    if grupo_soup:
-                        grupo_match = re.search('^G\.P\. (.+) (\( [a-zA-Z]+ \))',grupo_soup.text, re.M|re.I)
-                        if grupo_match:
-                            grupo_nombre = grupo_match.group(1).strip().encode('utf8')
-                            grupo_acronimo = grupo_match.group(2).strip().encode('utf8')
-                            grupo_instance = Grupo()
-                            grupo_instance.nombre = grupo_nombre
-                            grupo_instance.acronimo = grupo_acronimo
-    
-                    #get partido
-                    partido_soup = soup.find('p', 'nombre_grupo')
-                    if partido_soup:
-                        partido_nombre = partido_soup.text.strip().encode('utf8')
-                        partido_instance = Partido()
-                        partido_instance.nombre = partido_nombre
-                    
-                        if datos_diputado:
-                            logo_partido = datos_diputado.find(lambda tag: tag.name == 'img' and tag.parent.name == 'a')
-                            if logo_partido:
-                                logo_url = 'http://www.congreso.es' + logo_partido.attrs['src']
-                                partido_instance.logo = PROJECT_DIR + '/static/images/logos/' + logo_url.split('/')[-1].encode('utf8')
-                                get_file(logo_url.encode('utf8'), partido_instance.logo)
-                                partido_instance.web = logo_partido.parent.attrs['href'].encode('utf8')
+                    group_soup = cv_soup.find(lambda tag: tag.name == 'a' and tag.parent.name == 'div', text=re.compile("G\.P\. .* \( [a-zA-Z]+ \)"))
+                    if group_soup:
+                        group_match = re.search('^G\.P\. (.+) (\( [a-zA-Z]+ \))',group_soup.text, re.M|re.I)
+                        if group_match:
+                            group_name = group_match.group(1).strip().encode('utf8')
+                            group_acronym = group_match.group(2).strip().encode('utf8')
+                            group_instance, group_created = Group.objects.get_or_create(name=group_name, acronym=group_acronym)
+                            group_instance.name = group_name
+                            group_instance.acronym = group_acronym
+                            group_instance.start_date = datetime.now()
+                            group_instance.save()
 
-                        if grupo_soup:
-                            partido_instance.grupo = grupo_instance
-                    
-                        member_instance.partido = partido_instance
+                            #get party
+                            party_soup = soup.find('p', 'nombre_grupo')
+                            if party_soup:
+                                party_name = party_soup.text.strip().encode('utf8')
+                                party_instance, party_created = Party.objects.get_or_create(name=party_name)
+                                party_instance.name = party_name
+                                if datos_diputado:
+                                    logo_party = datos_diputado.find(lambda tag: tag.name == 'img' and tag.parent.name == 'a')
+                                    if logo_party:
+                                        logo_url = 'http://www.congreso.es' + logo_party.attrs['src']
+                                        logo_name = logo_url.split('/')[-1].encode('utf8')
+                                        if not party_instance.logo:
+                                            save_url_image(party_instance.logo, logo_url.encode('utf8'), logo_name)
+                                        party_instance.web = logo_party.parent.attrs['href'].encode('utf8')
+                                party_instance.group = group_instance
+                                party_instance.save()
+                                
+                                memberparty_instance, memberparty_created = MemberParty.objects.get_or_create(party=party_instance, member=member_instance)
+                                memberparty_instance.save()
 
+                    
+                    """
                     #get asiento
                     if datos_diputado:
                         asiento_soup = datos_diputado.find('p', 'pos_hemiciclo').find('img')
@@ -139,16 +154,7 @@ class Command(BaseCommand):
                             get_file(asiento_url.encode('utf8'), asiento_instance.imagen)
                             member_instance.asiento = asiento_instance
 
-                    #get foto
-                    if datos_diputado:
-                        foto_soup = datos_diputado.find(lambda tag: tag.name == 'img' and tag.parent.name == 'p')
-                        if foto_soup:
-                            foto_url = 'http://www.congreso.es' + foto_soup.attrs['src']
-                            member_instance.foto = PROJECT_DIR + '/static/images/fotos/' + foto_url.split('/')[-1].encode('utf8')
-                            get_file(foto_url.encode('utf8'), member_instance.foto)
                     """
-
-                    member_instance.save()
 
     def handle(self, *args, **options):
         #Get urls

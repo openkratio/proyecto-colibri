@@ -6,9 +6,9 @@ from django.utils.translation import ugettext_lazy as _
 class Group(models.Model):
     name = models.CharField(max_length=50, verbose_name=_("Name"))
     acronym = models.CharField(max_length=10, verbose_name=_("Acronym"))
-    start_date = models.DateField(verbose_name=_("Start date"))
-    end_date = models.DateField(verbose_name=_("End date"))
-    term = models.IntegerField(verbose_name=_("Term"))
+    start_date = models.DateField(verbose_name=_("Start date"), null=True)
+    end_date = models.DateField(verbose_name=_("End date"), null=True)
+    term = models.IntegerField(verbose_name=_("Term"), null=True, default=0)
     validate = models.BooleanField(default=True, verbose_name=_("Validate"))
 
     class Meta:
@@ -20,9 +20,9 @@ class Group(models.Model):
 
 class Party(models.Model):
     name = models.CharField(max_length=50, verbose_name=_("Name"))
-    logo = models.ImageField(upload_to='images/logos/parties', verbose_name=_("Logo"))
-    web = models.URLField(verbose_name=_("Web"))
-    group = models.ForeignKey('Group', verbose_name=_("Group"))
+    logo = models.ImageField(upload_to='images/logos/parties', verbose_name=_("Logo"), null=True)
+    web = models.URLField(verbose_name=_("Web"), null=True)
+    group = models.ForeignKey('Group', verbose_name=_("Group"), null=True)
     validate = models.BooleanField(default=True, verbose_name=_("Validate"))
 
     class Meta:
