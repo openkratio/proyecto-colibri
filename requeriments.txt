@@ -6,3 +6,4 @@ django-tastypie
 django-admin-tools
 feedparser
 PIL
+request
