@@ -144,6 +144,7 @@ INSTALLED_APPS = (
     #Internal apps
     'parliamentarygroup',
     'member',
+    'vote',
     'scraping',
 
 )
