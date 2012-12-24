@@ -3,3 +3,4 @@
 *~
 local_settings.py
 colibri/media/
+colibri_db
