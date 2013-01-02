@@ -63,6 +63,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         #get zip
+
         now = datetime.now().strftime('%Y/%m/%d')
         now_file = datetime.now().strftime('%Y%m%d')
         url = VOTACIONES_URL + now

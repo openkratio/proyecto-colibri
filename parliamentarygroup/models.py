@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from datetime import datetime
 
 # Create your models here.
 
@@ -22,7 +23,6 @@ class Party(models.Model):
     name = models.CharField(max_length=50, verbose_name=_("Name"))
     logo = models.ImageField(upload_to='images/logos/parties', verbose_name=_("Logo"), null=True)
     web = models.URLField(verbose_name=_("Web"), null=True)
-    group = models.ForeignKey('Group', verbose_name=_("Group"), null=True)
     validate = models.BooleanField(default=True, verbose_name=_("Validate"))
 
     class Meta:
@@ -31,6 +31,19 @@ class Party(models.Model):
 
     def __unicode__(self):
         return u'%s' % (unicode(self.name))
+
+class GroupParty(models.Model):
+    group = models.ForeignKey('Group', verbose_name=_("Group"))
+    party = models.ForeignKey('Party', verbose_name=_("Party"))
+    start_date = models.DateField(verbose_name=_("Start date"), null=False, default=datetime.now())
+    end_date = models.DateField(verbose_name=_("End date"), null=False, blank=True, default=datetime.now())
+
+    class Meta:
+        verbose_name = _("Party in group")
+        verbose_name_plural = _("Parties in groups")
+
+    def __unicode__(self):
+        return u'%s, %s' % (unicode(self.group), unicode(self.party))
 
 class Color(models.Model):
     name = models.CharField(max_length=50, default='#000000', null=False, verbose_name=_("Color"))

@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 import os, sys, time
 from member.models import Member, MemberParty, Seat
-from parliamentarygroup.models import Group, Party
+from parliamentarygroup.models import Group, Party, GroupParty
 import re
 from colibri.settings import DIPUTADOS_URL, PROJECT_DIR
 from __scraper__ import create_curl, save_url_image
 from bs4 import BeautifulSoup
 from django.core.management.base import BaseCommand, CommandError
 from datetime import datetime
-
 
 class Command(BaseCommand):
     def get_urls(self):
@@ -33,8 +32,10 @@ class Command(BaseCommand):
                     has_next = False
                 else:
                     url = paginacion.attrs['href'].__str__()
+                has_next = False
             except:
                 has_next = False
+                #TODO send error mail
 
         return url_fichas
 
@@ -50,6 +51,7 @@ class Command(BaseCommand):
                 curl.close()
             except:
                 pass
+                #TODO send error mail
 
         return m
 
@@ -137,6 +139,10 @@ class Command(BaseCommand):
                                             save_url_image(party_instance.logo, logo_url.encode('utf8'), logo_name)
                                         party_instance.web = logo_party.parent.attrs['href'].encode('utf8')
                                 party_instance.group = group_instance
+                                #TODO partygroup instance
+                                groupparty_instance, groupparty_created = GroupParty.objects.get_or_create(party=party_instance, group=group_instance)
+                                groupparty_instance.save()
+                                 
                                 party_instance.save()
                                 
                                 memberparty_instance, memberparty_created = MemberParty.objects.get_or_create(party=party_instance, member=member_instance)

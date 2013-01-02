@@ -23,6 +23,7 @@ class Member(models.Model):
 
 class Seat(models.Model):
     image = models.ImageField(upload_to='images/seats', verbose_name=_("Image"))
+    number = models.IntegerField(verbose_name=_("Seat number"), null=False, default=0)
 
     class Meta:
         verbose_name = _("Seat")
