@@ -2,8 +2,9 @@
 import os, sys, time
 from member.models import Member, MemberParty, Seat
 from parliamentarygroup.models import Group, Party, GroupParty
+from term.models import Term
 import re
-from colibri.settings import DIPUTADOS_URL, PROJECT_DIR
+from colibri.settings import DIPUTADOS_URL, PROJECT_DIR, ACTUAL_TERM
 from __scraper__ import create_curl, save_url_image
 from bs4 import BeautifulSoup
 from django.core.management.base import BaseCommand, CommandError
@@ -118,7 +119,7 @@ class Command(BaseCommand):
                         if group_match:
                             group_name = group_match.group(1).strip().encode('utf8')
                             group_acronym = group_match.group(2).strip().encode('utf8')
-                            group_instance, group_created = Group.objects.get_or_create(name=group_name, acronym=group_acronym)
+                            group_instance, group_created = Group.objects.get_or_create(name=group_name, acronym=group_acronym, term=Term.objects.get(decimal=ACTUAL_TERM))
                             group_instance.name = group_name
                             group_instance.acronym = group_acronym
                             group_instance.start_date = datetime.now()

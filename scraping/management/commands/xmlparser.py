@@ -60,13 +60,7 @@ class Command(BaseCommand):
 
         os.rmdir(os.path.dirname(pathzip))
 
-
-    def handle(self, *args, **options):
-        #get zip
-
-        now = datetime.now().strftime('%Y/%m/%d')
-        now_file = datetime.now().strftime('%Y%m%d')
-        url = VOTACIONES_URL + now
+    def get_session(url):
         votaciones_curl = create_curl(url)
         votaciones_curl.perform()
         if votaciones_curl.getinfo(votaciones_curl.HTTP_CODE) == 200:
@@ -85,3 +79,9 @@ class Command(BaseCommand):
                 get_file(xml_url.encode('utf8'), pathzip + '/xmls.zip')
                 self.extract_files(pathzip + '/xmls.zip')
         votaciones_curl.close()
+
+    def handle(self, *args, **options):
+        now = datetime.now().strftime('%Y/%m/%d')
+        now_file = datetime.now().strftime('%Y%m%d')
+        url = VOTACIONES_URL + now
+        get_session(url)

@@ -146,6 +146,7 @@ INSTALLED_APPS = (
     'member',
     'vote',
     'scraping',
+    'term',
 
 )
 
@@ -153,6 +154,7 @@ DIPUTADOS_URL = "http://www.congreso.es/portal/page/portal/Congreso/Congreso/Dip
 
 VOTACIONES_URL = "http://www.congreso.es/portal/page/portal/Congreso/Congreso/Actualidad/Votaciones?_piref73_9564074_73_9536063_9536063.next_page=/wc/accesoHistoricoVotaciones&fechaSeleccionada="
 
+ACTUAL_TERM = 10
 
 
 # A sample logging configuration. The only tangible logging

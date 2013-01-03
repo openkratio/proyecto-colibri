@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
+from term.models import Term
 
 # Create your models here.
 
@@ -9,7 +10,7 @@ class Group(models.Model):
     acronym = models.CharField(max_length=10, verbose_name=_("Acronym"))
     start_date = models.DateField(verbose_name=_("Start date"), null=True)
     end_date = models.DateField(verbose_name=_("End date"), null=True)
-    term = models.IntegerField(verbose_name=_("Term"), null=True, default=0)
+    term = models.ForeignKey(Term, verbose_name=_("Term"))
     validate = models.BooleanField(default=True, verbose_name=_("Validate"))
 
     class Meta:
