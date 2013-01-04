@@ -33,7 +33,6 @@ class Command(BaseCommand):
                     has_next = False
                 else:
                     url = paginacion.attrs['href'].__str__()
-                has_next = False
             except:
                 has_next = False
                 #TODO send error mail
