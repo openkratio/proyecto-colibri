@@ -19,9 +19,11 @@ def create_curl(url):
     curl = pycurl.Curl()
     curl.url = url
     curl.body = StringIO()
+    curl.header = StringIO()
     curl.http_code = -1
     curl.setopt(curl.URL, curl.url)
     curl.setopt(curl.WRITEFUNCTION, curl.body.write)
+    curl.setopt(curl.HEADERFUNCTION, curl.header.write)
     curl.setopt(curl.CONNECTTIMEOUT, 300)
     curl.setopt(pycurl.TIMEOUT, 300)
     curl.setopt(pycurl.NOSIGNAL, 1)

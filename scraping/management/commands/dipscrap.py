@@ -28,12 +28,11 @@ class Command(BaseCommand):
                 for dip in list_dip:
                     url_fichas.append(dip.attrs['href'].__str__())
 
-                paginacion = soup.find(lambda tag: tag.name == 'a' and tag.parent.name == 'ul' and tag.has_key('class'), "", text='Página Siguiente')
-                if not paginacion:
+                pagination = soup.find(lambda tag: tag.name == 'a' and tag.parent.name == 'ul' and tag.has_key('class'), "", text='Página Siguiente')
+                if not pagination:
                     has_next = False
                 else:
-                    url = paginacion.attrs['href'].__str__()
-                has_next = False
+                    url = pagination.attrs['href'].__str__()
             except:
                 has_next = False
                 #TODO send error mail

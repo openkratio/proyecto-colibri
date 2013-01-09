@@ -9,15 +9,19 @@ from __scraper__ import create_curl, save_url_image, get_file
 from bs4 import BeautifulSoup
 from django.core.management.base import BaseCommand, CommandError
 from datetime import datetime
+from colibri.settings import ACTUAL_TERM
+import shutil
+from colibri.settings import MEDIA_ROOT
+import re
 
 class Command(BaseCommand):
     def parser_xml(self, file):
-
-        print file
+        start_parser = datetime.now()
         tree = ET.parse(file)
         root = tree.getroot()
         resumen = root.find('Informacion')
         voting_instance, voting_created = Voting.objects.get_or_create(session=resumen.find('Sesion').text, number=resumen.find('NumeroVotacion').text)
+        print voting_instance
         voting_instance.session = resumen.find('Sesion').text
         voting_instance.number = resumen.find('NumeroVotacion').text
         voting_instance.date = datetime.strptime(resumen.find('Fecha').text, "%d/%m/%Y")
@@ -39,28 +43,39 @@ class Command(BaseCommand):
             voting_instance.save()
             votes = root.find('Votaciones')
             for vote in votes:
-                print vote
                 member_name =  vote.find('Diputado').text.split(',')[1].strip()
                 member_second_name =  vote.find('Diputado').text.split(',')[0].strip()
                 member_instance = Member.objects.get(name=member_name, second_name=member_second_name)
                 vote_instance, vote_created = Vote.objects.get_or_create(voting=voting_instance, member=member_instance)
                 vote_instance.vote= vote.find('Voto').text
+                vote_instance.save()
         else:
             voting_instance.save()
+        finish_parser = datetime.now()
+        print finish_parser - start_parser
 
-    def extract_files(self, pathzip):
+    def extract_files(self, pathzip, pathunzip):
+        print "extract"
         basedir = os.path.dirname(pathzip)
-        xmlzip =  ZipFile(pathzip, 'r')
-        xmlzip.extractall(basedir)
-        xmlzip.close()
-        os.remove(pathzip)
-        for xml in os.listdir(basedir):
-            self.parser_xml(basedir + '/' + xml)
-            os.remove(basedir + '/' + xml)
+        try:
+            xmlzip =  ZipFile(pathzip, 'r')
+            xmlzip.extractall(pathunzip)
+            xmlzip.close()
+        except:
+            print "delete %s" % (pathzip)
+            os.remove(pathzip)
 
-        os.rmdir(os.path.dirname(pathzip))
+    def get_zip(self, xml_url, pathzip):
+        print "get_zip"
+        pathzips = MEDIA_ROOT + '/votes/zips'
+        if not os.path.isdir(pathzips):
+            os.mkdir(pathzips)
+        if not os.path.exists(pathzip):
+            print "download zip"
+            get_file(xml_url.encode('utf8'), pathzip)
 
-    def get_session(url):
+    def get_session(self, url):
+        print "get %s" % (url)
         votaciones_curl = create_curl(url)
         votaciones_curl.perform()
         if votaciones_curl.getinfo(votaciones_curl.HTTP_CODE) == 200:
@@ -71,17 +86,33 @@ class Command(BaseCommand):
             xml_soup = soup.find(lambda tag: tag.name == 'a' and tag.parent.name == 'td')
             if xml_soup:
                 xml_url = 'http://www.congreso.es' + xml_soup.attrs['href']
-                print xml_url
-                pathzip = '/tmp/votaciones' + now_file
-                if os.path.isdir(pathzip):
-                    os.rmdir(pathzip)
-                os.mkdir(pathzip)
-                get_file(xml_url.encode('utf8'), pathzip + '/xmls.zip')
-                self.extract_files(pathzip + '/xmls.zip')
+                self.get_zip(xml_url)
         votaciones_curl.close()
 
     def handle(self, *args, **options):
-        now = datetime.now().strftime('%Y/%m/%d')
-        now_file = datetime.now().strftime('%Y%m%d')
-        url = VOTACIONES_URL + now
-        get_session(url)
+        if args and args[0] == 'all':
+            base_url1 = 'http://www.congreso.es/votaciones/OpenData?sesion='
+            base_url2 = '&completa=1&legislatura=' + str(ACTUAL_TERM)
+            first = 1
+            last = 80
+            for i in range(first, last):
+                try:
+                    url = base_url1 + str(i) + base_url2
+                    print url
+                    indexes = re.findall('[0-9]+', url, flags=0)
+                    pathzip = MEDIA_ROOT + '/votes/zips/' + ''.join(indexes)  + '.zip'
+                    pathxml = MEDIA_ROOT + '/votes/sessions/' + ''.join(indexes)
+                    self.get_zip(url, pathzip)
+                    if not os.path.isdir(pathxml):
+                        self.extract_files(pathzip, pathxml)
+                    if os.path.isdir(pathxml):
+                        for xml in os.listdir(pathxml):
+                            self.parser_xml(pathxml + '/' + xml)
+                except Exception, e:
+                    print pathzip
+                    print e
+        else:
+            now = datetime.now().strftime('%Y/%m/%d')
+            now_file = datetime.now().strftime('%Y%m%d')
+            url = VOTACIONES_URL + now
+            self.get_session(url)
