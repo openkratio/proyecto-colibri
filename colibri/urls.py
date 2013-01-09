@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from tastypie.api import Api
 from parliamentarygroup.api import GroupResource, PartyResource
 from member.api import MemberResource, MemberPartyResource
+from vote.api import VotingResource, VoteResource
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -12,6 +13,8 @@ v1_api.register(GroupResource())
 v1_api.register(PartyResource())
 v1_api.register(MemberPartyResource())
 v1_api.register(MemberResource())
+v1_api.register(VotingResource())
+v1_api.register(VoteResource())
 
 urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
