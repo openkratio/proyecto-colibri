@@ -13,7 +13,20 @@ middleware here, or combine a Django application with an application of another
 framework.
 
 """
+
+import os,sys,site
+sys.stdout = sys.stderr
+
+# Add the virtual Python environment site-packages directory to the path
+site.addsitedir('/opt/ve/proyectocolibri/lib/python2.7/site-packages')
+
+
 import os
+path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if path not in sys.path:
+    sys.path.append(path)
+
+print path
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "colibri.settings")
 
@@ -26,3 +39,4 @@ application = get_wsgi_application()
 # Apply WSGI middleware here.
 # from helloworld.wsgi import HelloWorldApplication
 # application = HelloWorldApplication(application)
+
