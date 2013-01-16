@@ -1,0 +1,92 @@
+@import url(http://weloveiconfonts.com/api/?family=entypo);
+
+/* entypo */
+[class*="entypo-"]:before {
+  font-family: 'entypo', sans-serif;
+}
+
+.webicon.xbig {
+  font-size: 240px;
+}
+
+.webicon.big {
+  font-size: 120px;
+}
+
+.webicon.medium {
+  font-size: 60px;
+}
+
+.webicon.small {
+  font-size: 40px;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.right-text {
+  text-align: right;
+}
+.white-text {
+  color: #ffffff;
+}
+
+
+.main-text {
+  font-size: 30px;
+  font-style: italic;
+}
+
+.submain-text {
+  font-size: 20px;
+  font-style: italic;
+}
+
+
+.info-box {
+  height: 250px;
+}
+
+.profile-picture {
+  width: 160px;
+}
+
+#search-text, #search-button {
+	
+}
+
+.votos-a-favor {
+    color: #B0B90E;
+}
+
+.votos-en-contra {
+    color: #A53008;
+}
+
+.abstenciones {
+    color: #C3C3D4;
+}
+
+.seccion-a-favor {
+    background-color: #B0B903;
+    height: 300px;
+}
+
+.seccion-en-contra{
+    background-color: #A53008;
+    height: 300px;
+}
+
+/* -----------------------------------------
+   Page Name 1
+----------------------------------------- */
+
+
+
+
+/* -----------------------------------------
+   Page Name 2
+----------------------------------------- */
+
+

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+
+  <title>Proyecto Colibri</title>
+  
+  <!-- Included CSS Files (Uncompressed) -->
+  <!--
+  <link rel="stylesheet" href="stylesheets/foundation.css">
+  -->
+  
+  <!-- Included CSS Files (Compressed) -->
+  <link rel="stylesheet" href="stylesheets/foundation.css">
+  <link rel="stylesheet" href="stylesheets/app.css">
+
+  <script src="javascripts/modernizr.foundation.js"></script>
+  
+  <!-- Included JS Files (Compressed) -->
+  <script src="javascripts/jquery.js"></script>
+  <script src="javascripts/foundation.min.js"></script>
+
+</head>
+<body>
+  
+  <!-- Header and Nav -->
+  
+  <div class="row">
+    <div class="six columns">
+      <h1>Proyecto Colibri</h1>
+    </div>
+    <div class="six columns">
+      <ul class="nav-bar right">
+        <li><a href="#">Link 1</a></li>
+        <li><a href="#">Link 2</a></li>
+        <li><a href="#">Link 3</a></li>
+        <li><a href="#">Link 4</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- End Header and Nav -->
+  
+  
+  <!-- First Band (Image) -->
+    
+  <div class="row">
+    <div class="twelve columns">
+      <img src="http://placehold.it/1000x400&text=[img]" />
+
+    <br />
+    <br />
+
+      <form>
+        <div class="row collapse">
+          <div class="ten mobile-three columns">
+            <input type="text" id="search-text" placeholder="Introduce tu busqueda" />
+          </div>
+          <div class="two mobile-one columns">
+            <a id="search-button" class="button expand postfix">Buscar</a>
+          </div>
+        </div>
+      </form>
+
+      <hr />
+    </div>
+  </div>
+  
+  
+  <!-- Second Band (Image Left with Text) -->
+  
+  <div class="row">
+    <div class="four columns">
+        <img src="http://placehold.it/400x300&text=[img]" />
+    </div>
+    <div class="eight columns">
+      <h4>This is a content section.</h4>
+      <div class="row">
+		  <div class="six columns">
+			<div id="sidebar">
+			</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- Third Band (Image Right with Text) -->
+  
+  <div class="row">
+    <div class="eight columns">
+      <h4 id="content">This is a content section.</h4>
+      
+      <p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong. Eiusmod swine spare ribs reprehenderit culpa. Boudin aliqua adipisicing rump corned beef.</p>
+      
+      <p>Pork drumstick turkey fugiat. Tri-tip elit turducken pork chop in. Swine short ribs meatball irure bacon nulla pork belly cupidatat meatloaf cow. Nulla corned beef sunt ball tip, qui bresaola enim jowl. Capicola short ribs minim salami nulla nostrud pastrami.</p>
+          
+    </div>
+    <div class="four columns">
+      <img src="http://placehold.it/400x300&text=[img]" />
+    </div>
+  </div>
+  
+  
+  <!-- Footer -->
+  
+  <footer class="row">
+    <div class="twelve columns">
+      <hr />
+      <div class="row">
+        <div class="six columns">
+          <p>&copy; Copyright no one at all. Go to town.</p>
+        </div>
+        <div class="six columns">
+          <ul class="link-list right">
+            <li><a href="#">Link 1</a></li>
+            <li><a href="#">Link 2</a></li>
+            <li><a href="#">Link 3</a></li>
+            <li><a href="#">Link 4</a></li>
+          </ul>
+        </div>
+      </div>
+    </div> 
+  </footer>
+
+	<!-- Templates -->
+	<script type="text/template" id="tpl-voting-list-item">
+		<a href='#voting/<%= id %>'><%= id %></a>
+	</script>
+
+	<script type="text/template" id="tpl-voting-details">
+		<div class="form-left-col">
+			<label>Id:</label>
+			<input type="text" id="votingId" name="id" value="<%= id %>" disabled />
+		</div>
+	</script>
+
+
+
+  <!-- Included JS Files (Uncompressed) -->
+  <!--
+  
+  <script src="javascripts/jquery.js"></script>
+  
+  <script src="javascripts/jquery.foundation.mediaQueryToggle.js"></script>
+  
+  <script src="javascripts/jquery.foundation.forms.js"></script>
+  
+  <script src="javascripts/jquery.foundation.reveal.js"></script>
+  
+  <script src="javascripts/jquery.foundation.orbit.js"></script>
+  
+  <script src="javascripts/jquery.foundation.navigation.js"></script>
+  
+  <script src="javascripts/jquery.foundation.buttons.js"></script>
+  
+  <script src="javascripts/jquery.foundation.tabs.js"></script>
+  
+  <script src="javascripts/jquery.foundation.tooltips.js"></script>
+  
+  <script src="javascripts/jquery.foundation.accordion.js"></script>
+  
+  <script src="javascripts/jquery.placeholder.js"></script>
+  
+  <script src="javascripts/jquery.foundation.alerts.js"></script>
+  
+  <script src="javascripts/jquery.foundation.topbar.js"></script>
+  
+  <script src="javascripts/jquery.foundation.joyride.js"></script>
+  
+  <script src="javascripts/jquery.foundation.clearing.js"></script>
+  
+  <script src="javascripts/jquery.foundation.magellan.js"></script>
+  
+  -->
+  
+    
+  <!-- Initialize JS Plugins -->
+  <script src="javascripts/app.js"></script>
+
+  <!-- Backbone -->
+  <script src="javascripts/backbone/underscore-min.js"></script>
+  <script src="javascripts/backbone/backbone-min.js"></script>
+  <script src="javascripts/backbone/backbone-tastypie.js"></script>
+  <script src="javascripts/backbone/votings.js"></script>
+</body>
+</html>

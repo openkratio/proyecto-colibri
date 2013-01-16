@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+
+  <title>Proyecto Colibri</title>
+  
+  <!-- Included CSS Files (Uncompressed) -->
+  <!--
+  <link rel="stylesheet" href="stylesheets/foundation.css">
+  -->
+  
+  <!-- Included CSS Files (Compressed) -->
+  <link rel="stylesheet" href="stylesheets/foundation.css">
+  <link rel="stylesheet" href="stylesheets/app.css">
+
+  <script src="javascripts/modernizr.foundation.js"></script>
+  
+  <!-- Included JS Files (Compressed) -->
+  <script src="javascripts/jquery.js"></script>
+  <script src="javascripts/foundation.min.js"></script>
+  <script src="javascripts/raphael-min.js"></script>
+  <script src="javascripts/morris.min.js"></script>
+
+
+  <script>
+      $(document).ready(function() {
+        Morris.Donut({
+            element: 'grafico',
+            data: [
+                {label: "A favor", value: 150},
+                {label: "En contra", value: 80},
+                {label: "Abstenciones", value: 10}
+            ],
+            colors: ["#B0B90E", "#A53008", "#C3C3D4"]
+        });
+      });
+
+      
+  </script>
+
+</head>
+<body>
+  
+  <!-- Header and Nav -->
+  
+  <div class="row">
+    <div class="six columns">
+      <h3>Normativa de calidad de los productos lácteos</h3>
+    </div>
+    <div class="six columns">
+        <ul>
+            <li><h3 class="votos-a-favor">A favor: 150</h3></li>
+            <li><h3 class="votos-en-contra">En contra: 80</h3></li>
+            <li><h3 class="abstenciones">Abstenciones: 10</h3></li>
+        </ul>
+    </div>
+  </div>
+
+  <!-- End Header and Nav -->
+
+  <div class="row">
+      <div class="twelve columns">
+          <hr />
+      </div>
+  </div>
+
+  <div class="row">
+      <div class="twelve columns">
+          <!--<div class="seven columns seccion-a-favor"></div>
+          <div class="five columns seccion-en-contra"></div>-->
+          <div id="grafico" style="width:450px;"></div>
+      </div>
+  </div>
+      
+  <!-- Footer -->
+  
+  <footer class="row">
+    <div class="twelve columns">
+      <hr />
+      <div class="row">
+        <div class="six columns">
+          <p>No &copy; required</p>
+        </div>
+        <div class="six columns">
+          <!--<ul class="link-list right">
+            <li><a href="#">Link 1</a></li>
+            <li><a href="#">Link 2</a></li>
+            <li><a href="#">Link 3</a></li>
+            <li><a href="#">Link 4</a></li>
+        </ul>-->
+        </div>
+      </div>
+    </div> 
+  </footer>
+
+  <!-- Included JS Files (Uncompressed) -->
+  <!--
+  
+  <script src="javascripts/jquery.js"></script>
+  
+  <script src="javascripts/jquery.foundation.mediaQueryToggle.js"></script>
+  
+  <script src="javascripts/jquery.foundation.forms.js"></script>
+  
+  <script src="javascripts/jquery.foundation.reveal.js"></script>
+  
+  <script src="javascripts/jquery.foundation.orbit.js"></script>
+  
+  <script src="javascripts/jquery.foundation.navigation.js"></script>
+  
+  <script src="javascripts/jquery.foundation.buttons.js"></script>
+  
+  <script src="javascripts/jquery.foundation.tabs.js"></script>
+  
+  <script src="javascripts/jquery.foundation.tooltips.js"></script>
+  
+  <script src="javascripts/jquery.foundation.accordion.js"></script>
+  
+  <script src="javascripts/jquery.placeholder.js"></script>
+  
+  <script src="javascripts/jquery.foundation.alerts.js"></script>
+  
+  <script src="javascripts/jquery.foundation.topbar.js"></script>
+  
+  <script src="javascripts/jquery.foundation.joyride.js"></script>
+  
+  <script src="javascripts/jquery.foundation.clearing.js"></script>
+  
+  <script src="javascripts/jquery.foundation.magellan.js"></script>
+  
+  -->
+  
+    
+  <!-- Initialize JS Plugins -->
+  <script src="javascripts/app.js"></script>
+</body>
+</html>

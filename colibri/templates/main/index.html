@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-{{STATIC_URL}}stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+
+  <title>Proyecto Colibri</title>
+  
+  <!-- Included CSS Files (Uncompressed) -->
+  <!--
+  <link rel="stylesheet" href="{{STATIC_URL}}stylesheets/foundation.css">
+  -->
+  
+  <!-- Included CSS Files (Compressed) -->
+  <link rel="stylesheet" href="{{STATIC_URL}}stylesheets/foundation.css">
+  <link rel="stylesheet" href="{{STATIC_URL}}stylesheets/app.css">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="{{STATIC_URL}}stylesheets/coda-slider.css">
+
+  <script src="{{STATIC_URL}}javascripts/modernizr.foundation.js"></script>
+  
+  <!-- Included JS Files (Compressed) -->
+  <script src="{{STATIC_URL}}javascripts/jquery.js"></script>
+  <script src="{{STATIC_URL}}javascripts/foundation.min.js"></script>
+
+  <script src="{{STATIC_URL}}javascripts/jquery-ui-1.8.20.custom.min.js"></script>
+
+  <script src="{{STATIC_URL}}javascripts/jquery.coda-slider-3.0.js"></script>
+
+</head>
+<body>
+
+<!-- Header and Nav -->
+  
+  <div class="row">
+    <div class="three columns">
+      <!--<h1><img src="{{STATIC_URL}}images/logo.gif" /></h1>-->
+      <h1><a href="index.html">Proyecto COLIBRI</a></h1>
+    </div>
+    <div class="nine columns">
+      <ul class="nav-bar right">
+		<li><a href="{% url main_index %}">Inicio</a></li>
+		<li><a href="{% url main_documentation %}">Documentación</a></li>
+		<li><a href="{% url main_weare %}">Somos</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- End Header and Nav -->
+  
+  
+  <!-- First Band (Slider) -->
+  <!-- The Orbit slider is initialized at the bottom of the page by calling .orbit() on #slider -->
+    
+  <div class="row">
+    <div class="twelve columns">
+      <!--<div id="slider">
+        <img src="{{STATIC_URL}}images/proycolibri.gif" />
+        <img src="{{STATIC_URL}}images/proycolibri.gif" />
+        <img src="{{STATIC_URL}}images/proycolibri.gif" />
+      </div>-->
+      <div id="slider-info" class="coda-slider">
+        <div class="info-box">
+          <div class="row">
+            <div class="four columns">
+              <span class="entypo-box webicon xbig"></span>
+            </div>
+            <div class="eight columns right-text">
+              <h1>Ordenamos para tí<br />los datos de Congreso.es</h1>
+              <h4 class="white-text">Para que encuentres rapidamente lo que estás buscando</h4>
+            </div>
+          </div>
+        </div>
+        <div class="info-box">
+          <div class="row">
+            <div class="eight columns">
+              <h1>Construye tu propia aplicación</h1>
+              <h4 class="white-text">Te ofrecemos la posibilidad de que construyas tu propia aplicación haciendo uso de nuestra API con datos públicos</h4>
+            </div>
+            <div class="four columns">
+              <span class="entypo-paper-plane webicon xbig"></span>
+            </div>
+          </div>
+        </div>
+        <div class="info-box">
+          <div class="row">
+            <div class="four columns">
+              <span class="entypo-sound webicon xbig"></span>
+            </div>
+            <div class="eight columns">
+              <h1>Apoya el Proyecto COLIBRI</h1>
+              <h4 class="white-text">Haz lo que quieras o puedas: difunde el proyecto, solicita información específica, realiza visualizaciones o estudios con los datos de Congreso.es</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <p class="submain-text white-text center-text">EL Proyecto COLIBRI es una iniciativa ciudadana que pretende servir de puente entre la comunidad de programadores y periodistas y la web del Congreso del Gobierno de España para así facilitar el acceso a la información que en dicha web se puede encontrar.</p>
+      <hr />
+    </div>
+  </div>
+  
+  
+  <!-- Three-up Content Blocks -->
+  
+  <div class="row">
+  
+    <div class="four columns center-text">
+      <span class="entypo-publish webicon big"></span>
+      <!--<img src="{{STATIC_URL}}images/img.gif" />-->
+      <h4>REST API</h4>
+      <p>Ofrecemos una <a href="http://es.wikipedia.org/wiki/Interfaz_de_programaci%C3%B3n_de_aplicaciones" target="_blank">API</a> basada en servicios <a href="http://en.wikipedia.org/wiki/Representational_state_transfer" target="_blank">REST</a> para consumición de datos del Proyecto. Puedes encontrar más información en la <a href="#">documentación oficial</a> del mismo.</p>
+    </div>
+    
+    <div class="four columns center-text">
+      <span class="entypo-chart-pie webicon big"></span>
+      <h4>Visualización</h4>
+      <p>Hemos desarrollado una aplicación web para consultar las votaciones del Congreso y queremos que sirva de base de futuros desarrollos que tanto nosotros como la comunidad pueda realizar.</p>
+    </div>
+    
+    <div class="four columns center-text">
+      <span class="entypo-code webicon big"></span>
+      <h4>100% libre</h4>
+      <p>Tan libre como un pájaro. Ponemos a disposición de la comunidad tanto el código fuente del servidor de datos como los extractores de información de la web del Congreso junto con la aplicación web de visualización de datos.</p>
+    </div>
+    
+  </div>
+  
+  
+  <!-- Call to Action Panel -->
+  <div class="row">
+    <div class="twelve columns">
+    
+      <div class="panel">
+        <h4>Contacta con nostros</h4>
+            
+        <div class="row">
+          <div class="nine columns">
+            <p>Hemos intentado lanzar una primera aproximación a las necesidades de información básicas de un ciudadano en relación con el Congreso de los Diputados. Seguiremos avanzando y para ello necesitamos de tu colabotación para proponer información a rescatar para satisfacer tus necesidades, para continuar un proyecto de investigación en el que andas trabajando o para realizar una visualización de datos. Nosotros sí queremos conocer tus necesidades, ultar las votaciones del Congreso y queremos que sirva de base de futuros desarrollos que tanto nosotros como la comunidad pueda realizar.</p>
+          </div>
+          <div class="three columns">
+			  <a href="mailto:edipotrebol@gmail.com,azotillo@gmail.com?subject=ProyectoColibri" class="radius button right">Escríbenos</a>
+			</div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  
+  <!-- Footer -->
+  
+  <footer class="row">
+    <div class="twelve columns">
+      <hr />
+      <div class="row">
+        <div class="six columns">
+          <p><span class="entypo-cc webicon"></span> Algunos derechos reservados, Proyecto de OpenKratio</p>
+        </div>
+        <div class="six columns">
+          <ul class="link-list right">
+            <li><a href="http://github.com"><span class="entypo-github webicon small white-text"></span></a></li>
+            <li><a href="mailto:edipotrebol@gmail.com,azotillo@gmail.com?subject=ProyectoColibri"><span class="entypo-mail webicon small white-text"></span></a></li>
+          </ul>
+        </div>
+      </div>
+    </div> 
+  </footer>
+
+<!-- Put this above your </body> tag -->
+<script type="text/javascript">
+  $(window).load(function() {
+    /*$('#slider').orbit({
+	  animation: 'horizontal-push',                  // fade, horizontal-slide, vertical-slide, horizontal-push
+	  animationSpeed: 1000,                // how fast animtions are
+	  timer: true,                        // true or false to have the timer
+	  resetTimerOnClick: false,           // true resets the timer instead of pausing slideshow progress
+	  advanceSpeed: 4000,                 // if timer is enabled, time between transitions
+	  pauseOnHover: false,                // if you hover pauses the slider
+	  startClockOnMouseOut: false,        // if clock should start on MouseOut
+	  startClockOnMouseOutAfter: 1000,    // how long after MouseOut should the timer start again
+	  directionalNav: false,               // manual advancing directional navs
+	  captions: false,                     // do you want captions?
+	  captionAnimation: 'none',           // fade, slideOpen, none
+	  captionAnimationSpeed: 1000,         // if so how quickly should they animate in
+	  bullets: false,                     // true or false to activate the bullet navigation
+	  bulletThumbs: false,                // thumbnails for the bullets
+	  bulletThumbLocation: '',            // location from this file where thumbs will be
+	  afterSlideChange: function(){},     // empty function
+	  fluid: true                         // or set a aspect ratio for content slides (ex: '4x3')
+	 });*/
+    $('#slider-info').codaSlider({
+      continuous: false,
+      slideEaseDuration: '2000',
+      autoSlide: true,
+      autoHeight: false,
+      dynamicArrows: false
+    });
+  });
+</script>
+
+</body>

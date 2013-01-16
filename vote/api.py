@@ -6,6 +6,10 @@ class VotingResource(ModelResource):
     class Meta:
         queryset = Voting.objects.all()
         allowed_methods = ['get']
+        filtering = {
+                    "session": ('exact',),
+                    "number": ('exact',),
+        }
 
 class VoteResource(ModelResource):
     session = fields.IntegerField(attribute='voting__session', readonly=True)
@@ -16,4 +20,4 @@ class VoteResource(ModelResource):
         filtering = {
                     "session": ('exact',),
                     "number": ('exact',),
-            }
+        }

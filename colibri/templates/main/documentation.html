@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-{{STATIC_URL}}stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+
+  <title>Documentacion - Proyecto Colibri</title>
+  
+  <!-- Included CSS Files (Uncompressed) -->
+  <!--
+  <link rel="stylesheet" href="{{STATIC_URL}}stylesheets/foundation.css">
+  -->
+  
+  <!-- Included CSS Files (Compressed) -->
+  <link rel="stylesheet" href="{{STATIC_URL}}stylesheets/foundation.css">
+  <link rel="stylesheet" href="{{STATIC_URL}}stylesheets/app.css">
+
+  <script src="{{STATIC_URL}}javascripts/modernizr.foundation.js"></script>
+  
+  <!-- Included JS Files (Compressed) -->
+  <script src="{{STATIC_URL}}javascripts/jquery.js"></script>
+  <script src="{{STATIC_URL}}javascripts/foundation.min.js"></script>
+
+</head>
+<body>
+
+<!-- Header and Nav -->
+  
+  <div class="row">
+    <div class="three columns">
+      <!--<h1><img src="{{STATIC_URL}}images/logo.gif" /></h1>-->
+	  <h1><a href="index.html">Proyecto COLIBRI</a></h1>
+    </div>
+    <div class="nine columns">
+      <ul class="nav-bar right">
+		<li><a href="{% url main_index %}">Inicio</a></li>
+		<li><a href="{% url main_documentation %}">Documentación</a></li>
+		<li><a href="{% url main_weare %}">Somos</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- End Header and Nav -->
+  
+  <div class="row">
+    <div class="ten columns centered">
+      <p class="main-text center-text white-text">
+        <span class="entypo-alert webicon xbig"></span><br />
+        Somos más de código, por eso ahora estamos redactando la mejor documentación posible ;)
+      </p>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  
+  <footer class="row">
+    <div class="twelve columns">
+      <hr />
+      <div class="row">
+        <div class="six columns">
+          <p><span class="entypo-cc webicon"></span> Algunos derechos reservados, Proyecto de OpenKratio</p>
+        </div>
+        <div class="six columns">
+          <ul class="link-list right">
+            <li><a href="http://github.com"><span class="entypo-github webicon small white-text"></span></a></li>
+            <li><a href="mailto:edipotrebol@gmail.com,azotillo@gmail.com?subject=ProyectoColibri"><span class="entypo-mail webicon small white-text"></span></a></li>
+          </ul>
+        </div>
+      </div>
+    </div> 
+  </footer>
+
+</body>

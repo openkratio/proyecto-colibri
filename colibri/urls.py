@@ -3,6 +3,7 @@ from tastypie.api import Api
 from parliamentarygroup.api import GroupResource, PartyResource
 from member.api import MemberResource, MemberPartyResource
 from vote.api import VotingResource, VoteResource
+from colibri import settings
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -19,9 +20,10 @@ v1_api.register(VoteResource())
 urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
     url(r'^admin_tools/', include('admin_tools.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/', include(v1_api.urls))
-
+    url(r'^api/', include(v1_api.urls)),
+    url(r'^documentacion/$','main.views.documentation', name="main_documentation"),
+    url(r'^somos/$','main.views.weare', name="main_weare"),
+    url(r'^$','main.views.index', name="main_index"),
 )
