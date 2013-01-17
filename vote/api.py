@@ -3,6 +3,8 @@ from tastypie import fields
 from tastypie.bundle import Bundle
 from vote.models import  Voting, Vote
 from tastypie.exceptions import InvalidFilterError
+from member.api import MemberResource
+
 
 class VotingResource(ModelResource):
     class Meta:
@@ -16,6 +18,7 @@ class VotingResource(ModelResource):
 class VoteResource(ModelResource):
     session = fields.IntegerField(attribute='voting__session', readonly=True)
     number = fields.IntegerField(attribute='voting__number', readonly=True)
+    member = fields.ToOneField(MemberResource, 'member')
     
     class Meta:
         resource_name = 'vote'
