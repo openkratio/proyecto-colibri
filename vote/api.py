@@ -28,7 +28,7 @@ class VoteResource(ModelResource):
 
     def build_filters(self, filters=None):
         if filters is None:
-            raise InvalidFilterError("Session fnd number field are necessaries.")
+            raise InvalidFilterError("Filter fields  are necessaries.")
 
         if 'session' not in filters:
             raise InvalidFilterError("Session field is necessary.")
