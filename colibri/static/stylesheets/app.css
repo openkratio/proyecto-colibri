@@ -44,6 +44,11 @@
 }
 
 
+#header {
+  margin-top: 5px;
+}
+
+
 .info-box {
   height: 250px;
 }
