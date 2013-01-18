@@ -7,3 +7,5 @@ django-admin-tools
 feedparser
 PIL
 requests
+django-extensions
+pygraphviz
