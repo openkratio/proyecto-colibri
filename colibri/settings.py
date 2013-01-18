@@ -150,7 +150,7 @@ INSTALLED_APPS = (
     'scraping',
     'term',
     'main',
-
+    'django_extensions',
 )
 
 DIPUTADOS_URL = "http://www.congreso.es/portal/page/portal/Congreso/Congreso/Diputados/DiputadosLegFechas"
