@@ -3,10 +3,20 @@ from django.utils.translation import ugettext_lazy as _
 from member.models import Member
 from datetime import datetime
 
-class Voting(models.Model):
+class Session(models.Model):
     session = models.IntegerField(verbose_name=_("Session"), default=0, null=False)
-    number = models.IntegerField(verbose_name=_("Number"), default=0, null=False)
     date = models.DateField(verbose_name=_("Date"), default=datetime.now(), null=False)
+
+    class Meta:
+        verbose_name = _("Voting")
+        verbose_name_plural = _("Votings")
+
+    def __unicode__(self):
+        return u'%s' % (unicode(self.session))
+
+class Voting(models.Model):
+    session = models.ForeignKey("Session", verbose_name=_("Session"), default=None)
+    number = models.IntegerField(verbose_name=_("Number"), default=0, null=False)
     title = models.CharField(max_length=255, verbose_name=_("Title"), null=False, default=_("Empty"))
     record_text = models.TextField(verbose_name=_("Record text"), null=False, default=_("Empty"))
     subgroup_title = models.CharField(max_length=255, verbose_name=_("Subgroup title"), null=False, default=_("Empty"))

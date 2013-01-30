@@ -5,7 +5,7 @@ from parliamentarygroup.models import Party
 class Member(models.Model):
     name = models.CharField(max_length=50, verbose_name=_("Name"))
     second_name = models.CharField(max_length=50, verbose_name=("Second name"))
-    avatar = models.ImageField(upload_to='images/avatars', verbose_name=_("Avatar"))
+    avatar = models.URLField(verbose_name=_("Avatar"), null=True)
     congress_web = models.URLField(verbose_name=_("Congress web"))
     email = models.EmailField(verbose_name=("Email"))
     web = models.URLField(verbose_name=_("Web"))

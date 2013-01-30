@@ -157,6 +157,8 @@ DIPUTADOS_URL = "http://www.congreso.es/portal/page/portal/Congreso/Congreso/Dip
 
 VOTACIONES_URL = "http://www.congreso.es/portal/page/portal/Congreso/Congreso/Actualidad/Votaciones?_piref73_9564074_73_9536063_9536063.next_page=/wc/accesoHistoricoVotaciones&fechaSeleccionada="
 
+GROUPS_URL = "http://www.congreso.es/portal/page/portal/Congreso/Congreso/GruPar?_piref73_2914053_73_1339199_1339199.next_page=/wc/cambioLegislatura"
+
 ACTUAL_TERM = 10
 
 # A sample logging configuration. The only tangible logging

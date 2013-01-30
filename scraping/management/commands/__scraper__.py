@@ -1,8 +1,4 @@
 import pycurl
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
 import requests
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
@@ -15,25 +11,13 @@ def save_url_image(field, url, name):
 
     field.save(name, File(img_temp), save=True)
 
-def create_curl(url):
-    curl = pycurl.Curl()
-    curl.url = url
-    curl.body = StringIO()
-    curl.header = StringIO()
-    curl.http_code = -1
-    curl.setopt(curl.URL, curl.url)
-    curl.setopt(curl.WRITEFUNCTION, curl.body.write)
-    curl.setopt(curl.HEADERFUNCTION, curl.header.write)
-    curl.setopt(curl.CONNECTTIMEOUT, 300)
-    curl.setopt(pycurl.TIMEOUT, 300)
-    curl.setopt(pycurl.NOSIGNAL, 1)
-    return curl
+def get_url(url):
+    r = requests.get(url)
+    return r.content
 
 def get_file(url, path):
-    file_curl = create_curl(url)
-    file_curl.perform()
+    r = requests.get(url)
     f = open("%s" % (path,), 'wb')
-    f.write(file_curl.body.getvalue())
+    f.write(r.content)
     f.close()
-    file_curl.close()
 

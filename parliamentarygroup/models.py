@@ -7,10 +7,9 @@ from term.models import Term
 
 class Group(models.Model):
     name = models.CharField(max_length=50, verbose_name=_("Name"))
-    acronym = models.CharField(max_length=10, verbose_name=_("Acronym"))
-    start_date = models.DateField(verbose_name=_("Start date"), null=True)
-    end_date = models.DateField(verbose_name=_("End date"), null=True)
+    acronym = models.CharField(max_length=10, verbose_name=_("Acronym"), null=True)
     term = models.ForeignKey(Term, verbose_name=_("Term"))
+    congress_url = models.URLField(verbose_name=_("Congress url"), null=True)
     validate = models.BooleanField(default=True, verbose_name=_("Validate"))
 
     class Meta:
@@ -36,8 +35,6 @@ class Party(models.Model):
 class GroupParty(models.Model):
     group = models.ForeignKey('Group', verbose_name=_("Group"))
     party = models.ForeignKey('Party', verbose_name=_("Party"))
-    start_date = models.DateField(verbose_name=_("Start date"), null=False, default=datetime.now())
-    end_date = models.DateField(verbose_name=_("End date"), null=False, blank=True, default=datetime.now())
 
     class Meta:
         verbose_name = _("Party in group")
