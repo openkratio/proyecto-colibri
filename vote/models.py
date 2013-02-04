@@ -33,7 +33,7 @@ class Voting(models.Model):
         verbose_name_plural = _("Votings")
 
     def __unicode__(self):
-        return u'%s, %s: %s (%s)' % (unicode(self.session), unicode(self.number), unicode(self.title), unicode(self.date))
+        return u'%s, %s: %s' % (unicode(self.session), unicode(self.number), unicode(self.title))
 
 class Vote(models.Model):
     member = models.ForeignKey(Member, verbose_name=_("Member"), default=None)

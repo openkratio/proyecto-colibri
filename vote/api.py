@@ -1,22 +1,12 @@
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, ALL_WITH_RELATIONS
 from tastypie import fields
 from tastypie.bundle import Bundle
-from vote.models import  Voting, Vote
+from vote.models import  Voting, Vote, Session
 from tastypie.exceptions import InvalidFilterError
 from member.api import MemberResource
 
-
-class VotingResource(ModelResource):
-    class Meta:
-        queryset = Voting.objects.all()
-        allowed_methods = ['get']
-        filtering = {
-                    "session": ('exact',),
-                    "number": ('exact',),
-        }
-
 class VoteResource(ModelResource):
-    session = fields.IntegerField(attribute='voting__session', readonly=True)
+    session = fields.IntegerField(attribute='voting__session__session', readonly=True)
     number = fields.IntegerField(attribute='voting__number', readonly=True)
     member = fields.ToOneField(MemberResource, 'member')
     
@@ -47,3 +37,12 @@ class VoteResource(ModelResource):
         semi_filtered = super(VoteResource, self).apply_filters(request, applicable_filters)
 
         return semi_filtered
+
+class VotingResource(ModelResource):
+    class Meta:
+        resource_name = 'voting'
+        queryset = Voting.objects.all()
+        allowed_methods = ['get']
+        filtering = {
+                    "session": ('ALL_WITH_RELATIONS',),
+        }
