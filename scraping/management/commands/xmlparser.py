@@ -4,8 +4,8 @@ from colibri.settings import VOTACIONES_URL
 from zipfile import ZipFile
 import os, sys, time
 from member.models import Member
-from vote.models import Voting, Vote
-from __scraper__ import create_curl, save_url_image, get_file
+from vote.models import Voting, Vote, Session
+from __scraper__ import get_url, save_url_image, get_file
 from bs4 import BeautifulSoup
 from django.core.management.base import BaseCommand, CommandError
 from datetime import datetime
@@ -20,9 +20,10 @@ class Command(BaseCommand):
         tree = ET.parse(file)
         root = tree.getroot()
         resumen = root.find('Informacion')
-        voting_instance, voting_created = Voting.objects.get_or_create(session=resumen.find('Sesion').text, number=resumen.find('NumeroVotacion').text)
+        session_instance, session_created = Session.objects.get_or_create(session=resumen.find('Sesion').text, date=(datetime.strptime(resumen.find('Fecha').text, "%d/%m/%Y")))
+        session_instance.save()
+        voting_instance, voting_created = Voting.objects.get_or_create(session=session_instance, number=resumen.find('NumeroVotacion').text)
         print voting_instance
-        voting_instance.session = resumen.find('Sesion').text
         voting_instance.number = resumen.find('NumeroVotacion').text
         voting_instance.date = datetime.strptime(resumen.find('Fecha').text, "%d/%m/%Y")
         voting_instance.title = resumen.find('Titulo').text
@@ -91,29 +92,28 @@ class Command(BaseCommand):
             print e
 
     def get_session(self, url):
-        votaciones_curl = create_curl(url)
-        votaciones_curl.perform()
-        if votaciones_curl.getinfo(votaciones_curl.HTTP_CODE) == 200:
-            html_doc = votaciones_curl.body.getvalue()
-            votaciones_curl.close()
+        html_doc = get_url(url)
+        if html_doc:
             soup = BeautifulSoup(html_doc)
             xml_soup = soup.find(lambda tag: tag.name == 'a' and tag.parent.name == 'td')
             if xml_soup:
+                print xml_soup
                 xml_url = 'http://www.congreso.es' + xml_soup.attrs['href']
                 self.common_handle(xml_url)
-        votaciones_curl.close()
 
     def handle(self, *args, **options):
         if args and args[0] == 'all':
             base_url1 = 'http://www.congreso.es/votaciones/OpenData?sesion='
             base_url2 = '&completa=1&legislatura=' + str(ACTUAL_TERM)
             first = 1
-            last = Voting.objects.latest('session').session
+            try:
+                last = Voting.objects.latest('session').session
+            except:
+                last = 80
             for i in range(first, last):
                 url = base_url1 + str(i) + base_url2
                 self.common_handle(url)
         else:
             now = datetime.now().strftime('%Y/%m/%d')
-            now = '2012/12/20'
             url = VOTACIONES_URL + now
             self.get_session(url)
