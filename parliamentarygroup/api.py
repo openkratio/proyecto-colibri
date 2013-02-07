@@ -1,7 +1,9 @@
 from tastypie.resources import ModelResource
-from parliamentarygroup.models import Group, Party
+from tastypie import fields
+from parliamentarygroup.models import Group, Party, GroupParty
 
 class GroupResource(ModelResource):
+    parties = fields.ToManyField('parliamentarygroup.api.GroupPartyResource', 'groupparty_set', related_name='party', full=True)
     class Meta:
         queryset = Group.objects.all()
         allowed_methods = ['get']
@@ -9,6 +11,12 @@ class GroupResource(ModelResource):
             "name": ('exact',),
             "id": ('exact',),
         }
+
+class GroupPartyResource(ModelResource):
+    party = fields.ToOneField('parliamentarygroup.api.PartyResource', 'party', full=True)
+    class Meta:
+        queryset = GroupParty.objects.all()
+        allowed_methods = ['get']
 
 class PartyResource(ModelResource):
     class Meta:
@@ -18,3 +26,4 @@ class PartyResource(ModelResource):
             "name": ('exact',),
             "id": ('exact',),
         }
+

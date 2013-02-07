@@ -1,24 +1,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from datetime import datetime
 from term.models import Term
 
 # Create your models here.
-
-class Group(models.Model):
-    name = models.CharField(max_length=50, verbose_name=_("Name"))
-    acronym = models.CharField(max_length=10, verbose_name=_("Acronym"), null=True)
-    term = models.ForeignKey(Term, verbose_name=_("Term"))
-    congress_url = models.URLField(verbose_name=_("Congress url"), null=True)
-    validate = models.BooleanField(default=True, verbose_name=_("Validate"))
-
-    class Meta:
-        verbose_name = _("Parlamentary Group")
-        verbose_name_plural = _("Parlamentaries Groups")
-
-    def __unicode__(self):
-        return u'%s' % (unicode(self.name))
-
 class Party(models.Model):
     name = models.CharField(max_length=50, verbose_name=_("Name"))
     logo = models.ImageField(upload_to='images/logos/parties', verbose_name=_("Logo"), null=True)
@@ -28,6 +12,21 @@ class Party(models.Model):
     class Meta:
         verbose_name = _("Party")
         verbose_name_plural = _("Parties")
+
+    def __unicode__(self):
+        return u'%s' % (unicode(self.name))
+
+class Group(models.Model):
+    name = models.CharField(max_length=50, verbose_name=_("Name"))
+    acronym = models.CharField(max_length=10, verbose_name=_("Acronym"), null=True)
+    term = models.ForeignKey(Term, verbose_name=_("Term"))
+    congress_url = models.URLField(verbose_name=_("Congress url"), null=True)
+    validate = models.BooleanField(default=True, verbose_name=_("Validate"))
+    parties = models.ManyToManyField(Party, through='GroupParty')
+
+    class Meta:
+        verbose_name = _("Parlamentary Group")
+        verbose_name_plural = _("Parlamentaries Groups")
 
     def __unicode__(self):
         return u'%s' % (unicode(self.name))
