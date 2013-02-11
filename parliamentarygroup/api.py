@@ -19,6 +19,7 @@ class GroupPartyResource(ModelResource):
         allowed_methods = ['get']
 
 class PartyResource(ModelResource):
+    members = fields.ToManyField('member.api.MemberResource', 'memberparty_set', related_name='member')
     class Meta:
         queryset = Party.objects.all()
         allowed_methods = ['get']
@@ -26,4 +27,3 @@ class PartyResource(ModelResource):
             "name": ('exact',),
             "id": ('exact',),
         }
-

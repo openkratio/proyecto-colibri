@@ -13,6 +13,7 @@ class Member(models.Model):
     #TODO add city app
     division = models.CharField(max_length="50", verbose_name=_("Division"))
     validate = models.BooleanField(default=True, verbose_name=_("Validate"))
+    parties = models.ManyToManyField(Party, through='MemberParty')
 
     class Meta:
         verbose_name = _("Member")
@@ -38,7 +39,6 @@ class MemberParty(models.Model):
     seat = models.ForeignKey('Seat', verbose_name=("Seat"), null=True, default=None)
     start_date = models.DateField(verbose_name=_("Start date"), null=True, default=None)
     end_date = models.DateField(verbose_name=_("End date"), null=True, default=None)
-    substitute = models.ForeignKey('Member', related_name="substitute", verbose_name=_("Substitute"), null=True, default=None)
 
     class Meta:
         verbose_name = _("Member in party")
@@ -46,5 +46,3 @@ class MemberParty(models.Model):
 
     def __unicode__(self):
         return u'%s: %s' % (unicode(self.member), unicode(self.party))
-
-
