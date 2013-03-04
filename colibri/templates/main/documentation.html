@@ -2,40 +2,40 @@
 {% block content %}  
   <div class="row">
     <div class="ten columns centered">
-      <p class="main-text center-text white-text">
-        <ul>
-            <li>
-                Listado de Grupos parlmentarios:
-                <br>http://proyectocolibri.es/api/v1/group/
-                <br>Campos para filtrar: id, name
-            </li>
-            <li>
-                Listado de Partidos
-                <br>http://proyectocolibri.es/api/v1/party/
-                <br>Campos para filtrar: id, name
-            </li>
-            <li>
-                Listado de miembros
-                <br>http://proyectocolibri.es/api/v1/member/
-                <br>Campos para filtrar: id, name
-            </li>
-            <li>
-                Listado de miembros de un partido
-                <br>http://proyectocolibri.es/api/memberparty/
-                <br>Campos para filtrar: party
-            </li>
-            <li>
-                Listado de votaciones
-                <br>http://proyectocolibri.es/api/vote/
-                <br>Campos para filtrar(obligatorios): session, number
-            </li>
-            <li>
-                Listado de sesiones
-                <br>http://proyectocolibri.es/api/voting/
-                <br>Campos para filtrar: session
-            <li>
-        </ul>
-      </p>
+
+	<h3>Listado de Grupos parlmentarios</h3>
+	<p>Este recurso nos devuelve los grupos parlamentarios que forman el congreso.</p>
+	<table>
+	  <thead>
+	    <tr>
+	      <th>Url</th>
+	      <th>Parametros</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr>
+	      <td>http://proyectocolibri.es/api/v1/group/</td>
+	      <td>Campos para filtrar: id, name</td>
+	    </tr>
+	  </tbody>
+	</table>
+	<code>
+		{ "meta" : { "limit" : 1,
+      		  "next" : "/api/v1/group/?offset=1&limit=1&format=json",
+      		  "offset" : 0,
+                  "previous" : null,
+                  "total_count" : 5
+                  },
+                  "objects" : [ { "acronym" : null,
+                    "congress_url" : "http://www.congreso.es/portal/page/portal/Congreso/Congreso/Diputados/DiputadosLegFechas?_piref73_2496079_73_2496068_2496068.next_page=/wc/composicionGrupo&idGrupo=201",
+        	    "id" : "1",
+        	    "name" : "G.P. POPULAR",
+        	    "resource_uri" : "/api/v1/group/1/",
+        	    "validate" : true
+      		  }]
+               }
+	</code>
+      
     </div>
   </div>
 {% endblock %}  
