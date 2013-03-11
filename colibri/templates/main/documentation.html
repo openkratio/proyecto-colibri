@@ -2,7 +2,7 @@
 {% block content %}  
   <div class="row">
     <div class="ten columns centered">
-
+	<h3>Documentacion</h3>
 	<p>La API ha sido desarrollada con django-tastypie y los datos son servidos en JSON. Si quieres probar las peticiones directamente desde el navegador es necesario que añadas "?format=json" a la url de la consulta.</p>
 	<p>La API esta formada por recursos; cada recurso es accesible a traves de la url http://proyectocolibri.es/api/v1/ seguido del nombre del recurso. Por ejemplo: http://proyectocolibri.es/api/v1/group/ , esto nos devolvera un JSON con todos los grupos parlamentarios y su informacion.</p>
 	<p>En los distintos recursos se han habilitado diferentes campos por los que poder filtrar. Para ello se le pasa como argumento el campo por el que se quiere filtrar y el valor que se desea. Por ejemplo, en el recurso de los Grupos parlamentarios podemos filtrar por el nombre de la siguiente manera:<br /><br />
