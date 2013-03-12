@@ -106,10 +106,11 @@ class Command(BaseCommand):
             base_url1 = 'http://www.congreso.es/votaciones/OpenData?sesion='
             base_url2 = '&completa=1&legislatura=' + str(ACTUAL_TERM)
             first = 1
-            try:
-                last = Voting.objects.latest('session').session
-            except:
-                last = 80
+            last_voting = Voting.objects.latest('session')
+            if last_voting:
+                last = last_voting.session.id
+            else:
+                last = 88
             for i in range(first, last):
                 url = base_url1 + str(i) + base_url2
                 self.common_handle(url)
