@@ -8,8 +8,8 @@ class Session(models.Model):
     date = models.DateField(verbose_name=_("Date"), default=datetime.now(), null=False)
 
     class Meta:
-        verbose_name = _("Voting")
-        verbose_name_plural = _("Votings")
+        verbose_name = _("Session")
+        verbose_name_plural = _("Sessions")
 
     def __unicode__(self):
         return u'%s' % (unicode(self.session))
