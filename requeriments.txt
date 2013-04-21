@@ -1,6 +1,6 @@
 beautifulsoup4
 pycurl
-django
+django==1.4.5
 south
 django-tastypie
 django-admin-tools
@@ -9,3 +9,4 @@ PIL
 requests
 django-extensions
 pygraphviz
+scrapy==0.16.4

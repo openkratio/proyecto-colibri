@@ -25,12 +25,12 @@ class Migration(SchemaMigration):
         # Changing field 'Voting.session'
         db.alter_column('vote_voting', 'session_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['vote.Session']))
         # Adding index on 'Voting', fields ['session']
-        db.create_index('vote_voting', ['session_id'])
+        #db.create_index('vote_voting', ['session_id'])
 
 
     def backwards(self, orm):
         # Removing index on 'Voting', fields ['session']
-        db.delete_index('vote_voting', ['session_id'])
+        #db.delete_index('vote_voting', ['session_id'])
 
         # Deleting model 'Session'
         db.delete_table('vote_session')
