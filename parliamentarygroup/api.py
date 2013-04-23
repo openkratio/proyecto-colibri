@@ -11,15 +11,21 @@ class GroupResource(ModelResource):
             "name": ('exact',),
             "id": ('exact',),
         }
+        resource_name = "group"
 
 class GroupPartyResource(ModelResource):
     party = fields.ToOneField('parliamentarygroup.api.PartyResource', 'party', full=True)
+
     class Meta:
         queryset = GroupParty.objects.all()
         allowed_methods = ['get']
+        resource_name = "partyresource"
+
 
 class PartyResource(ModelResource):
-    members = fields.ToManyField('member.api.MemberResource', 'memberparty_set', related_name='member')
+    members = fields.ToManyField('member.api.MemberPartyResource',
+                                 attribute=lambda bundle: bundle.obj.memberparty_set.filter(party=bundle.obj) or bundle.obj.memberparty_set, full=True)
+
     class Meta:
         queryset = Party.objects.all()
         allowed_methods = ['get']
@@ -27,3 +33,5 @@ class PartyResource(ModelResource):
             "name": ('exact',),
             "id": ('exact',),
         }
+        resource_name = "party"
+
