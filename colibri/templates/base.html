@@ -17,20 +17,20 @@
 
 	<!-- Included CSS Files (Uncompressed) -->
 	<!--
-	<link rel="stylesheet" href="{{STATIC_URL}}stylesheets/foundation.css">
+	<link rel="stylesheet" href="{{STATIC_URL}}main/stylesheets/foundation.css">
 	-->
 	{% block links %}
 	<!-- Included CSS Files (Compressed) -->
-	<link rel="stylesheet" href="{{STATIC_URL}}stylesheets/foundation.css">
-	<link rel="stylesheet" href="{{STATIC_URL}}stylesheets/app.css">
+	<link rel="stylesheet" href="{{STATIC_URL}}main/stylesheets/foundation.css">
+	<link rel="stylesheet" href="{{STATIC_URL}}main/stylesheets/app.css">
 	{% endblock %}
 
 	{% block scripts %}
-	<script src="{{STATIC_URL}}javascripts/modernizr.foundation.js"></script>
+	<script src="{{STATIC_URL}}main/javascripts/modernizr.foundation.js"></script>
 	<!-- Included JS Files (Compressed) -->
-	<script src="{{STATIC_URL}}javascripts/jquery.js"></script>
-	<script src="{{STATIC_URL}}javascripts/foundation.min.js"></script>
-	<script src="{{STATIC_URL}}javascripts/jquery-ui-1.8.20.custom.min.js"></script>
+	<script src="{{STATIC_URL}}main/javascripts/jquery.js"></script>
+	<script src="{{STATIC_URL}}main/javascripts/foundation.min.js"></script>
+	<script src="{{STATIC_URL}}main/javascripts/jquery-ui-1.8.20.custom.min.js"></script>
 	{% endblock %}
 
 </head>
@@ -40,7 +40,7 @@
 
   <div id="header" class="row">
     <div class="three columns">
-      <a href="{% url main_index %}"><img id="logo-colibri" src="{{STATIC_URL}}images/colibri_blanco.png"></a>
+      <a href="{% url main_index %}"><img id="logo-colibri" src="{{STATIC_URL}}main/images/colibri_blanco.png"></a>
     </div>
     <div class="nine columns">
       <ul class="nav-bar right">

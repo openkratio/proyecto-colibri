@@ -2,12 +2,12 @@
 
 {% block links %}
 {{ block.super }}
-<link rel="stylesheet" type="text/css" media="screen" href="{{STATIC_URL}}stylesheets/coda-slider.css">
+<link rel="stylesheet" type="text/css" media="screen" href="{{STATIC_URL}}main/stylesheets/coda-slider.css">
 {% endblock %}
 
 {% block scripts %}
 {{ block.super }}
-<script src="{{STATIC_URL}}javascripts/jquery.coda-slider-3.0.js"></script>
+<script src="{{STATIC_URL}}main/javascripts/jquery.coda-slider-3.0.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -17,9 +17,9 @@
   <div class="row">
     <div class="twelve columns">
       <!--<div id="slider">
-        <img src="{{STATIC_URL}}images/proycolibri.gif" />
-        <img src="{{STATIC_URL}}images/proycolibri.gif" />
-        <img src="{{STATIC_URL}}images/proycolibri.gif" />
+        <img src="{{STATIC_URL}}main/images/proycolibri.gif" />
+        <img src="{{STATIC_URL}}main/images/proycolibri.gif" />
+        <img src="{{STATIC_URL}}main/images/proycolibri.gif" />
       </div>-->
       <div id="slider-info" class="coda-slider">
         <div class="info-box">
@@ -69,7 +69,7 @@
   
     <div class="four columns center-text">
       <span class="entypo-publish webicon big"></span>
-      <!--<img src="{{STATIC_URL}}images/img.gif" />-->
+      <!--<img src="{{STATIC_URL}}main/images/img.gif" />-->
       <h4>REST API</h4>
       <p>Ofrecemos una <a href="http://es.wikipedia.org/wiki/Interfaz_de_programaci%C3%B3n_de_aplicaciones" target="_blank">API</a> basada en servicios <a href="http://en.wikipedia.org/wiki/Representational_state_transfer" target="_blank">REST</a> para consumición de datos del Proyecto. Puedes encontrar más información en la <a href="{% url main_documentation %}">documentación oficial</a> del mismo.</p>
     </div>

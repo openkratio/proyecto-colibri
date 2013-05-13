@@ -4,3 +4,6 @@
 local_settings.py
 colibri/media/
 colibri_db
+.DS_Store
+colibri/static
+colibri/static/*

@@ -28,7 +28,7 @@ if ( typeof Object.create !== 'function' ) {
 			$("body").removeClass("coda-slider-no-js");
 
 			//add preloader class (backwards compatible)
-			$('.coda-slider').prepend('<p class="loading">Loading...<br /><img src="/static/images/ajax-loader.gif" width="220" height="19" alt="loading..." /></p>');
+			$('.coda-slider').prepend('<p class="loading">Loading...<br /><img src="/static/main/images/ajax-loader.gif" width="220" height="19" alt="loading..." /></p>');
 
 			// Cache the element
 			self.elem = elem;
