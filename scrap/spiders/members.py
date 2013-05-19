@@ -1,5 +1,8 @@
 # coding=utf-8
 
+import urlparse
+import re
+
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
@@ -24,8 +27,8 @@ class MemberSpider(CrawlSpider):
         item = items.MemberItem()
 
         item['congress_web'] = response.url
-        #query = urlparse.parse_qs(urlparse.urlparse(response.url).query)
-        #item['id_diputado'] = query['idDiputado']
+        query = urlparse.parse_qs(urlparse.urlparse(response.url).query)
+        item['congress_id'] = query['idDiputado'][0]
 
         # extract full name of member
         names = x.select(
@@ -49,6 +52,15 @@ class MemberSpider(CrawlSpider):
         party_avatar = party_avatar and party_avatar[0] or None
         party_name = party_name and party_name[0] or None
 
+        # extract seat img and number
+        seat_img = x.select(
+            '//div[@id="datos_diputado"]/p[@class="pos_hemiciclo"]/img/@src').extract()
+        seat_img = seat_img[0] if seat_img else None
+        if seat_img:
+            seat_number = re.match(
+                    '[a-zA-Z\d]*[\_]{1}[\d]*[\_]{1}(?P<seat>[\w\d]*).gif',
+                    seat_img.split('/')[-1])
+
         if names:
             second_name, name = names[0].strip().split(',')
             item['name'] = name.encode('utf-8')
@@ -64,7 +76,7 @@ class MemberSpider(CrawlSpider):
                     group_url = group.select('@href').extract()
                     # url is in list, extract it
                     group_url = group_url and group_url[0] or None
-                    # get group name and group term
+                    # get group name (<name> and group term <init>
                     # (e.g: G.P. Vasco (EAJ-PNV) ( GV (EAJ-PNV) )
                     group_name, group_term = group.re(
                         '(?P<name>G\.P\.[\w\s]* [\(\w\-\)]+)[\s]*\((?P<init>[\w\s\-]*)\)')
