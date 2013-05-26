@@ -15,6 +15,9 @@ BOT_NAME = 'colibri'
 
 SPIDER_MODULES = ['scrap.spiders']
 NEWSPIDER_MODULE = 'scrap.spiders'
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.contrib_exp.downloadermiddleware.decompression.DecompressionMiddleware': None
+}
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'scrap (+http://www.yourdomain.com)'
