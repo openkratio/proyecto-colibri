@@ -9,6 +9,10 @@ class MemberResource(ModelResource):
         queryset = Member.objects.all()
         allowed_methods = ['get']
         resource_name = "member"
+    
+    # with this method is not needed to add '?format=json'
+    def determine_format(self, request): 
+        return "application/json"         
 
 
 class MemberPartyResource(ModelResource):
@@ -20,3 +24,6 @@ class MemberPartyResource(ModelResource):
         fields = ['member']
         resource_name = "memberparty"
         include_resource_uri = False
+
+    def determine_format(self, request): 
+        return "application/json"         

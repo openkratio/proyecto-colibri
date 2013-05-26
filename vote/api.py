@@ -36,6 +36,8 @@ class VoteResource(ModelResource):
         orm_filters = super(VoteResource, self).build_filters(filters)
         return orm_filters
 
+    def determine_format(self, request): 
+        return "application/json"
 
 class VotingResource(ModelResource):
     session = fields.ToOneField('vote.api.SessionResource', 'session')
@@ -60,6 +62,9 @@ class VotingResource(ModelResource):
         orm_filters = super(VotingResource, self).build_filters(filters)
         return orm_filters
 
+    def determine_format(self, request): 
+        return "application/json"
+
 
 class SessionResource(ModelResource):
     class Meta:
@@ -69,3 +74,7 @@ class SessionResource(ModelResource):
         filtering = {
             "session": ('exact', 'in')
         }
+
+    def determine_format(self, request): 
+        return "application/json"
+

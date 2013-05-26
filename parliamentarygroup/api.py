@@ -13,6 +13,9 @@ class GroupResource(ModelResource):
         }
         resource_name = "group"
 
+    def determine_format(self, request): 
+        return "application/json"     
+
 class GroupPartyResource(ModelResource):
     party = fields.ToOneField('parliamentarygroup.api.PartyResource', 'party', full=True)
 
@@ -20,6 +23,9 @@ class GroupPartyResource(ModelResource):
         queryset = GroupParty.objects.all()
         allowed_methods = ['get']
         resource_name = "partyresource"
+
+    def determine_format(self, request): 
+        return "application/json"     
 
 
 class PartyResource(ModelResource):
@@ -35,3 +41,5 @@ class PartyResource(ModelResource):
         }
         resource_name = "party"
 
+    def determine_format(self, request): 
+        return "application/json"     
