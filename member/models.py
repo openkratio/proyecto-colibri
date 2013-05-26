@@ -16,7 +16,7 @@ class Member(models.Model):
     validate = models.BooleanField(default=True, verbose_name=_("Validate"))
     parties = models.ManyToManyField(Party, through='MemberParty')
     congress_id = models.CharField(
-        max_length='32', verbose_name='Member ID in congress\' web', default='',
+        max_length=32, verbose_name='Member ID in congress\' web', default='',
         unique=True)
 
     class Meta:

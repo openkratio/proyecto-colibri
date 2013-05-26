@@ -10,7 +10,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         # Adding field 'Member.congress_id'
         db.add_column('member_member', 'congress_id',
-                      self.gf('django.db.models.fields.CharField')(default='', unique=True, max_length='32'),
+                      self.gf('django.db.models.fields.CharField')(default='', unique=True, max_length=32),
                       keep_default=False)
 
 
