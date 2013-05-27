@@ -153,6 +153,9 @@ INSTALLED_APPS = (
     'django_extensions',
 )
 
+# Only serve JSON format
+TASTYPIE_DEFAULT_FORMATS = ['json']
+
 DIPUTADOS_URL = "http://www.congreso.es/portal/page/portal/Congreso/Congreso/Diputados/DiputadosLegFechas"
 
 VOTACIONES_URL = "http://www.congreso.es/portal/page/portal/Congreso/Congreso/Actualidad/Votaciones?_piref73_9564074_73_9536063_9536063.next_page=/wc/accesoHistoricoVotaciones&fechaSeleccionada="

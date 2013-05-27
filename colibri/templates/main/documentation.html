@@ -1,16 +1,16 @@
 {% extends "base.html" %}
-{% block content %}  
+{% block content %}
   <div class="row">
     <div class="ten columns centered">
 	<h3>Documentacion</h3>
-	<p>La API ha sido desarrollada con django-tastypie y los datos son servidos en JSON. Si quieres probar las peticiones directamente desde el navegador es necesario que añadas "?format=json" a la url de la consulta.</p>
+	<p>La API ha sido desarrollada con django-tastypie y los datos son servidos en JSON.</p>
 	<p>La API esta formada por recursos; cada recurso es accesible a traves de la url http://proyectocolibri.es/api/v1/ seguido del nombre del recurso. Por ejemplo: http://proyectocolibri.es/api/v1/group/ , esto nos devolvera un JSON con todos los grupos parlamentarios y su informacion.</p>
 	<p>En los distintos recursos se han habilitado diferentes campos por los que poder filtrar. Para ello se le pasa como argumento el campo por el que se quiere filtrar y el valor que se desea. Por ejemplo, en el recurso de los Grupos parlamentarios podemos filtrar por el nombre de la siguiente manera:<br /><br />
-  <a href="http://proyectocolibri.es/api/v1/group/?format=json&name=G.P. LA IZQUIERDA PLURAL">http://proyectocolibri.es/api/v1/group/?format=json&name=G.P. LA IZQUIERDA PLURAL</a></p>
+  <a href="http://proyectocolibri.es/api/v1/group/?name=G.P. LA IZQUIERDA PLURAL" target="_blank">http://proyectocolibri.es/api/v1/group/?name=G.P. LA IZQUIERDA PLURAL</a></p>
 <br />
 <br />
-	
-	<h3>Listado de Grupos parlmentarios</h3>
+
+	<h3>Listado de Grupos parlamentarios</h3>
 	<p>Este recurso nos devuelve los grupos parlamentarios que forman el congreso. En este recurso tambien obtenemos una relacion de los miembros que pertenecen a dicho partido.</p>
 	<table>
 	  <thead>
@@ -98,4 +98,4 @@
 
     </div>
   </div>
-{% endblock %}  
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+
 class Member(models.Model):
     name = models.CharField(max_length=50, verbose_name=_("Name"))
     second_name = models.CharField(max_length=50, verbose_name=("Second name"))
@@ -12,6 +13,9 @@ class Member(models.Model):
     #TODO add city app
     division = models.CharField(max_length="50", verbose_name=_("Division"))
     validate = models.BooleanField(default=True, verbose_name=_("Validate"))
+    congress_id = models.CharField(max_length=32,
+                                   verbose_name='Member ID in congress\' web',
+                                   default=0)
 
     class Meta:
         verbose_name = _("Member")

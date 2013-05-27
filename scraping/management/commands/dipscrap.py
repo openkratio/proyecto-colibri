@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os, sys, time
+import os, sys, time, urlparse
 from member.models import Member, MemberParty, Seat
 from parliamentarygroup.models import Group, Party, GroupParty
 from term.models import Term
@@ -47,10 +47,11 @@ class Command(BaseCommand):
 
             cv_soup = soup.find(id='curriculum')
             if cv_soup:
-            
+                query = urlparse.parse_qs(urlparse.urlparse(url).query)
+                congress_id = query['idDiputado'][0]
                 datos_diputado = soup.find(id='datos_diputado')
-
-                member_instance, member_created = Member.objects.get_or_create(congress_web=url)
+                member_instance, member_created = Member.objects.get_or_create(congress_id=congress_id)
+                member_instance.congress_web = url
 
                 #get name
                 soup_name = cv_soup.find('div', 'nombre_dip')
@@ -82,7 +83,7 @@ class Command(BaseCommand):
                     soup_div = re.sub(r'Diputad[ao] por ', '' ,soup_div.text).strip()
                     soup_div = re.sub(r'\.$', '' ,soup_div)
                     member_instance.division = soup_div.encode('utf8')
-                
+
                 #get foto
                 if datos_diputado:
                     avatar_soup = datos_diputado.find(lambda tag: tag.name == 'img' and tag.parent.name == 'p')
@@ -90,7 +91,7 @@ class Command(BaseCommand):
                         member_instance.avatar = 'http://www.congreso.es' + avatar_soup.attrs['src']
 
                 member_instance.save()
-                
+
                 #get grupo
                 group_soup = cv_soup.find(lambda tag: tag.name == 'a' and tag.parent.name == 'div', text=re.compile("G\.P\. .* \( [a-zA-Z]+ \)"))
                 if group_soup:
@@ -121,7 +122,7 @@ class Command(BaseCommand):
                         memberparty_instance, memberparty_created = MemberParty.objects.get_or_create(party=party_instance, member=member_instance)
                         memberparty_instance.save()
 
-                
+
                 """
                 #get asiento
                 if datos_diputado:

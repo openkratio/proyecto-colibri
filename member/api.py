@@ -10,6 +10,10 @@ class MemberResource(ModelResource):
         allowed_methods = ['get']
         resource_name = "member"
 
+        filtering = {
+            "name": ('exact','startswith','iexact','istartswith',),
+            "id": ('exact',),
+        }
 
 class MemberPartyResource(ModelResource):
     member = fields.ToOneField('member.api.MemberResource', 'member')
