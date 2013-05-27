@@ -34,4 +34,3 @@ class PartyResource(ModelResource):
             "id": ('exact',),
         }
         resource_name = "party"
-
