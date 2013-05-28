@@ -69,3 +69,4 @@ class SessionResource(ModelResource):
         filtering = {
             "session": ('exact', 'in')
         }
+        ordering = ['date']
