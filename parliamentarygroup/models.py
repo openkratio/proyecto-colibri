@@ -26,6 +26,7 @@ class Group(models.Model):
     term = models.ForeignKey(Term, verbose_name=_("Term"))
     congress_url = models.URLField(verbose_name=_("Congress url"), null=True)
     validate = models.BooleanField(default=True, verbose_name=_("Validate"))
+    members = models.ManyToManyField(Member, through='GroupMember')
 
     class Meta:
         verbose_name = _("Parlamentary Group")

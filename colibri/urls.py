@@ -1,9 +1,8 @@
 from django.conf.urls import patterns, include, url
 from tastypie.api import Api
-from parliamentarygroup.api import GroupResource, PartyResource
-from member.api import MemberResource, MemberPartyResource
+from parliamentarygroup.api import GroupResource, GroupMemberResource
+from member.api import MemberResource
 from vote.api import VotingResource, VoteResource, SessionResource
-from colibri import settings
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -11,9 +10,8 @@ admin.autodiscover()
 
 v1_api = Api(api_name='v1')
 v1_api.register(GroupResource())
-v1_api.register(PartyResource())
-v1_api.register(MemberPartyResource())
 v1_api.register(MemberResource())
+v1_api.register(GroupMemberResource())
 v1_api.register(VotingResource())
 v1_api.register(VoteResource())
 v1_api.register(SessionResource())

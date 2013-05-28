@@ -1,14 +1,15 @@
 # coding=utf-8
-
 import urlparse
-import re
-
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
 
 import scrap.items as items
 
+from parliamentarygroup.models import Group, Party, GroupMember
+from term.models import Term
+
+actual_term = Term.objects.latest('id')
 
 class MemberSpider(CrawlSpider):
     name = 'members'
@@ -40,26 +41,8 @@ class MemberSpider(CrawlSpider):
         # email, twitter ....
         extra_data = x.select(
             '//div[@class="webperso_dip"]/div/a/@href')
-
         avatar = x.select(
             '//div[@id="datos_diputado"]/p[@class="logo_grupo"]/img[@name="foto"]/@src').extract()
-
-        party_avatar = x.select(
-            '//div[@id="datos_diputado"]/p[@class="logo_grupo"]/a/img/@src').extract()
-        party_name = x.select(
-            '//div[@id="datos_diputado"]/p[@class="nombre_grupo"]/text()').extract()
-
-        party_avatar = party_avatar and party_avatar[0] or None
-        party_name = party_name and party_name[0] or None
-
-        # extract seat img and number
-        seat_img = x.select(
-            '//div[@id="datos_diputado"]/p[@class="pos_hemiciclo"]/img/@src').extract()
-        seat_img = seat_img[0] if seat_img else None
-        if seat_img:
-            seat_number = re.match(
-                    '[a-zA-Z\d]*[\_]{1}[\d]*[\_]{1}(?P<seat>[\w\d]*).gif',
-                    seat_img.split('/')[-1])
 
         if names:
             second_name, name = names[0].strip().split(',')
@@ -81,7 +64,31 @@ class MemberSpider(CrawlSpider):
                     group_name, group_term = group.re(
                         '(?P<name>G\.P\.[\w\s]* [\(\w\-\)]+)[\s]*\((?P<init>[\w\s\-]*)\)')
                     # TODO: store group
+                    if group_url:
+                        group_instance, created_group = Group.objects.get_or_create(congress_url=group_url,
+                                                                                    term=actual_term)
+                        group_instance.name = group_name
+                        group_instance.acronym = group_term
+
+                        group_instance.term = actual_term
+                        group_instance.save()
+
                     # TODO store party
+                    party_avatar = x.select(
+                        '//div[@id="datos_diputado"]/p[@class="logo_grupo"]/a/img/@src').extract()
+                    party_name = x.select(
+                        '//div[@id="datos_diputado"]/p[@class="nombre_grupo"]/text()').extract()
+
+                    party_avatar = party_avatar and party_avatar[0] or None
+                    party_name = party_name and party_name[0] or None
+
+                    if party_name:
+                        party_instance, created_party = Party.objects.get_or_create(name=party_name)
+                        party_instance.logo = party_avatar
+                        party_instance.save()
+
+
+
             if extra_data:
                 email = extra_data.re(
                     'mailto:[\w.-_]*@[\w.-_]*')
@@ -92,5 +99,11 @@ class MemberSpider(CrawlSpider):
                 if twitter:
                     item['twitter'] = twitter[0]
 
-            person = item.save()  # save() return django's model class
+            member_instance = item.save()  # save() return django's model class
+
+            gm_instance, creatd_gm = GroupMember.objects.get_or_create(group = group_instance,
+                                              member = member_instance,
+                                              party = party_instance)
+            gm_instance.save()
+
         return item

@@ -1,7 +1,5 @@
-beautifulsoup4
-pycurl
 django==1.4.5
-south
+south==0.7.6
 django-tastypie
 django-admin-tools
 feedparser
@@ -10,3 +8,4 @@ requests
 django-extensions
 pygraphviz
 scrapy==0.16.4
+psycopg2==2.5

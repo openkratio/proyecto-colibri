@@ -6,13 +6,13 @@
 
 from scrapy.contrib.djangoitem import DjangoItem
 import member.models as members
-import parliamentarygroup.models as pg
 
 
 class MemberItem(DjangoItem):
     django_model = members.Member
 
     def save(self, commit=True):
+        print "saving"
         """
             In next version of scrapy, self.instance will be available
             with a Djangomodel object, the code must be modified
@@ -37,15 +37,3 @@ class MemberItem(DjangoItem):
         if commit:
             model.save()
         return model
-
-
-class SeatItem(DjangoItem):
-    django_model = members.Seat
-
-
-class GroupItem(DjangoItem):
-    django_model = pg.Group
-
-
-class PartyItem(DjangoItem):
-    django_model = pg.Party

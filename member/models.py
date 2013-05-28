@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-
 class Member(models.Model):
     name = models.CharField(max_length=50, verbose_name=_("Name"))
     second_name = models.CharField(max_length=50, verbose_name=("Second name"))
