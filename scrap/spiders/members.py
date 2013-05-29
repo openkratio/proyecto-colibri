@@ -45,9 +45,9 @@ class MemberSpider(CrawlSpider):
             '//div[@id="datos_diputado"]/p[@class="logo_grupo"]/img[@name="foto"]/@src').extract()
 
         if names:
-            second_name, name = names[0].strip().split(',')
-            item['name'] = name.encode('utf-8')
-            item['second_name'] = second_name.encode('utf-8')
+            second_name, name = names[0].split(',')
+            item['name'] = name.encode('utf-8').strip()
+            item['second_name'] = second_name.encode('utf-8').strip()
             if avatar:
                 item['avatar'] = 'http://www.congreso.es' + avatar[0]
             if curriculum:
