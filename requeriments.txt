@@ -1,6 +1,6 @@
-django==1.4.5
+django==1.5.1
 south==0.7.6
-django-tastypie
+django-tastypie==0.9.15
 django-admin-tools
 feedparser
 PIL
