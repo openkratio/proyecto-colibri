@@ -46,8 +46,8 @@ class MemberSpider(CrawlSpider):
 
         if names:
             second_name, name = names[0].split(',')
-            item['name'] = name.encode('utf-8').strip()
-            item['second_name'] = second_name.encode('utf-8').strip()
+            item['name'] = name.strip().encode('utf-8')
+            item['second_name'] = second_name.strip().encode('utf-8')
             if avatar:
                 item['avatar'] = 'http://www.congreso.es' + avatar[0]
             if curriculum:
