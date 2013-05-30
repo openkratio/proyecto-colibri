@@ -1,8 +1,9 @@
 from tastypie.resources import ModelResource
 
+from common.api import BaseCorsResource
 from member.models import Member
 
-class MemberResource(ModelResource):
+class MemberResource(ModelResource, BaseCorsResource):
     class Meta:
         queryset = Member.objects.all()
         allowed_methods = ['get']

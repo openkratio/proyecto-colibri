@@ -1,9 +1,7 @@
 # coding=utf-8
-
-from tastypie.resources import ModelResource, ALL_WITH_RELATIONS
 from tastypie import fields
-
 from tastypie.exceptions import InvalidFilterError
+from tastypie.resources import ModelResource, ALL_WITH_RELATIONS
 
 from vote.models import Voting, Vote, Session
 

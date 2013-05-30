@@ -6,7 +6,6 @@ from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector, XmlXPathSelector
 from scrapy import log
 
-import scrap.items as items
 from vote.models import Session, Voting, Vote
 from member.models import Member
 
