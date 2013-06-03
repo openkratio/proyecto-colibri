@@ -17,7 +17,8 @@ class VoteResource(ModelResource):
 
     class Meta:
         resource_name = 'vote'
-        queryset = Vote.objects.all().select_related('voting__session')
+        queryset = Vote.objects.all().select_related(
+            'voting__session', 'member')
         allowed_methods = ['get']
         filtering = {
             "session": ('exact',),
