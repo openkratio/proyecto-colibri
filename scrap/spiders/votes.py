@@ -25,7 +25,10 @@ class VotesSpider(CrawlSpider):
             callback='parse_vote'),
         Rule(
             SgmlLinkExtractor(
-                allow=['/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/iz'],
+                allow=[
+                    '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/iz',
+                    '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/de',
+                    '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/\d+'],
                 unique=True),
             follow=True)]
 
