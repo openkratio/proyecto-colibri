@@ -21,14 +21,15 @@ class VoteResource(ModelResource):
         filtering = {
             "session": ('exact',),
             "number": ('exact',),
+            "member": ('exact', ),
         }
 
     def build_filters(self, filters=None):
         if filters is None:
             raise InvalidFilterError("Filter fields  are necessaries.")
 
-        if 'session' not in filters:
-            raise InvalidFilterError("Session field is necessary.")
+        if 'session' not in filters and 'member' not in filters:
+            raise InvalidFilterError("Session or Member field is necessary.")
 
         if 'number' not in filters:
             raise InvalidFilterError("Number field is necessary.")
