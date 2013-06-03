@@ -1,6 +1,8 @@
 # coding=utf-8
 
-from tastypie.resources import ModelResource, ALL_WITH_RELATIONS
+from django.db.models.constants import LOOKUP_SEP
+
+from tastypie.resources import ModelResource, ALL_WITH_RELATIONS, ALL
 from tastypie import fields
 
 from tastypie.exceptions import InvalidFilterError
@@ -13,6 +15,8 @@ class VoteResource(ModelResource):
         attribute='voting__session__session', readonly=True)
     number = fields.IntegerField(attribute='voting__number', readonly=True)
     member = fields.ToOneField('member.api.MemberResource', 'member')
+    date = fields.DateField(
+        attribute='voting__session__date', readonly=True)
 
     class Meta:
         resource_name = 'vote'
@@ -22,6 +26,7 @@ class VoteResource(ModelResource):
             "session": ('exact',),
             "number": ('exact',),
             "member": ('exact', ),
+            "date": ALL
         }
 
     def build_filters(self, filters=None):
@@ -68,6 +73,7 @@ class SessionResource(ModelResource):
         queryset = Session.objects.all()
         allowed_methods = ['get', ]
         filtering = {
-            "session": ('exact', 'in')
+            "session": ('exact', 'in'),
+            "date": ALL,
         }
         ordering = ['date']
