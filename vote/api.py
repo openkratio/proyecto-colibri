@@ -1,10 +1,7 @@
 # coding=utf-8
 
-from django.db.models.constants import LOOKUP_SEP
-
 from tastypie.resources import ModelResource, ALL_WITH_RELATIONS, ALL
 from tastypie import fields
-
 from tastypie.exceptions import InvalidFilterError
 
 from vote.models import Voting, Vote, Session
@@ -20,7 +17,7 @@ class VoteResource(ModelResource):
 
     class Meta:
         resource_name = 'vote'
-        queryset = Vote.objects.filter()
+        queryset = Vote.objects.all().select_related('voting__session')
         allowed_methods = ['get']
         filtering = {
             "session": ('exact',),
@@ -48,7 +45,7 @@ class VotingResource(ModelResource):
 
     class Meta:
         resource_name = 'voting'
-        queryset = Voting.objects.all()
+        queryset = Voting.objects.all().select_related('session')
         allowed_methods = ['get']
         filtering = {
             "session": ALL_WITH_RELATIONS,
