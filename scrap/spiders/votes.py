@@ -25,9 +25,9 @@ class VotesSpider(CrawlSpider):
             callback='parse_vote'),
         Rule(
             SgmlLinkExtractor(
-                allow=['/wc/accesoHistoricoVotaciones&fechaSeleccionada='],
+                allow=['/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/iz'],
                 unique=True),
-            follow=True, callback='parse_session')]
+            follow=True)]
 
     def parse_vote(self, response):
         """
@@ -53,7 +53,7 @@ class VotesSpider(CrawlSpider):
         # general session info
         session_id = session_id[0]
         session_date = date_parser.parse(
-            info.select('//Fecha/text()').extract()[0])
+            info.select('//Fecha/text()').extract()[0], dayfirst=True)
         session_instance, session_created = Session.objects.get_or_create(
             session=session_id, defaults={'date': session_date})
         if not session_created:
