@@ -24,9 +24,12 @@ class VotesSpider(CrawlSpider):
             callback='parse_vote'),
         Rule(
             SgmlLinkExtractor(
-                allow=['/wc/accesoHistoricoVotaciones&fechaSeleccionada='],
+                allow=[
+                    '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/iz',
+                    '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/de',
+                    '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/\d+'],
                 unique=True),
-            follow=True, callback='parse_session')]
+            follow=True)]
 
     def parse_vote(self, response):
         """
@@ -35,7 +38,6 @@ class VotesSpider(CrawlSpider):
             can't use '/votaciones/OpenData?sesion=\d*&completa=1&legislatura=10'
             as regex rule
         """
-
         if not hasattr(response, 'body_as_unicode'):
             self.log(
                 'Cannot parse: {u}'.format(u=response.url), level=log.INFO)
@@ -53,7 +55,7 @@ class VotesSpider(CrawlSpider):
         # general session info
         session_id = session_id[0]
         session_date = date_parser.parse(
-            info.select('//Fecha/text()').extract()[0])
+            info.select('//Fecha/text()').extract()[0], dayfirst=True)
         session_instance, session_created = Session.objects.get_or_create(
             session=session_id, defaults={'date': session_date})
         if not session_created:
@@ -107,24 +109,24 @@ class VotesSpider(CrawlSpider):
 
         if counts_assent is False:
             # time to parse votes!
-            votes = x.select('//Votaciones')
+            votes = x.select('//Resultado/Votaciones/Votacion')
+            Vote.objects.filter(voting=voting_instance).delete()
+            votes_list = []
             for v in votes:
-                member_seat = v.select('//Asiento/text()').extract()[0]
+                member_seat = v.select('Asiento/text()').extract()[0]
                 # @jneight: I don't like search members by name, seats better?
-                full_name = v.select('//Diputado/text()').extract()[0]
+                full_name = v.select('Diputado/text()').extract()[0]
                 second_name, first_name = full_name.split(',')
-                vote_type = v.select('//Voto/text()').extract()[0]
+                vote_type = v.select('Voto/text()').extract()[0]
                 member_pk = Member.objects.filter(
                     name__iexact=first_name.strip(),
                     second_name__iexact=second_name.strip()
                 ).values_list('pk', flat=True)
                 if member_pk:
-                    vote_instance, vote_created = Vote.objects.get_or_create(
+                    votes_list.append(Vote(
                         voting=voting_instance, member_id=member_pk[0],
-                        defaults={'vote': vote_type})
-                    if not vote_created:
-                        vote_instance.vote = vote_type
-                        vote_instance.save()
+                        vote=vote_type))
+            Vote.objects.bulk_create(votes_list)
 
     def parse_session(self, response):
         """

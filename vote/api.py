@@ -1,7 +1,7 @@
 # coding=utf-8
 from tastypie import fields
 from tastypie.exceptions import InvalidFilterError
-from tastypie.resources import ModelResource, ALL_WITH_RELATIONS
+from tastypie.resources import ModelResource, ALL_WITH_RELATIONS, ALL
 
 from vote.models import Voting, Vote, Session
 
@@ -11,22 +11,27 @@ class VoteResource(ModelResource):
         attribute='voting__session__session', readonly=True)
     number = fields.IntegerField(attribute='voting__number', readonly=True)
     member = fields.ToOneField('member.api.MemberResource', 'member')
+    date = fields.DateField(
+        attribute='voting__session__date', readonly=True)
 
     class Meta:
         resource_name = 'vote'
-        queryset = Vote.objects.filter()
+        queryset = Vote.objects.all().select_related(
+            'voting__session', 'member')
         allowed_methods = ['get']
         filtering = {
             "session": ('exact',),
             "number": ('exact',),
+            "member": ('exact', ),
+            "date": ALL
         }
 
     def build_filters(self, filters=None):
         if filters is None:
             raise InvalidFilterError("Filter fields  are necessaries.")
 
-        if 'session' not in filters:
-            raise InvalidFilterError("Session field is necessary.")
+        if 'session' not in filters and 'member' not in filters:
+            raise InvalidFilterError("Session or Member field is necessary.")
 
         if 'number' not in filters:
             raise InvalidFilterError("Number field is necessary.")
@@ -40,7 +45,7 @@ class VotingResource(ModelResource):
 
     class Meta:
         resource_name = 'voting'
-        queryset = Voting.objects.all()
+        queryset = Voting.objects.all().select_related('session')
         allowed_methods = ['get']
         filtering = {
             "session": ALL_WITH_RELATIONS,
@@ -65,6 +70,7 @@ class SessionResource(ModelResource):
         queryset = Session.objects.all()
         allowed_methods = ['get', ]
         filtering = {
-            "session": ('exact', 'in')
+            "session": ('exact', 'in'),
+            "date": ALL,
         }
         ordering = ['date']

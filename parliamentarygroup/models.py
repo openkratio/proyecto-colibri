@@ -1,9 +1,11 @@
+# coding=utf-8
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from term.models import Term
-
 from member.models import Member
+
 
 class Party(models.Model):
     name = models.CharField(max_length=50, verbose_name=_("Name"))
@@ -20,9 +22,11 @@ class Party(models.Model):
     def __unicode__(self):
         return u'%s' % (unicode(self.name))
 
+
 class Group(models.Model):
     name = models.CharField(max_length=50, verbose_name=_("Name"))
-    acronym = models.CharField(max_length=10, verbose_name=_("Acronym"), null=True)
+    acronym = models.CharField(
+        max_length=10, verbose_name=_("Acronym"), null=True)
     term = models.ForeignKey(Term, verbose_name=_("Term"))
     congress_url = models.URLField(verbose_name=_("Congress url"), null=True)
     validate = models.BooleanField(default=True, verbose_name=_("Validate"))
@@ -34,6 +38,7 @@ class Group(models.Model):
 
     def __unicode__(self):
         return u'%s' % (unicode(self.name))
+
 
 class GroupMember(models.Model):
     group = models.ForeignKey(Group, verbose_name='Group')
