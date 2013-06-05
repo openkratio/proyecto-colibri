@@ -3,6 +3,7 @@ from tastypie.resources import ModelResource
 
 from member.models import Member
 
+
 class MemberResource(ModelResource):
     class Meta:
         queryset = Member.objects.all()
