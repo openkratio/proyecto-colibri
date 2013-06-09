@@ -1,7 +1,7 @@
-django==1.4.5
-south==0.7.6
-django-tastypie
-django-admin-tools
+django==1.5.1
+south==0.8.1
+django-tastypie==0.9.15
+django-admin-tools==0.5.1
 feedparser
 PIL
 requests

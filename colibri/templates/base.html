@@ -40,13 +40,13 @@
 
   <div id="header" class="row">
     <div class="three columns">
-      <a href="{% url main_index %}"><img id="logo-colibri" src="{{STATIC_URL}}main/images/colibri_blanco.png"></a>
+      <a href="{% url 'main_index' %}"><img id="logo-colibri" src="{{STATIC_URL}}main/images/colibri_blanco.png"></a>
     </div>
     <div class="nine columns">
       <ul class="nav-bar right">
-		<li><a href="{% url main_index %}">Inicio</a></li>
-		<li><a href="{% url main_documentation %}">Documentación</a></li>
-		<li><a href="{% url main_weare %}">Somos</a></li>
+		<li><a href="{% url 'main_index' %}">Inicio</a></li>
+		<li><a href="{% url 'main_documentation' %}">Documentación</a></li>
+		<li><a href="{% url 'main_weare' %}">Somos</a></li>
       </ul>
     </div>
   </div>

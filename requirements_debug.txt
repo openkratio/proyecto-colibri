@@ -1,0 +1,4 @@
+-r requirements.txt
+django-devserver==0.6.2
+guppy==0.1.10
+factory_boy==2.0.2
