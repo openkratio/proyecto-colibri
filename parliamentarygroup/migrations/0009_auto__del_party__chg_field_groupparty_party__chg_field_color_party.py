@@ -16,7 +16,7 @@ class Migration(SchemaMigration):
         #db.alter_column('parliamentarygroup_groupparty', 'party_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['member.Party']))
 
         # Changing field 'Color.party'
-        db.alter_column('parliamentarygroup_color', 'party_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['member.Party']))
+        #db.alter_column('parliamentarygroup_color', 'party_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['member.Party']))
 
     def backwards(self, orm):
         # Adding model 'Party'
