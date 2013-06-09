@@ -151,7 +151,6 @@ INSTALLED_APPS = (
     'parliamentarygroup',
     'member',
     'vote',
-    'scraping',
     'term',
     'main',
     'django_extensions',
