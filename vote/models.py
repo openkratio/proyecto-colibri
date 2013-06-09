@@ -29,8 +29,8 @@ class Voting(models.Model):
         null=False, default=_("Empty"))
     record_text = models.TextField(
         verbose_name=_("Record text"), null=False, default=_("Empty"))
-    subgroup_title = models.CharField(
-        max_length=255, verbose_name=_("Subgroup title"),
+    subgroup_title = models.TextField(
+        verbose_name=_("Subgroup title"),
         null=False, default=_("Empty"))
     subgroup_text = models.TextField(
         verbose_name=_("Subgroup text"), null=False, default=_("Empty"))
