@@ -23,7 +23,7 @@ class GroupResource(GroupManagerResource):
     class Meta(GroupManagerResource.Meta):
         queryset = Group.objects.all()
         filtering = {
-            "name": ('exact',),
+            "name": ('exact', 'startswith', 'iexact', 'istartswith',),
             "id": ('exact',),
         }
         resource_name = "group"
@@ -38,7 +38,7 @@ class GroupMemberResource(ModelResource):
     class Meta:
         queryset = GroupMember.objects.all().select_related('member')
         allowed_methods = ['get']
-        resource_name = "GroupMember"
+        resource_name = "groupmember"
         exclude = ['id']
         include_resource_uri = False
 
@@ -49,6 +49,6 @@ class PartyResource(ModelResource):
         allowed_methods = ['get']
         resource_name = "party"
         filtering = {
-            "name": ('exact',),
+            "name": ('exact', 'startswith', 'iexact', 'istartswith',),
             "id": ('exact',),
         }
