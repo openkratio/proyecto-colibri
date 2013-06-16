@@ -7,8 +7,8 @@ from member.models import Member
 class MemberFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Member
 
-    name = 'MemberTest'
-    second_name = 'Second Name'
+    name = factory.Sequence(lambda n: 'Name{0}'.format(n))
+    second_name = factory.Sequence(lambda n: 'SecondName{0}'.format(n))
     avatar = factory.LazyAttribute(
         lambda a: 'www.fakeavatar.es/{0}.{1}'.format(
             a.name, a.second_name).lower())
