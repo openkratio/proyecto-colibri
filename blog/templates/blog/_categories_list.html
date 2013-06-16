@@ -1,0 +1,7 @@
+{% if categories %}
+    <ul>
+        {% for c in categories %}
+            <li><a href="{{ c.get_absolute_url }}" title="Entries categorized as {{ c.title }}">{{ c.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% endif %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="twelve columns">
+        <section>
+            <article>
+                <hgroup>
+                    <h3>{{ object.title|safe }}</h3>
+                    <h6 class="subheader">{{ object.pub_date|date:"F j, Y" }} by <a href="{% url 'blog_author_detail' id=object.author.id %}">{% with object.author.user as user %}{% include "blog/_author_name.html" %}{% endwith %}</a></h6>
+                </hgroup>
+                {{ object.body|safe }}
+            </article>
+        </section>
+    </div>
+</div>
+{% endblock %}

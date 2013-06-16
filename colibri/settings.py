@@ -148,6 +148,7 @@ INSTALLED_APPS = (
     'south',
     'tastypie',
     #Internal apps
+    'blog',
     'parliamentarygroup',
     'member',
     'vote',
@@ -166,6 +167,9 @@ VOTACIONES_URL = "http://www.congreso.es/portal/page/portal/Congreso/Congreso/Ac
 GROUPS_URL = "http://www.congreso.es/portal/page/portal/Congreso/Congreso/GruPar?_piref73_2914053_73_1339199_1339199.next_page=/wc/cambioLegislatura"
 
 ACTUAL_TERM = 10
+
+AUTH_PROFILE_MODULE = 'django_blog.Author'
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

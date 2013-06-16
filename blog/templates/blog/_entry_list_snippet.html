@@ -1,0 +1,8 @@
+<article>
+    <hgroup>
+    <h3 class="inline-text"><a href="{{ entry.get_absolute_url }}">{{ entry.title|safe }}</a></h3>
+        <h6 class="subheader inline-text">by {% with entry.author.user as user %}{% include "blog/_author_name.html" %}{% endwith %}</h6>
+    </hgroup>
+    {{ entry.body|safe|truncatewords_html:80 }}
+    <p><a href="{{ entry.get_absolute_url }}">Keep reading&#8230;</a></p>
+</article>
