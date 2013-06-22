@@ -9,3 +9,4 @@ django-extensions
 pygraphviz
 scrapy==0.16.4
 psycopg2==2.5
+pytz
