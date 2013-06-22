@@ -95,7 +95,7 @@ class MemberSpider(CrawlSpider):
                 if web_data:
                     web = web_data.re('[http|https]*://.*')
                     if web:
-                        item['web'] = web
+                        item['web'] = web[0]
                 email = extra_data.re(
                     'mailto:[\w.-_]*@[\w.-_]*')
                 if email:
