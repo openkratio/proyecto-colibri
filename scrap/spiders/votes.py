@@ -13,23 +13,47 @@ from member.models import Member
 class VotesSpider(CrawlSpider):
     name = 'votes'
     allowed_domains = ['congreso.es']
-    start_urls = [
-        'http://www.congreso.es/portal/page/portal/Congreso/Congreso/Actualidad/Votaciones/',
-    ]
 
-    rules = [
-        Rule(
-            SgmlLinkExtractor(
-                allow=['/votaciones/OpenData'], unique=True),
-            callback='parse_vote'),
-        Rule(
-            SgmlLinkExtractor(
-                allow=[
-                    '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/iz',
-                    '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/de',
-                    '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/\d+'],
-                unique=True),
-            follow=True)]
+
+    def __init__(self, *args, **kwargs):
+        self.rules = [
+            Rule(
+                SgmlLinkExtractor(
+                    allow=['/votaciones/OpenData'], unique=True),
+                callback='parse_vote')
+        ]
+
+        date_session = kwargs.get('date')
+
+        if date_session:
+            self.start_urls = ['http://www.congreso.es/portal/page/portal/Congreso/Congreso/Actualidad/Votaciones?_piref73_9564074_73_9536063_9536063.next_page=/wc/accesoHistoricoVotaciones&fechaSeleccionada=' + date_session,]
+            self.rules.append(
+                Rule(
+                    SgmlLinkExtractor(
+                        deny=[
+                            '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/iz',
+                            '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/de',],
+                        allow=['/wc/accesoHistoricoVotaciones&fechaSeleccionada=' + date_session],
+                    )
+                )
+            )
+        else:
+            self.start_urls = [
+                'http://www.congreso.es/portal/page/portal/Congreso/Congreso/Actualidad/Votaciones/',
+            ]
+
+            self.rules.append(
+                Rule(
+                SgmlLinkExtractor(
+                    allow=[
+                        '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/iz',
+                        '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/de',
+                        '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/\d+'],
+                    unique=True),
+                follow=True)
+            )
+
+        super(VotesSpider, self).__init__(*args, **kwargs)
 
     def parse_vote(self, response):
         """
@@ -38,6 +62,7 @@ class VotesSpider(CrawlSpider):
             can't use '/votaciones/OpenData?sesion=\d*&completa=1&legislatura=10'
             as regex rule
         """
+
         if not hasattr(response, 'body_as_unicode'):
             self.log(
                 'Cannot parse: {u}'.format(u=response.url), level=log.INFO)
