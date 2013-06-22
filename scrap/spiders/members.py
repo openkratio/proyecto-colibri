@@ -90,6 +90,12 @@ class MemberSpider(CrawlSpider):
 
 
             if extra_data:
+                web_data = x.select(
+                    '//div[@class="webperso_dip"]/div[@class="webperso_dip_parte"]/a/@href')
+                if web_data:
+                    web = web_data.re('[http|https]*://.*')
+                    if web:
+                        item['web'] = web
                 email = extra_data.re(
                     'mailto:[\w.-_]*@[\w.-_]*')
                 if email:
