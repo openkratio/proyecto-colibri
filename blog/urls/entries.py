@@ -8,6 +8,7 @@ from blog.models import Entry
 urlpatterns = patterns('',
     url(r'^$',
         ArchiveIndexView.as_view(
+            allow_future=True,
             date_field='pub_date',
             queryset=Entry.live.all()
         ),
