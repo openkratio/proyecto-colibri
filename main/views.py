@@ -11,3 +11,11 @@ def documentation(request):
 def weare(request):
     params = {}
     return render(request, 'main/weare.html', params)
+
+def thanks(request):
+    params = {}
+    return render(request, 'main/thanks.html', params)
+
+def apps(request):
+    params = {}
+    return render(request, 'main/apps.html', params)
