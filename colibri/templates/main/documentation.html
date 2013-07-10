@@ -6,7 +6,7 @@
     <p>La API ha sido desarrollada con django-tastypie y los datos son servidos en JSON.</p>
     <p>La API esta formada por recursos; cada recurso es accesible a traves de la url http://proyectocolibri.es/api/v1/ seguido del nombre del recurso. Por ejemplo: http://proyectocolibri.es/api/v1/group/ , esto nos devolvera un JSON con todos los grupos parlamentarios y su informacion.</p>
     <p>En los distintos recursos se han habilitado diferentes campos por los que poder filtrar. Para ello se le pasa como argumento el campo por el que se quiere filtrar y el valor que se desea. Por ejemplo, en el recurso de los Grupos parlamentarios podemos filtrar por el nombre de la siguiente manera:<br /><br />
-  <a href="http://proyectocolibri.es/api/v1/group/?name=G.P. LA IZQUIERDA PLURAL" target="_blank">http://proyectocolibri.es/api/v1/group/?name=G.P. LA IZQUIERDA PLURAL</a></p>
+  <a href="http://proyectocolibri.es/api/v1/group/?id=1" target="_blank">http://proyectocolibri.es/api/v1/group/?id=1</a></p>
 <br />
 <br />
 
@@ -21,14 +21,21 @@
       </thead>
       <tbody>
         <tr>
-          <td>http://proyectocolibri.es/api/v1/group/</td>
-          <td>Campos para filtrar: id, name</td>
+          <td><a href="http://proyectocolibri.es/api/v1/group/" target=_blank>http://proyectocolibri.es/api/v1/group/</a></td>
+          <td>Campos para filtrar: 
+            <a href="http://proyectocolibri.es/api/v1/group/?id=1" target=_blank>id</a>, 
+            <a href="http://proyectocolibri.es/api/v1/group/?name=G.P. Popular" target=_blank>name</a>
+          </td>
         </tr>
       </tbody>
     </table>
+    <a href="http://proyectocolibri.es/api/v1/group/schema/">
+        Detalle del recurso.
+    </a>
+
 
     <h3>Listado de Partidos</h3>
-    <p>Con este recurso obtenemos un listado de los distintos partidos politicos del Congreso. En este recurso tambien obtenemos una relacion de los miembros que pertenecen a dicho partido.</p>
+    <p>Con este recurso obtenemos un listado de los distintos partidos politicos del Congreso.</p>
     <table>
       <thead>
         <tr>
@@ -38,11 +45,17 @@
       </thead>
       <tbody>
         <tr>
-          <td>http://proyectocolibri.es/api/v1/party/</td>
-          <td>Campos para filtrar: id, name</td>
+          <td><a href="http://proyectocolibri.es/api/v1/party/" target=_blank>http://proyectocolibri.es/api/v1/party/</a></td>
+          <td>Campos para filtrar: 
+            <a href="http://proyectocolibri.es/api/v1/party/?id=1" target=_blank>id</a>, 
+            <a href="http://proyectocolibri.es/api/v1/party/?name=AMAIUR" target=_blank>name</a>
+          </td>
         </tr>
       </tbody>
     </table>
+    <a href="http://proyectocolibri.es/api/v1/party/schema/">
+        Detalle del recurso.
+    </a>
 
     <h3>Listado de Miembros</h3>
     <p>Con este recurso obtenemos todos los miembros del Congreso de los distintos grupos parlamentarios.</p>
@@ -55,11 +68,37 @@
       </thead>
       <tbody>
         <tr>
-          <td>http://proyectocolibri.es/api/v1/member/</td>
-          <td>Campos para filtrar: id, name, second_name</td>
+          <td><a href="http://proyectocolibri.es/api/v1/member/" target=_blank>http://proyectocolibri.es/api/v1/member/</a></td>
+          <td>Campos para filtrar: 
+            <a href="http://proyectocolibri.es/api/v1/member/?id=1" target=_blank>id</a>, 
+            <a href="http://proyectocolibri.es/api/v1/member/?name=Alberto" target=_blank>name</a>, 
+            <a href="http://proyectocolibri.es/api/v1/member/?second_name=Alonso Ruiz" target=_blank>second_name</a>
+          </td>
         </tr>
       </tbody>
     </table>
+    <a href="http://proyectocolibri.es/api/v1/member/schema/">
+        Detalle del recurso.
+    </a>
+
+    <h3>Listado de Miembros/partido</h3>
+    <p>Con este recurso obtenemos todos los miembros del Congreso de los distintos grupos parlamentarios y el partido al que pertenecen.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Url</th>
+          <th>Parametros</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="http://proyectocolibri.es/api/v1/groupmember/" target=_blank>http://proyectocolibri.es/api/v1/groupmember/</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <a href="http://proyectocolibri.es/api/v1/groupmember/schema/">
+        Detalle del recurso.
+    </a>
 
     <h3>Listado de Sesiones</h3>
     <p>Recurso para obtener las sesiones parlamentarias.</p>
@@ -72,13 +111,24 @@
       </thead>
       <tbody>
         <tr>
-          <td>http://proyectocolibri.es/api/v1/session/</td>
-          <td>Campos para filtrar: session, date</td>
+          <td><a href="http://proyectocolibri.es/api/v1/session/" target=_blank>http://proyectocolibri.es/api/v1/session/</a></td>
+          <td>
+            <p>Campos para filtrar: 
+                <a href="http://proyectocolibri.es/api/v1/session/?session=78" target=_blank>session</a>, 
+                <a href="http://proyectocolibri.es/api/v1/session/?date=2012-06-19" target=_blank>date</a>
+            </p>
+            <p>Campos para ordenar: 
+                <a href="http://proyectocolibri.es/api/v1/session/?order_by=-date" target=_blank>date</a>
+            </p>
+          </td>
         </tr>
       </tbody>
     </table>
+    <a href="http://proyectocolibri.es/api/v1/session/schema/">
+        Detalle del recurso.
+    </a>
 
-    <h3>Listado de Votaciones</h3>
+    <h3>Listado de Votoss</h3>
     <p>Recurso para obtener los votos de una determinada votacion en una sesion.</p>
     <table>
       <thead>
@@ -89,11 +139,75 @@
       </thead>
       <tbody>
         <tr>
-          <td>http://proyectocolibri.es/api/v1/voting_full/</td>
-          <td>Campos para filtrar (obligatorios): session</td>
+          <td>http://proyectocolibri.es/api/v1/vote/</td>
+          <td>Campos para filtrar: 
+            <a href="http://proyectocolibri.es/api/v1/vote/?session_number=78&member=80&number=1" target=_blank>session_number, number, member</a>
+          </td>
         </tr>
       </tbody>
     </table>
+    <a href="http://proyectocolibri.es/api/v1/vote/schema/">
+        Detalle del recurso.
+    </a>
+
+    <h3>Listado de Votos</h3>
+    <p>Recurso para obtener todos los votos de todas las votaciones en todas las sesiones.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Url</th>
+          <th>Parametros</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="http://proyectocolibri.es/api/v1/vote_full/" target=_blank>http://proyectocolibri.es/api/v1/vote_full/</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <a href="http://proyectocolibri.es/api/v1/vote_full/schema/">
+        Detalle del recurso.
+    </a>
+
+    <h3>Listado de Votaciones</h3>
+    <p>Recurso para obtener las votaciones de las sesiones.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Url</th>
+          <th>Parametros</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="http://proyectocolibri.es/api/v1/voting/" target=_blank>http://proyectocolibri.es/api/v1/voting/</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <a href="http://proyectocolibri.es/api/v1/voting/schema/">
+        Detalle del recurso.
+    </a>
+
+
+    <h3>Listado de Votaciones</h3>
+    <p>Recurso para obtener las votaciones de las sesiones con los votos embebidos.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Url</th>
+          <th>Parametros</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="http://proyectocolibri.es/api/v1/voting_full/" target=_blank>http://proyectocolibri.es/api/v1/voting_full/</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <a href="http://proyectocolibri.es/api/v1/voting_full/schema/">
+        Detalle del recurso.
+    </a>
+
     </div>
   </div>
 {% endblock %}

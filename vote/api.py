@@ -56,7 +56,9 @@ class VotingManagerResource(ModelResource):
         allowed_methods = ['get']
 
 
-class VotingResource(VotingManagerResource):
+class VotingResource(ModelResource):
+    session = fields.ToOneField('vote.api.SessionResource', 'session')
+
     class Meta(VotingManagerResource.Meta):
         queryset = Voting.objects.all().select_related('session')
         filtering = {
@@ -66,7 +68,7 @@ class VotingResource(VotingManagerResource):
 
 
 class VotingFullResource(VotingManagerResource):
-    votes = fields.ToManyField('vote.api.VoteFullResource', 'vote_set', full=True)
+    votes = fields.ToManyField('vote.api.VoteResource', 'vote')
 
     class Meta(VotingManagerResource.Meta):
         filtering = {
@@ -87,6 +89,6 @@ class SessionManagerResource(ModelResource):
 
 
 class SessionResource(SessionManagerResource):
-    votings = fields.ToManyField('vote.api.VotingFullResource', 'voting_set')
+    votings = fields.ToManyField('vote.api.VoteResource', 'voting', null= True)
     class Meta(SessionManagerResource.Meta):
         resource_name = 'session'
