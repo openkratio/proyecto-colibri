@@ -1,4 +1,4 @@
-=== INSTALLING REQUIREMENTSREQUIREMENTS  ===
+=== INSTALLING REQUIREMENTS  ===
 
 These instructions have been tested with Ubuntu 12.04.
 
