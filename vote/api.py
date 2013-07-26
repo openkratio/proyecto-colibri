@@ -56,19 +56,23 @@ class VotingManagerResource(ModelResource):
         allowed_methods = ['get']
 
 class VotingResource(VotingManagerResource):
+    session = fields.ForeignKey('vote.api.SessionResource', 'session')
 
     class Meta(VotingManagerResource.Meta):
-        queryset = Voting.objects.all().select_related('session')
+        exclude = ['session']
         filtering = {
             "session": ALL_WITH_RELATIONS,
         }
+        queryset = Voting.objects.all().select_related('session')
         resource_name = 'voting'
 
 
 class VotingFullResource(VotingManagerResource):
     votes = fields.ToManyField('vote.api.VoteFullResource', 'vote_set', full=True)
+    session = fields.ForeignKey('vote.api.SessionResource', 'session')
 
     class Meta(VotingManagerResource.Meta):
+        exclude = ['session']
         filtering = {
             "session": ALL_WITH_RELATIONS,
         }

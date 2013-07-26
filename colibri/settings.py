@@ -155,6 +155,7 @@ INSTALLED_APPS = (
     'term',
     'main',
     'django_extensions',
+    'tastypie_swagger',
 )
 
 # Only serve JSON format
@@ -169,6 +170,8 @@ GROUPS_URL = "http://www.congreso.es/portal/page/portal/Congreso/Congreso/GruPar
 ACTUAL_TERM = 10
 
 AUTH_PROFILE_MODULE = 'django_blog.Author'
+
+TASTYPIE_SWAGGER_API_MODULE = 'colibri.urls.v1_api'
 
 
 # A sample logging configuration. The only tangible logging
