@@ -1,10 +1,9 @@
 # coding=utf-8
-from tastypie.resources import ModelResource
-
+from main.api import ColibriResource
 from member.models import Member
 
 
-class MemberResource(ModelResource):
+class MemberResource(ColibriResource):
     class Meta:
         queryset = Member.objects.all()
         allowed_methods = ['get']

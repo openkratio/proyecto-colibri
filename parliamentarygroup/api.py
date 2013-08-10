@@ -1,13 +1,12 @@
 # coding=utf-8
-
-from tastypie.resources import ModelResource
 from tastypie import fields
-from main.fields import OptimizedToOneField
 
+from main.api import ColibriResource
+from main.fields import OptimizedToOneField
 from parliamentarygroup.models import Group, GroupMember, Party
 
 
-class GroupManagerResource(ModelResource):
+class GroupManagerResource(ColibriResource):
     class Meta:
         queryset = Group.objects.all()
         allowed_methods = ['get']
@@ -29,7 +28,7 @@ class GroupResource(GroupManagerResource):
         resource_name = "group"
 
 
-class GroupMemberResource(ModelResource):
+class GroupMemberResource(ColibriResource):
     member = fields.ToOneField(
         'member.api.MemberResource', 'member', full=True)
     party = OptimizedToOneField(
@@ -43,7 +42,7 @@ class GroupMemberResource(ModelResource):
         include_resource_uri = False
 
 
-class PartyResource(ModelResource):
+class PartyResource(ColibriResource):
     class Meta:
         queryset = Party.objects.all()
         allowed_methods = ['get']
