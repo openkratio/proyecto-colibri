@@ -5,6 +5,7 @@ These instructions have been tested with Ubuntu 12.04.
 Install required packages, including pip for managing dependencies:
 $apt-get install python-dev python-setuptools python-pip
 $apt-get install libgraphviz-dev
+$apt-get install libxml2-dev libxslt-dev
 
 Install the listed requirements with:
 $pip install -r requirements.txt
