@@ -1,6 +1,6 @@
-django==1.5.1
+django==1.5.2
 south==0.8.1
-django-tastypie==0.9.15
+django-tastypie==0.10.0
 django-admin-tools==0.5.1
 feedparser
 PIL
@@ -8,5 +8,6 @@ requests
 django-extensions
 pygraphviz
 scrapy==0.16.4
-psycopg2==2.5
+psycopg2==2.5.1
 pytz
+python-memcached==1.53

@@ -1,12 +1,13 @@
 # coding=utf-8
 from tastypie import fields
 from tastypie.exceptions import InvalidFilterError
-from tastypie.resources import ModelResource, ALL_WITH_RELATIONS, ALL
+from tastypie.resources import ALL_WITH_RELATIONS, ALL
 
+from main.api import ColibriResource
 from vote.models import Voting, Vote, Session
 
 
-class VoteManagerResource(ModelResource):
+class VoteManagerResource(ColibriResource):
     class Meta:
         queryset = Vote.objects.all().select_related(
             'voting__session', 'member')
@@ -50,7 +51,7 @@ class VoteFullResource(VoteManagerResource):
         resource_name = 'vote_full'
 
 
-class VotingManagerResource(ModelResource):
+class VotingManagerResource(ColibriResource):
     class Meta:
         queryset = Voting.objects.all()
         allowed_methods = ['get']
@@ -79,7 +80,7 @@ class VotingFullResource(VotingManagerResource):
         resource_name = 'voting_full'
 
 
-class SessionManagerResource(ModelResource):
+class SessionManagerResource(ColibriResource):
     class Meta:
         queryset = Session.objects.all()
         allowed_methods = ['get', ]
