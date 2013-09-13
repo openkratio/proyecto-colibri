@@ -158,6 +158,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'tastypie_swagger',
     'stats',
+    'initiatives',
 )
 
 # Only serve JSON format
