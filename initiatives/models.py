@@ -13,7 +13,7 @@ class Initiative(models.Model):
     register_date = models.DateField(verbose_name=_("Presentation date"), null=True)
     calification_date = models.DateField(verbose_name=_("Calification date"), null=True)
     author = models.ManyToManyField(Member)
-    title = models.CharField(max_length=255, verbose_name=_("Title"), null=True)
+    title = models.TextField(verbose_name=_("Title"), null=True)
 
     class Meta:
         verbose_name = _("Initiative")
