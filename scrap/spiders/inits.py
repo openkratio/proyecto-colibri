@@ -21,7 +21,7 @@ class InitiativeSpider(CrawlSpider):
         Rule(SgmlLinkExtractor(
             allow=['/portal/page/portal/Congreso/Congreso/Iniciativas/Indice%20de%20Iniciativas\?_piref73_1335503_73_1335500_1335500\.next_page=/wc/servidorCGI&CMD=VERLST&BASE=IW10&PIECE=\w+&FMT=INITXD1S\.fmt&FORM1=INITXLUS\.fmt&DOCS=\d+-\d+&QUERY=%28I%29\.ACIN1\.\+%26\+%28\d{3}%29\.SINI\.']), 'parse_initiative'),
         Rule(SgmlLinkExtractor(
-            allow=['/portal/page/portal/Congreso/Congreso/Iniciativas/Indice%20de%20Iniciativas\?_piref73_1335503_73_1335500_1335500\.next_page=/wc/servidorCGI&CMD=VERLST&BASE=IW10&FMT=INITXLUS\.fmt&DOCS=1-25&DOCORDER=FIFO&OPDEF=Y&QUERY=%28I%29\.ACIN1\.\+%26\+%28181%29\.SINI\.']), follow=True),]
+            allow=['/portal/page/portal/Congreso/Congreso/Iniciativas/Indice%20de%20Iniciativas\?_piref73_1335503_73_1335500_1335500\.next_page=/wc/servidorCGI&CMD=VERLST&BASE=IW10&FMT=INITXLUS\.fmt&DOCS=\d+-\d+&DOCORDER=FIFO&OPDEF=Y&QUERY=%28I%29\.ACIN1\.\+%26\+%28\d{3}%29\.SINI\.']), follow=True),]
 
     def parse_initiative(self, response):
         x = HtmlXPathSelector(response)
@@ -52,10 +52,10 @@ class InitiativeSpider(CrawlSpider):
             item['calification_date'] = calification_date
             item['initiative_type'] = initiative_type
             initiative = item.save()
-
-            member = Member.objects.get(congress_id__exact=author_dip_id)
-            member.initiative_set.add(initiative)
-            member.save()
+            if author_dip_id:
+                member = Member.objects.get(congress_id__exact=author_dip_id)
+                member.initiative_set.add(initiative)
+                member.save()
 
             print "="*30
             print item.__dict__
