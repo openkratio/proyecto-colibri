@@ -1,6 +1,6 @@
 #coding=utf-8
 from django.contrib import admin
 
-from initiatives.models import InitiativeType
+from initiatives.models import Initiative
 
-admin.site.register(InitiativeType)
+admin.site.register(Initiative)
