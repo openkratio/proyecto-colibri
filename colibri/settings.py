@@ -115,7 +115,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'main.middleware.crossdomain_middleware.XsSharing'
+    'main.middleware.crossdomain_middleware.XsSharing',
+    'stats.middleware.RequestMiddleware',
 )
 
 ROOT_URLCONF = 'colibri.urls'
@@ -156,6 +157,8 @@ INSTALLED_APPS = (
     'main',
     'django_extensions',
     'tastypie_swagger',
+    'stats',
+    'initiatives',
 )
 
 # Only serve JSON format

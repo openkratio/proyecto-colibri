@@ -3,6 +3,7 @@ from django.contrib import admin
 
 from tastypie.api import Api
 
+from initiatives.api import InitiativeResource
 from member.api import MemberResource
 from parliamentarygroup.api import GroupResource,\
                                    GroupMemberResource,\
@@ -15,6 +16,7 @@ admin.autodiscover()
 v1_api = Api(api_name='v1')
 v1_api.register(GroupMemberResource())
 v1_api.register(GroupResource())
+v1_api.register(InitiativeResource())
 v1_api.register(MemberResource())
 v1_api.register(PartyResource())
 v1_api.register(SessionResource())

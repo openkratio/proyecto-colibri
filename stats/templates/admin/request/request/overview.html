@@ -1,0 +1,59 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% load request_admin %}
+
+{% block extrahead %}
+{{ block.super }}
+<!--[if IE]><script language="javascript" type="text/javascript" src="{{ STATIC_URL }}request/js/excanvas.min.js"></script><![endif]-->
+<script type="text/javascript" src="{{ STATIC_URL }}request/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}request/js/jquery.flot.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}request/js/jquery.relatize_date.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}request/js/request.js"></script>
+
+<script type="text/javascript">
+function loadTrafficGraph(days) {
+    if (days == undefined) {
+        path = "traffic.json";
+    } else {
+        path = "traffic.json?days=" + days;
+    }
+    
+    $.getJSON(path, function(data) {
+        trafficGraph($("#trafficgraph"), data);
+    });
+}
+
+$(document).ready(function(){
+    loadTrafficGraph();
+});
+</script>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="../../../">{% trans "Home" %}</a> &rsaquo;
+        <a href="../../">{% trans "Request" %}</a> &rsaquo;
+        <a href="../">{% trans "Request" %}</a> &rsaquo;
+        {% trans "Overview" %}
+    </div>
+{% endblock %}
+
+{% block content %}
+<div style="width:920px;">
+    <div class="module" style="clear: both;">
+        <table style="width: 100%;">
+            <caption>{% trans "Traffic graph" %} ( <a href="javascript:loadTrafficGraph(7);">{% trans "Week" %}</a> | <a href="javascript:loadTrafficGraph(30);">{% trans "Month" %}</a> | <a href="javascript:loadTrafficGraph(365);">{% trans "Year" %}</a> )</caption>
+        </table>
+        
+        <div style="padding: 15px;">
+            <div id="trafficgraph" style="width: 900px; height: 250px;"></div>
+        </div>
+    </div>
+    
+    {% for plugin in plugins %}
+      <div class="module" style="float: left; width: 450px; {% cycle 'clear: both;' 'margin-left: 16px;' %}">
+         {{ plugin.render }}
+      </div>
+    {% endfor %}
+</div>
+{% endblock %}
