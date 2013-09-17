@@ -71,6 +71,7 @@ class MemberSpider(CrawlSpider):
                         group_instance.acronym = group_term
 
                         group_instance.term = actual_term
+                        group_instance.congress_id = urlparse.parse_qs(group_url)['idGrupo'].pop()
                         group_instance.save()
 
                     # TODO store party

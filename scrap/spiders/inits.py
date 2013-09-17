@@ -7,6 +7,7 @@ from dateutil import parser as dparser
 import re
 
 from member.models import Member
+from parliamentarygroup.models import Group
 import scrap.items as items
 from term.models import Term
 
@@ -43,8 +44,6 @@ class InitiativeSpider(CrawlSpider):
             calification_date_re = dates.re('calificado el \d{2}/\d{2}/\{4}')
             calification_date = dparser.parse(calification_date_re.pop(), fuzzy=True).date() if register_date_re else None
 
-            author_dip_re = x.select('//div[@id="RESULTADOS_BUSQUEDA"]/div[@class="resultados"]/div[@class="ficha_iniciativa"]/p[@class="texto"]/a').re('idDiputado=\d+')
-            author_dip_id = re.sub('idDiputado=', '', author_dip_re.pop()) if author_dip_re else None
 
             item['title'] = title
             item['term'] = ACTUAL_TERM
@@ -52,10 +51,20 @@ class InitiativeSpider(CrawlSpider):
             item['calification_date'] = calification_date
             item['initiative_type'] = initiative_type
             initiative = item.save()
-            if author_dip_id:
+
+            author_dip_re = x.select('//div[@id="RESULTADOS_BUSQUEDA"]/div[@class="resultados"]/div[@class="ficha_iniciativa"]/p[@class="texto"]/a').re('idDiputado=\d+')
+            for author_dip in author_dip_re:
+                author_dip_id = re.sub('idDiputado=', '', author_dip)
                 member = Member.objects.get(congress_id__exact=author_dip_id)
                 member.initiative_set.add(initiative)
                 member.save()
+
+            author_group_re = x.select('//div[@id="RESULTADOS_BUSQUEDA"]/div[@class="resultados"]/div[@class="ficha_iniciativa"]/p[@class="texto"]/a').re('idGrupo=\d+')
+            for author_group in author_group_re:
+                author_group_id = re.sub('idGrupo=', '', author_group)
+                group = Group.objects.get(congress_id__exact=author_group_id)
+                group.initiative_set.add(initiative)
+                group.save()
 
             print "="*30
             print item.__dict__

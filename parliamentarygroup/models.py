@@ -31,6 +31,9 @@ class Group(models.Model):
     congress_url = models.URLField(verbose_name=_("Congress url"), null=True)
     validate = models.BooleanField(default=True, verbose_name=_("Validate"))
     members = models.ManyToManyField(Member, through='GroupMember')
+    congress_id = models.CharField(max_length=32,
+                                   verbose_name="Group ID in congress web",
+                                   default=0)
 
     class Meta:
         verbose_name = _("Parlamentary Group")

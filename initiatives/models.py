@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from member.models import Member
+from parliamentarygroup.models import Group
 from term.models import Term
 
 
@@ -13,6 +14,7 @@ class Initiative(models.Model):
     register_date = models.DateField(verbose_name=_("Presentation date"), null=True)
     calification_date = models.DateField(verbose_name=_("Calification date"), null=True)
     author = models.ManyToManyField(Member)
+    author_group = models.ManyToManyField(Group)
     title = models.TextField(verbose_name=_("Title"), null=True)
 
     class Meta:

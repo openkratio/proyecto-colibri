@@ -16,7 +16,7 @@ class Member(models.Model):
     division = models.CharField(max_length="50", verbose_name=_("Division"))
     validate = models.BooleanField(default=True, verbose_name=_("Validate"))
     congress_id = models.CharField(max_length=32,
-                                   verbose_name='Member ID in congress\' web',
+                                   verbose_name='Member ID in congress web',
                                    default=0)
 
     class Meta:
