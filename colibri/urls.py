@@ -7,6 +7,7 @@ from commission.api import CommissionManagerResource
 from initiatives.api import InitiativeResource
 from member.api import MemberResource
 from parliamentarygroup.api import GroupResource,\
+                                   GroupManagerResource,\
                                    GroupMemberResource,\
                                    PartyResource
 from vote.api import VotingResource, VoteResource, SessionResource,\
@@ -16,6 +17,7 @@ admin.autodiscover()
 
 v1_api = Api(api_name='v1')
 v1_api.register(CommissionManagerResource())
+v1_api.register(GroupManagerResource())
 v1_api.register(GroupMemberResource())
 v1_api.register(GroupResource())
 v1_api.register(InitiativeResource())

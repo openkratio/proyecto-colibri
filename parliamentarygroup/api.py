@@ -10,6 +10,11 @@ class GroupManagerResource(ColibriResource):
     class Meta:
         queryset = Group.objects.all()
         allowed_methods = ['get']
+        filtering = {
+            "name": ('exact', 'startswith', 'iexact', 'istartswith',),
+            "id": ('exact',),
+        }
+        resource_name = "simple_group"
 
 
 class GroupResource(GroupManagerResource):

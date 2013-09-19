@@ -8,7 +8,7 @@ from main.api import ColibriResource
 
 class InitiativeResource(ColibriResource):
     authors = fields.ToManyField('member.api.MemberResource', 'author', full=True)
-    authors_group = fields.ToManyField('parliamentarygroup.api.GroupResource', 'author_group', full=True)
+    authors_group = fields.ToManyField('parliamentarygroup.api.GroupManagerResource', 'author_group', full=True)
     commissions = fields.ToManyField('commission.api.CommissionManagerResource', 'author_group', full=True)
 
     class Meta:
