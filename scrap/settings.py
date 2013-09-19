@@ -19,7 +19,7 @@ DOWNLOADER_MIDDLEWARES = {
     'scrapy.contrib_exp.downloadermiddleware.decompression.DecompressionMiddleware': None
 }
 
-DOWNLOAD_DELAY = 0.9
+DOWNLOAD_DELAY = 0.5
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'scrap (+http://www.yourdomain.com)'
