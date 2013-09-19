@@ -159,6 +159,7 @@ INSTALLED_APPS = (
     'tastypie_swagger',
     'stats',
     'initiatives',
+    'commission',
 )
 
 # Only serve JSON format

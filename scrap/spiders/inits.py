@@ -3,9 +3,12 @@ from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
 
+from bs4 import BeautifulSoup
 from dateutil import parser as dparser
 import re
+import urlparse
 
+from commission.models import Commission
 from member.models import Member
 from parliamentarygroup.models import Group
 import scrap.items as items
@@ -31,9 +34,7 @@ class InitiativeSpider(CrawlSpider):
 
         if title_xpath:
             record = title_xpath.re('(\d+/\d+)').pop()
-
             item['record'] = record
-
             title = title_xpath.pop().extract()
 
             initiative_type = x.select('//p[@class="subtitulo_competencias"]/text()').pop().extract()
@@ -66,7 +67,17 @@ class InitiativeSpider(CrawlSpider):
                 group.initiative_set.add(initiative)
                 group.save()
 
-            print "="*30
-            print item.__dict__
+            html = BeautifulSoup(response.body)
+
+            commissions_html = html.findAll(lambda tag: tag.name == 'a' and tag.findParent('div', attrs={'class': 'ficha_iniciativa'}) and tag.findChildren('b', text=re.compile("Comisi")))
+            for commission_html in commissions_html:
+                commission_url = commission_html.attrs['href']
+                query = urlparse.parse_qs(urlparse.urlparse(commission_url).query)
+                commission_id = query['idOrgano'][0]
+                commission, created = Commission.objects.get_or_create(congress_id__exact=commission_id, term=ACTUAL_TERM)
+                commission.initiative_set.add(initiative)
+                commission.congress_url = commission_url
+                commission.name = commission_html.text
+                commission.save()
 
         return item

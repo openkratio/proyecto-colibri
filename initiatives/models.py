@@ -2,6 +2,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from commission.models import Commission
 from member.models import Member
 from parliamentarygroup.models import Group
 from term.models import Term
@@ -15,6 +16,7 @@ class Initiative(models.Model):
     calification_date = models.DateField(verbose_name=_("Calification date"), null=True)
     author = models.ManyToManyField(Member)
     author_group = models.ManyToManyField(Group)
+    comissions = models.ManyToManyField(Commission)
     title = models.TextField(verbose_name=_("Title"), null=True)
 
     class Meta:
