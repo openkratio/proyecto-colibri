@@ -23,9 +23,9 @@ class InitiativeSpider(CrawlSpider):
     start_urls = ['http://www.congreso.es/portal/page/portal/Congreso/Congreso/Iniciativas/Indice de Iniciativas', ]
     rules = [
         Rule(SgmlLinkExtractor(
-            allow=['/portal/page/portal/Congreso/Congreso/Iniciativas/Indice%20de%20Iniciativas\?_piref73_1335503_73_1335500_1335500\.next_page=/wc/servidorCGI&CMD=VERLST&BASE=IW10&PIECE=\w+&FMT=INITXD1S\.fmt&FORM1=INITXLUS\.fmt&DOCS=\d+-\d+&QUERY=%28I%29\.ACIN1\.\+%26\+%28\d{3}%29\.SINI\.']), 'parse_initiative'),
+            allow=['/portal/page/portal/Congreso/Congreso/Iniciativas/Indice%20de%20Iniciativas\?_piref73_1335503_73_1335500_1335500\.next_page=/wc/servidorCGI&CMD=VERLST&BASE=IW10&PIECE=\w+&FMT=INITXD1S\.fmt&FORM1=INITXLUS\.fmt&DOCS=\d+-\d+&QUERY=%28I%29\.ACIN1\.\+%26\+%28\d{3}%29\.SINI\.'], unique=True), 'parse_initiative'),
         Rule(SgmlLinkExtractor(
-            allow=['/portal/page/portal/Congreso/Congreso/Iniciativas/Indice%20de%20Iniciativas\?_piref73_1335503_73_1335500_1335500\.next_page=/wc/servidorCGI&CMD=VERLST&BASE=IW10&FMT=INITXLUS\.fmt&DOCS=\d+-\d+&DOCORDER=FIFO&OPDEF=Y&QUERY=%28I%29\.ACIN1\.\+%26\+%28\d{3}%29\.SINI\.']), follow=True),]
+            allow=['/portal/page/portal/Congreso/Congreso/Iniciativas/Indice%20de%20Iniciativas\?_piref73_1335503_73_1335500_1335500\.next_page=/wc/servidorCGI&CMD=VERLST&BASE=IW10&FMT=INITXLUS\.fmt&DOCS=\d+-\d+&DOCORDER=FIFO&OPDEF=Y&QUERY=%28I%29\.ACIN1\.\+%26\+%28\d{3}%29\.SINI\.'], unique=True), follow=True),]
 
     def parse_initiative(self, response):
         x = HtmlXPathSelector(response)
