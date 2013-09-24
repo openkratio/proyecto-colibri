@@ -18,9 +18,9 @@ class MemberSpider(CrawlSpider):
         'http://www.congreso.es/portal/page/portal/Congreso/Congreso/Diputados/DiputadosLegFechas', ]
     rules = [
         Rule(SgmlLinkExtractor(
-            allow=['/wc/fichaDiputado&idDiputado=\d+']), 'parse_member'),
+            allow=['/wc/fichaDiputado&idDiputado=\d+'], unique=True), 'parse_member'),
         Rule(SgmlLinkExtractor(
-            allow=['/wc/diputadosLegsFechas&paginaActual=\d+']), follow=True)]
+            allow=['/wc/diputadosLegsFechas&paginaActual=\d+'], unique=True), follow=True)]
 
     def parse_member(self, response):
         x = HtmlXPathSelector(response)

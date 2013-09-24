@@ -5,9 +5,10 @@ from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector, XmlXPathSelector
 from scrapy import log
+from scrapy.http import Request
 
-from vote.models import Session, Voting, Vote
 from member.models import Member
+from vote.models import Session, Voting, Vote
 
 
 class VotesSpider(CrawlSpider):
@@ -17,10 +18,6 @@ class VotesSpider(CrawlSpider):
 
     def __init__(self, *args, **kwargs):
         self.rules = [
-            Rule(
-                SgmlLinkExtractor(
-                    allow=['/votaciones/OpenData'], unique=True),
-                callback='parse_vote')
         ]
 
         date_session = kwargs.get('date')
@@ -34,6 +31,7 @@ class VotesSpider(CrawlSpider):
                             '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/iz',
                             '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/de',],
                         allow=['/wc/accesoHistoricoVotaciones&fechaSeleccionada=' + date_session],
+                        callback='parse_voting'
                     )
                 )
             )
@@ -46,16 +44,30 @@ class VotesSpider(CrawlSpider):
                 Rule(
                 SgmlLinkExtractor(
                     allow=[
-                        '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/iz',
-                        '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/de',
-                        '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/\d+'],
+                        '/wc/accesoHistoricoVotaciones&fechaSeleccionada=20[01]\d/\d+/iz',
+                        '/wc/accesoHistoricoVotaciones&fechaSeleccionada=20[01]\d/\d+/de',
+                        '/wc/accesoHistoricoVotaciones&fechaSeleccionada=20[01]\d/\d+/\d+'],
                     unique=True),
-                follow=True)
+                follow=True, callback='parse_voting')
             )
 
         super(VotesSpider, self).__init__(*args, **kwargs)
 
+    def parse_voting(self, response):
+        x = HtmlXPathSelector(response)
+        votings = x.select('//div[@class="votacionesObjeto"]')
+        host = "http://www." + self.allowed_domains[0]
+        for voting in votings:
+            params_re = voting.select(".//@onclick").re('\d+,\d+,\d+,\d+')
+            params = params_re[0].split(',') if params_re else None
+            if params:
+                href="{0}/votaciones/OpenData?sesion={1}&votacion={2}&legislatura={3}"\
+                     .format(host, params[0], params[1], params[2])
+                yield Request(href, callback=self.parse_vote)
+
+
     def parse_vote(self, response):
+        print response.url
         """
             Load the zip file with the XMLs
 
@@ -152,6 +164,8 @@ class VotesSpider(CrawlSpider):
                         voting=voting_instance, member_id=member_pk[0],
                         vote=vote_type))
             Vote.objects.bulk_create(votes_list)
+
+        return voting_instance
 
     def parse_session(self, response):
         """
