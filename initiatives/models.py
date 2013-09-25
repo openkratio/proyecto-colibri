@@ -6,6 +6,7 @@ from commission.models import Commission
 from member.models import Member
 from parliamentarygroup.models import Group
 from term.models import Term
+from vote.models import Voting
 
 
 class Initiative(models.Model):
@@ -17,6 +18,7 @@ class Initiative(models.Model):
     author = models.ManyToManyField(Member)
     author_group = models.ManyToManyField(Group)
     comissions = models.ManyToManyField(Commission)
+    votings = models.ManyToManyField(Voting)
     title = models.TextField(verbose_name=_("Title"), null=True)
 
     class Meta:

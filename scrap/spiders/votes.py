@@ -7,6 +7,11 @@ from scrapy.selector import HtmlXPathSelector, XmlXPathSelector
 from scrapy import log
 from scrapy.http import Request
 
+from bs4 import BeautifulSoup
+import datetime
+import re
+
+from initiatives.models import Initiative
 from member.models import Member
 from vote.models import Session, Voting, Vote
 
@@ -14,6 +19,7 @@ from vote.models import Session, Voting, Vote
 class VotesSpider(CrawlSpider):
     name = 'votes'
     allowed_domains = ['congreso.es']
+    host = "http://www." + allowed_domains[0]
 
 
     def __init__(self, *args, **kwargs):
@@ -30,23 +36,26 @@ class VotesSpider(CrawlSpider):
                         deny=[
                             '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/iz',
                             '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/de',],
-                        allow=['/wc/accesoHistoricoVotaciones&fechaSeleccionada=' + date_session],
-                        callback='parse_voting'
-                    )
-                )
+                        allow=['/wc/accesoHistoricoVotaciones&fechaSeleccionada=' + date_session]),
+                    callback='parse_voting')
             )
         else:
             self.start_urls = [
                 'http://www.congreso.es/portal/page/portal/Congreso/Congreso/Actualidad/Votaciones/',
             ]
 
+            now = datetime.datetime.now()
+            date_session = now.strftime('%Y/%m/')
+
             self.rules.append(
                 Rule(
                 SgmlLinkExtractor(
+                    deny=[
+                        '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/de',
+                        ],
                     allow=[
-                        '/wc/accesoHistoricoVotaciones&fechaSeleccionada=20[01]\d/\d+/iz',
-                        '/wc/accesoHistoricoVotaciones&fechaSeleccionada=20[01]\d/\d+/de',
-                        '/wc/accesoHistoricoVotaciones&fechaSeleccionada=20[01]\d/\d+/\d+'],
+                        '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/iz',
+                        '/wc/accesoHistoricoVotaciones&fechaSeleccionada=\d+/\d+/\d+'],
                     unique=True),
                 follow=True, callback='parse_voting')
             )
@@ -54,27 +63,32 @@ class VotesSpider(CrawlSpider):
         super(VotesSpider, self).__init__(*args, **kwargs)
 
     def parse_voting(self, response):
-        x = HtmlXPathSelector(response)
-        votings = x.select('//div[@class="votacionesObjeto"]')
-        host = "http://www." + self.allowed_domains[0]
-        for voting in votings:
-            params_re = voting.select(".//@onclick").re('\d+,\d+,\d+,\d+')
-            params = params_re[0].split(',') if params_re else None
-            if params:
-                href="{0}/votaciones/OpenData?sesion={1}&votacion={2}&legislatura={3}"\
-                     .format(host, params[0], params[1], params[2])
-                yield Request(href, callback=self.parse_vote)
+        html = BeautifulSoup(response.body)
+        links = html.findAll('a', attrs={"style":"font-weight:bold"})
 
+        for link in links:
+            votings = []
+            if link.parent.attrs.has_key('onclick'):
+                single_voting = re.search('\d+,\d+,\d+,\d+', link.parent.attrs['onclick'], re.M|re.I)
+            else:
+                single_voting = None
+
+            if single_voting:
+                data = single_voting.group(0).split(',')
+                votings = [html.find('a', href=re.compile('/votaciones/OpenData\?sesion={0}&votacion={1}&legislatura={2}'.format(data[0], data[1], data[2])))]
+            else:
+                votings = link.parent.findChildren('a', href=re.compile('/votaciones/OpenData\?sesion=\d+&votacion=\d+&legislatura=\d+'))
+                if not votings:
+                    votings = link.parent.parent.findChildren('a', href=re.compile('/votaciones/OpenData\?sesion=\d+&votacion=\d+&legislatura=\d+'))
+
+            for voting in votings:
+                record = re.sub('\(N\\xfam. expte. ', '', link.text).strip(')')
+                href="{0}{1}".format(self.host, voting.attrs['href'])
+                voting =  Request(href, callback=self.parse_vote)
+                voting.meta['record'] = record
+                yield voting
 
     def parse_vote(self, response):
-        print response.url
-        """
-            Load the zip file with the XMLs
-
-            can't use '/votaciones/OpenData?sesion=\d*&completa=1&legislatura=10'
-            as regex rule
-        """
-
         if not hasattr(response, 'body_as_unicode'):
             self.log(
                 'Cannot parse: {u}'.format(u=response.url), level=log.INFO)
@@ -142,6 +156,12 @@ class VotesSpider(CrawlSpider):
             voting_instance.no_votes = counts_dont
 
         voting_instance.assent = counts_assent
+
+        record = response.meta['record']
+        initiatives = Initiative.objects.filter(record__exact=record)
+        if initiatives:
+            voting_instance.votings.add(initiatives.latest('id'))
+
         voting_instance.save()
 
         if counts_assent is False:
