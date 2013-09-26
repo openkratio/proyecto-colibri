@@ -160,7 +160,7 @@ class VotesSpider(CrawlSpider):
         record = response.meta['record']
         initiatives = Initiative.objects.filter(record__exact=record)
         if initiatives:
-            voting_instance.votings.add(initiatives.latest('id'))
+            voting_instance.initiative_set.add(initiatives.latest('id'))
 
         voting_instance.save()
 
