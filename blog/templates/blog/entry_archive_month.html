@@ -1,6 +1,0 @@
-<section>
-    <h1>Entries Posted in {{ month|date:"F, Y" }}</h1>
-    {% for entry in object_list %}
-        {% include "blog/_entry_list_snippet.html" %}
-    {% endfor %}
-</section>

@@ -1,4 +1,4 @@
-
+{% load staticfiles %}
 <!DOCTYPE html>
 
 <!-- paulirish.com/2008/conditional-{{STATIC_URL}}stylesheets-vs-css-hacks-answer-neither/ -->
@@ -17,20 +17,20 @@
 
 	<!-- Included CSS Files (Uncompressed) -->
 	<!--
-	<link rel="stylesheet" href="{{STATIC_URL}}main/stylesheets/foundation.css">
+  <link rel="stylesheet" href="{% static "main/stylesheets/foundation.css" %}">
 	-->
 	{% block links %}
 	<!-- Included CSS Files (Compressed) -->
-	<link rel="stylesheet" href="{{STATIC_URL}}main/stylesheets/foundation.css">
-	<link rel="stylesheet" href="{{STATIC_URL}}main/stylesheets/app.css">
+	<link rel="stylesheet" href="{% static "main/stylesheets/foundation.css" %}">
+	<link rel="stylesheet" href="{% static "main/stylesheets/app.css" %}">
 	{% endblock %}
 
 	{% block scripts %}
-	<script src="{{STATIC_URL}}main/javascripts/modernizr.foundation.js"></script>
+	<script src="{% static "main/javascripts/modernizr.foundation.js" %}"></script>
 	<!-- Included JS Files (Compressed) -->
-	<script src="{{STATIC_URL}}main/javascripts/jquery.js"></script>
-	<script src="{{STATIC_URL}}main/javascripts/foundation.min.js"></script>
-	<script src="{{STATIC_URL}}main/javascripts/jquery-ui-1.8.20.custom.min.js"></script>
+	<script src="{% static "main/javascripts/jquery.js" %}"></script>
+	<script src="{% static "main/javascripts/foundation.min.js" %}"></script>
+	<script src="{% static "main/javascripts/jquery-ui-1.8.20.custom.min.js" %}"></script>
 	{% endblock %}
 
 </head>
@@ -40,7 +40,7 @@
 
   <div id="header" class="row">
     <div class="three columns">
-      <a href="{% url 'main_index' %}"><img id="logo-colibri" src="{{STATIC_URL}}main/images/colibri_blanco.png"></a>
+      <a href="{% url 'main_index' %}"><img id="logo-colibri" src="{% static "main/images/colibri_blanco.png" %}"></a>
     </div>
     <div class="nine columns">
       <ul class="nav-bar right">
@@ -49,7 +49,6 @@
 		<li><a href="{% url 'tastypie_swagger:documentation' %}">Documentación</a></li>
 		<li><a href="{% url 'main_weare' %}">Somos</a></li>
     <li><a href="{% url 'main_thanks' %}">Gracias</a></li>
-		<li><a href="{% url 'blog_entry_archive' %}">Blog</a></li>
       </ul>
     </div>
   </div>

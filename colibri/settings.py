@@ -149,7 +149,6 @@ INSTALLED_APPS = (
     'south',
     'tastypie',
     #Internal apps
-    'blog',
     'parliamentarygroup',
     'member',
     'vote',

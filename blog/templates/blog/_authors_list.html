@@ -1,7 +1,0 @@
-{% if authors %}
-    <ul>
-        {% for a in authors %}
-            <li><a href="{{ a.get_absolute_url }}" title="Entries written by {% with a.user as user %}{% include "blog/_author_name.html" %}{% endwith %}">{% with a.user as user %}{% include "blog/_author_name.html" %}{% endwith %}</a></li>
-        {% endfor %}
-    </ul>
-{% endif %}
