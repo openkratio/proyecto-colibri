@@ -77,8 +77,8 @@ class InitiativeSpider(CrawlSpider):
             for commission_html in commissions_html:
                 commission_url = commission_html.attrs['href']
                 query = urlparse.parse_qs(urlparse.urlparse(commission_url).query)
-                commission_id = query['idOrgano'][0]
-                commission, created = Commission.objects.get_or_create(commission_id__exact=commission_id, term=ACTUAL_TERM)
+                congress_id = query['idOrgano'][0]
+                commission, created = Commission.objects.get_or_create(congress_id=congress_id, term=ACTUAL_TERM)
                 commission.initiative_set.add(initiative)
                 commission.congress_url = commission_url
                 commission.name = commission_html.text
