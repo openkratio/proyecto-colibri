@@ -50,7 +50,8 @@ class VoteFullResource(VoteManagerResource):
     class Meta(VoteManagerResource.Meta):
         resource_name = 'vote_full'
         filtering = {
-            "member": ('exact', ),
+            "member": ALL_WITH_RELATIONS,
+            "vote": ('exact',),
         }
         
 
