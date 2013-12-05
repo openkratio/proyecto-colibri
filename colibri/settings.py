@@ -176,6 +176,8 @@ AUTH_PROFILE_MODULE = 'django_blog.Author'
 
 TASTYPIE_SWAGGER_API_MODULE = 'colibri.urls.v1_api'
 
+API_LIMIT_PER_PAGE = 0
+
 
 CACHES = {
     'default': {
