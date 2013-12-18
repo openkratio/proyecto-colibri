@@ -15,9 +15,11 @@ class Member(models.Model):
     #TODO add city app
     division = models.CharField(max_length="50", verbose_name=_("Division"))
     validate = models.BooleanField(default=True, verbose_name=_("Validate"))
-    congress_id = models.CharField(max_length=32,
-                                   verbose_name='Member ID in congress web',
-                                   default=0)
+    congress_id = models.CharField(
+        max_length=32, verbose_name='Member ID in congress web',
+        default=0)
+    inscription_date = models.DateField(_(u'Inscription date'), null=True)
+    termination_date = models.DateField(_(u'Termination date'), null=True)
 
     class Meta:
         verbose_name = _("Member")
