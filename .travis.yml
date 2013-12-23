@@ -2,10 +2,12 @@ language: python
 python:
   - "2.7"
 env:
-  - DJANGO_VERSION=1.5.1
+  - DJANGO_VERSION=1.5.2
 before_install:
  - sudo apt-get update -qq
  - sudo apt-get install python-dev python-setuptools python-pip libgraphviz-dev
 install:
- - pip install argparse --use-mirrors
- - pip install -r requirements_test.txt --use-mirrors
+ - pip install -q argparse --use-mirrors
+ - pip install -q -r requirements_test.txt --use-mirrors
+script:
+ - python manage.py test member commission initiatives parliamentarygroup term vote
