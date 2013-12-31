@@ -1,6 +1,8 @@
 django==1.5.2
 south==0.8.1
-django-tastypie==0.10.0
+#restore when this issue will be close https://github.com/rolandgeider/wger/issues/51
+#django-tastypie==0.10.0
+git+https://github.com/ewokcillo/django-tastypie.git
 django-admin-tools==0.5.1
 feedparser
 PIL
