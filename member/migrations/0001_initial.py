@@ -23,16 +23,6 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('member', ['Member'])
 
-        # Adding model 'MemberParty'
-        db.create_table('member_memberparty', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('party', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['parliamentarygroup.Party'])),
-            ('member', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['member.Member'])),
-            ('start_date', self.gf('django.db.models.fields.DateField')()),
-            ('end_date', self.gf('django.db.models.fields.DateField')()),
-            ('substitute', self.gf('django.db.models.fields.related.ForeignKey')(related_name='substitute', to=orm['member.Member'])),
-        ))
-        db.send_create_signal('member', ['MemberParty'])
 
         # Adding model 'Seat'
         db.create_table('member_seat', (
@@ -45,9 +35,6 @@ class Migration(SchemaMigration):
     def backwards(self, orm):
         # Deleting model 'Member'
         db.delete_table('member_member')
-
-        # Deleting model 'MemberParty'
-        db.delete_table('member_memberparty')
 
         # Deleting model 'Seat'
         db.delete_table('member_seat')

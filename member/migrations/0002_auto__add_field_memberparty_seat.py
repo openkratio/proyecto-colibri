@@ -8,6 +8,17 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding model 'MemberParty'
+        db.create_table('member_memberparty', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('party', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['parliamentarygroup.Party'])),
+            ('member', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['member.Member'])),
+            ('start_date', self.gf('django.db.models.fields.DateField')()),
+            ('end_date', self.gf('django.db.models.fields.DateField')()),
+            ('substitute', self.gf('django.db.models.fields.related.ForeignKey')(related_name='substitute', to=orm['member.Member'])),
+        ))
+        db.send_create_signal('member', ['MemberParty'])
+
         # Adding field 'MemberParty.seat'
         db.add_column('member_memberparty', 'seat',
                       self.gf('django.db.models.fields.related.ForeignKey')(to=orm['member.Seat'], null=True),
@@ -17,6 +28,10 @@ class Migration(SchemaMigration):
     def backwards(self, orm):
         # Deleting field 'MemberParty.seat'
         db.delete_column('member_memberparty', 'seat_id')
+
+        # Deleting model 'MemberParty'
+        db.delete_table('member_memberparty')
+
 
 
     models = {

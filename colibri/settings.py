@@ -115,8 +115,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
     'main.middleware.crossdomain_middleware.XsSharing',
-    'stats.middleware.RequestMiddleware',
+    #'stats.middleware.RequestMiddleware',
 )
 
 ROOT_URLCONF = 'colibri.urls'
@@ -156,7 +158,7 @@ INSTALLED_APPS = (
     'main',
     'django_extensions',
     'tastypie_swagger',
-    'stats',
+    #'stats',
     'initiatives',
     'commission',
 )
@@ -172,19 +174,26 @@ GROUPS_URL = "http://www.congreso.es/portal/page/portal/Congreso/Congreso/GruPar
 
 ACTUAL_TERM = 10
 
-AUTH_PROFILE_MODULE = 'django_blog.Author'
-
 TASTYPIE_SWAGGER_API_MODULE = 'colibri.urls.v1_api'
 
 API_LIMIT_PER_PAGE = 0
 
+SOUTH_TESTS_MIGRATE = False
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
+if DEBUG:
+    CACHES = {
+        'default': {
+                'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            }
     }
-}
+    CACHE_MIDDLEWARE_SECONDS = 0
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': '127.0.0.1:11211',
+        }
+    }
 
 
 # A sample logging configuration. The only tangible logging
@@ -202,7 +211,7 @@ LOGGING = {
     },
     'handlers': {
         'mail_admins': {
-            'level': 'ERROR',
+            'level': 'DEBUG',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         }
@@ -210,7 +219,7 @@ LOGGING = {
     'loggers': {
         'django.request': {
             'handlers': ['mail_admins'],
-            'level': 'ERROR',
+            'level': 'DEBUG',
             'propagate': True,
         },
     }

@@ -1,4 +1,6 @@
 # coding=utf-8
+from tastypie.cache import SimpleCache
+
 from main.api import ColibriResource
 from member.models import Member
 
@@ -14,3 +16,4 @@ class MemberResource(ColibriResource):
             "id": ('exact',),
         }
         limit = 0
+        cache = SimpleCache(cache_name='default', timeout=1440)

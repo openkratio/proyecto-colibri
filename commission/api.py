@@ -1,4 +1,5 @@
 # coding=utf-8
+from tastypie.cache import SimpleCache
 from tastypie.resources import ALL
 
 from commission.models import Commission
@@ -16,3 +17,4 @@ class CommissionManagerResource(ColibriResource):
                 "congress_url": ALL,
                 "congress_id": ALL,
         }
+        cache = SimpleCache(cache_name='default', timeout=1440)

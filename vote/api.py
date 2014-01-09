@@ -1,5 +1,6 @@
 # coding=utf-8
 from tastypie import fields
+from tastypie.cache import SimpleCache
 from tastypie.exceptions import InvalidFilterError
 from tastypie.resources import ALL_WITH_RELATIONS, ALL
 
@@ -12,6 +13,7 @@ class VoteManagerResource(ColibriResource):
         queryset = Vote.objects.all().select_related(
             'voting__session', 'member')
         allowed_methods = ['get']
+        cache = SimpleCache(cache_name='default', timeout=1440)
 
 
 class VoteResource(VoteManagerResource):
@@ -53,13 +55,14 @@ class VoteFullResource(VoteManagerResource):
             "member": ALL_WITH_RELATIONS,
             "vote": ('exact',),
         }
-        
+
 
 
 class VotingManagerResource(ColibriResource):
     class Meta:
         queryset = Voting.objects.all()
         allowed_methods = ['get']
+        cache = SimpleCache(cache_name='default', timeout=1440)
 
 class VotingResource(VotingManagerResource):
     session = fields.ForeignKey('vote.api.SessionResource', 'session')
@@ -78,6 +81,7 @@ class VotingFullResource(VotingManagerResource):
     session = fields.ForeignKey('vote.api.SessionResource', 'session')
 
     class Meta(VotingManagerResource.Meta):
+        queryset = Voting.objects.prefetch_related('session', 'vote_set', 'vote_set__member')
         exclude = ['session']
         filtering = {
             "session": ALL_WITH_RELATIONS,
@@ -94,6 +98,7 @@ class SessionManagerResource(ColibriResource):
             "date": ALL,
         }
         ordering = ['date']
+        cache = SimpleCache(cache_name='default', timeout=1440)
 
 
 class SessionResource(SessionManagerResource):
