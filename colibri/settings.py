@@ -118,7 +118,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
     'main.middleware.crossdomain_middleware.XsSharing',
-    #'stats.middleware.RequestMiddleware',
+    'stats.middleware.RequestMiddleware',
 )
 
 ROOT_URLCONF = 'colibri.urls'
@@ -158,7 +158,7 @@ INSTALLED_APPS = (
     'main',
     'django_extensions',
     'tastypie_swagger',
-    #'stats',
+    'stats',
     'initiatives',
     'commission',
 )
