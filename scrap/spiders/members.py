@@ -1,5 +1,7 @@
 # coding=utf-8
+
 import urlparse
+import dateutil
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
@@ -10,6 +12,7 @@ from parliamentarygroup.models import Group, Party, GroupMember
 from term.models import Term
 
 actual_term = Term.objects.latest('id')
+
 
 class MemberSpider(CrawlSpider):
     name = 'members'
@@ -63,7 +66,6 @@ class MemberSpider(CrawlSpider):
                     # (e.g: G.P. Vasco (EAJ-PNV) ( GV (EAJ-PNV) )
                     group_name, group_term = group.re(
                         '(?P<name>G\.P\.[\w\s]* [\(\w\-\)]+)[\s]*\((?P<init>[\w\s\-]*)\)')
-                    # TODO: store group
                     if group_url:
                         group_instance, created_group = Group.objects.get_or_create(congress_url=group_url,
                                                                                     term=actual_term)
@@ -74,7 +76,6 @@ class MemberSpider(CrawlSpider):
                         group_instance.congress_id = urlparse.parse_qs(group_url)['idGrupo'].pop()
                         group_instance.save()
 
-                    # TODO store party
                     party_avatar = x.select(
                         '//div[@id="datos_diputado"]/p[@class="logo_grupo"]/a/img/@src').extract()
                     party_name = x.select(
@@ -87,8 +88,13 @@ class MemberSpider(CrawlSpider):
                         party_instance, created_party = Party.objects.get_or_create(name=party_name)
                         party_instance.logo = party_avatar
                         party_instance.save()
-
-
+                    # add dates of inscription and termination
+                    ins_date = curriculum.re('(?i)(?<=fecha alta:)[\s]*[\d\/]*')
+                    if ins_date:
+                        item['inscription_date'] = dateutil.parser.parse(ins_date[0])
+                    term_date = curriculum.re('(?i)(?<=caus\xf3 baja el)[\s]*[\d\/]*')
+                    if term_date:
+                        item['termination_date'] = dateutil.parser.parse(term_date[0])
 
             if extra_data:
                 web_data = x.select(

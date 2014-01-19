@@ -1,5 +1,6 @@
 # coding=utf-8
 from tastypie import fields
+from tastypie.cache import SimpleCache
 from tastypie.resources import ALL_WITH_RELATIONS, ALL
 
 from initiatives.models import Initiative
@@ -30,3 +31,4 @@ class InitiativeResource(ColibriResource):
                 "title": ALL,
 
         }
+        cache = SimpleCache(cache_name='default', timeout=1440)

@@ -1,5 +1,6 @@
 # coding=utf-8
 from tastypie import fields
+from tastypie.cache import SimpleCache
 
 from main.api import ColibriResource
 from main.fields import OptimizedToOneField
@@ -15,6 +16,7 @@ class GroupManagerResource(ColibriResource):
             "id": ('exact',),
         }
         resource_name = "simple_group"
+        cache = SimpleCache(cache_name='default', timeout=1440)
 
 
 class GroupResource(GroupManagerResource):
@@ -45,6 +47,7 @@ class GroupMemberResource(ColibriResource):
         resource_name = "groupmember"
         exclude = ['id']
         include_resource_uri = False
+        cache = SimpleCache(cache_name='default', timeout=1440)
 
 
 class PartyResource(ColibriResource):
@@ -56,3 +59,4 @@ class PartyResource(ColibriResource):
             "name": ('exact', 'startswith', 'iexact', 'istartswith',),
             "id": ('exact',),
         }
+        cache = SimpleCache(cache_name='default', timeout=1440)

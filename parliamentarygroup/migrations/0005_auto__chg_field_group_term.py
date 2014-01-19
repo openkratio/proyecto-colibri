@@ -6,15 +6,17 @@ from django.db import models
 
 
 class Migration(SchemaMigration):
+    depends_on = (
+        ("term", "0001_initial"),
+    )
 
     def forwards(self, orm):
-
         # Renaming column for 'Group.term' to match new field type.
         db.rename_column('parliamentarygroup_group', 'term', 'term_id')
         # Changing field 'Group.term'
         db.alter_column('parliamentarygroup_group', 'term_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['term.Term']))
         # Adding index on 'Group', fields ['term']
-        #db.create_index('parliamentarygroup_group', ['term_id'])
+        db.create_index('parliamentarygroup_group', ['term_id'])
 
 
     def backwards(self, orm):

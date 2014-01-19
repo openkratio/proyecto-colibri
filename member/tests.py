@@ -49,12 +49,13 @@ class MemberResourceTest(TestCase):
         self.assertEqual(len(response_json['objects']), 1)
         self.assertEqual(response_json['objects'][0]['id'], self.member1.pk)
 
+
         response = self.client.get(
             self.url + '?name__startswith=%s' % self.member1.name, {},
             content_type='application/json')
         self.assertEqual(response.status_code, 200)
         response_json = json.loads(response.content)
-        self.assertEqual(len(response_json['objects']), 2)
+        self.assertEqual(len(response_json['objects']), 1)
 
         response = self.client.get(
             self.url + '?name=%s' % 'uglyface', {},
