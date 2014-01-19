@@ -4,9 +4,7 @@ from stats.models import Request
 from stats.plugins import LatestRequests
 
 
-def stats(request):
+def index(request):
     params = {}
-    lr = LatestRequests()
-
-    return lr.render()
+    return render(request, 'main/index.html', params)
 

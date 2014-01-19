@@ -1,6 +1,5 @@
-from datetime import datetime, timedelta, date
+from datetime import timedelta, date
 
-from django.db.models import Count
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import render_to_response
 from django.utils.functional import update_wrapper
@@ -9,17 +8,17 @@ from django.contrib import admin
 from django.http import HttpResponse
 from django.utils import simplejson
 
-from stats import settings
 from stats.models import Request
 from stats.traffic import modules
-from stats.plugins import *
+from stats.plugins import plugins
 
 
 class RequestAdmin(admin.ModelAdmin):
     list_display = ('time', 'path', 'response', 'method', 'request_from')
     fieldsets = (
         (_('Request'), {
-            'fields': ('method', 'path', 'time', 'is_secure', 'is_ajax')
+            'fields': ('method', 'path', 'time', 'is_secure', 'is_ajax',
+                       'parameters')
         }),
         (_('Response'), {
             'fields': ('response',)
