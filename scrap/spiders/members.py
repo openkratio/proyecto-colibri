@@ -91,10 +91,10 @@ class MemberSpider(CrawlSpider):
                     # add dates of inscription and termination
                     ins_date = curriculum.re('(?i)(?<=fecha alta:)[\s]*[\d\/]*')
                     if ins_date:
-                        item['inscription_date'] = dateutil.parser.parse(ins_date[0])
+                        item['inscription_date'] = dateutil.parser.parse(ins_date[0], dayfirst=True)
                     term_date = curriculum.re('(?i)(?<=caus\xf3 baja el)[\s]*[\d\/]*')
                     if term_date:
-                        item['termination_date'] = dateutil.parser.parse(term_date[0])
+                        item['termination_date'] = dateutil.parser.parse(term_date[0], dayfirst=True)
 
             if extra_data:
                 web_data = x.select(
