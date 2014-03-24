@@ -29,6 +29,11 @@ $> python manage.py syncdb
 Run the migration scripts:
 $> python manage.py migrate
 
+Get the data:
+$> scrapy crawl members
+$> scrapy crawl votes
+$> scrapy crawl initiatives
+
 Run the server:
 $> python manage.py runserver 8080
 
