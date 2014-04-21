@@ -24,9 +24,9 @@ class Party(models.Model):
 
 
 class Group(models.Model):
-    name = models.CharField(max_length=50, verbose_name=_("Name"))
+    name = models.CharField(max_length=100, verbose_name=_("Name"))
     acronym = models.CharField(
-        max_length=10, verbose_name=_("Acronym"), null=True)
+        max_length=500, verbose_name=_("Acronym"), null=True)
     term = models.ForeignKey(Term, verbose_name=_("Term"))
     congress_url = models.URLField(verbose_name=_("Congress url"), null=True)
     validate = models.BooleanField(default=True, verbose_name=_("Validate"))
