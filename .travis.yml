@@ -8,6 +8,6 @@ before_install:
  - sudo apt-get install python-dev python-setuptools python-pip libgraphviz-dev
 install:
  - pip install -q argparse --use-mirrors
- - pip install -q -r requirements_test.txt --use-mirrors
+ - pip install -q -r requirements_test.txt --allow-external
 script:
  - python manage.py test member commission initiatives parliamentarygroup term vote
