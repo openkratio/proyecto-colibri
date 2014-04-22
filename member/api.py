@@ -16,4 +16,4 @@ class MemberResource(ColibriResource):
             "id": ('exact',),
         }
         limit = 0
-        cache = SimpleCache(cache_name='default', timeout=1440)
+        cache = SimpleCache(timeout=1440)

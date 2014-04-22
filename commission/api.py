@@ -1,4 +1,5 @@
 # coding=utf-8
+from tastypie import fields
 from tastypie.cache import SimpleCache
 from tastypie.resources import ALL
 
@@ -7,6 +8,8 @@ from main.api import ColibriResource
 
 
 class CommissionManagerResource(ColibriResource):
+    term = fields.IntegerField(attribute='term__decimal',
+                               readonly=True, null=True)
     class Meta:
         resource_name = "commission"
         queryset = Commission.objects.all()
@@ -16,5 +19,6 @@ class CommissionManagerResource(ColibriResource):
                 "id": ALL,
                 "congress_url": ALL,
                 "congress_id": ALL,
+                "term": ('exact',),
         }
-        cache = SimpleCache(cache_name='default', timeout=1440)
+        cache = SimpleCache(timeout=1440)

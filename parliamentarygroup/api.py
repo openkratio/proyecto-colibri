@@ -8,6 +8,8 @@ from parliamentarygroup.models import Group, GroupMember, Party
 
 
 class GroupManagerResource(ColibriResource):
+    term = fields.IntegerField(attribute='term__decimal',
+                               readonly=True, null=True)
     class Meta:
         queryset = Group.objects.all()
         allowed_methods = ['get']
@@ -16,21 +18,16 @@ class GroupManagerResource(ColibriResource):
             "id": ('exact',),
         }
         resource_name = "simple_group"
-        cache = SimpleCache(cache_name='default', timeout=1440)
+        cache = SimpleCache(timeout=1440)
 
 
 class GroupResource(GroupManagerResource):
-    members = fields.ToManyField(
-        'parliamentarygroup.api.GroupMemberResource',
-        lambda bundle: bundle.obj.members.through.objects.filter(
-            group=bundle.obj.pk).select_related('member') or
-        bundle.obj.members, related_name='members_set', full=True)
-
     class Meta(GroupManagerResource.Meta):
         queryset = Group.objects.all()
         filtering = {
             "name": ('exact', 'startswith', 'iexact', 'istartswith',),
             "id": ('exact',),
+            "term": ('exact',),
         }
         resource_name = "group"
 
@@ -40,17 +37,24 @@ class GroupMemberResource(ColibriResource):
         'member.api.MemberResource', 'member', full=True)
     party = OptimizedToOneField(
         'parliamentarygroup.api.PartyResource', 'party', null=True)
+    term = fields.IntegerField(attribute='group__term__decimal',
+                               readonly=True, null=True)
 
     class Meta:
         queryset = GroupMember.objects.all().select_related('member')
         allowed_methods = ['get']
         resource_name = "groupmember"
+        filtering = {
+            "term": ('exact',),
+        }
         exclude = ['id']
         include_resource_uri = False
-        cache = SimpleCache(cache_name='default', timeout=1440)
+        cache = SimpleCache(timeout=1440)
 
 
 class PartyResource(ColibriResource):
+    term = fields.IntegerField(attribute='groupmember__group__term__decimal',
+                               readonly=True, null=True)
     class Meta:
         queryset = Party.objects.all()
         allowed_methods = ['get']
@@ -58,5 +62,6 @@ class PartyResource(ColibriResource):
         filtering = {
             "name": ('exact', 'startswith', 'iexact', 'istartswith',),
             "id": ('exact',),
+            "term": ('exact',),
         }
-        cache = SimpleCache(cache_name='default', timeout=1440)
+        cache = SimpleCache(timeout=1440)

@@ -8,14 +8,23 @@ from main.api import ColibriResource
 
 
 class InitiativeResource(ColibriResource):
-    authors = fields.ToManyField('member.api.MemberResource', 'author', full=True)
-    authors_group = fields.ToManyField('parliamentarygroup.api.GroupManagerResource', 'author_group', full=True)
-    commissions = fields.ToManyField('commission.api.CommissionManagerResource', 'author_group', full=True)
+    authors = fields.ToManyField('member.api.MemberResource', 'author',
+                                 full=True)
+    authors_group = fields.ToManyField(
+                                'parliamentarygroup.api.GroupManagerResource',
+                                'author_group', full=True)
+    commissions = fields.ToManyField('commission.api.CommissionManagerResource',
+                                     'author_group', full=True)
     votings = fields.ToManyField('vote.api.VotingResource', 'votings')
+    term = fields.IntegerField(attribute='term__decimal',
+                               readonly=True, null=True)
 
     class Meta:
         resource_name = "initiative"
-        queryset = Initiative.objects.all().select_related('author', 'author_group', 'commissions', 'votings')
+        queryset = Initiative.objects.all().select_related('author',
+                                                           'author_group',
+                                                           'commissions',
+                                                           'votings')
         allowed_methods = ['get']
         filtering = {
                 "authors": ALL_WITH_RELATIONS,
@@ -29,6 +38,6 @@ class InitiativeResource(ColibriResource):
                 "register_date": ALL,
                 "resource_uri": ALL,
                 "title": ALL,
-
+                "term": ('exact',),
         }
-        cache = SimpleCache(cache_name='default', timeout=1440)
+        cache = SimpleCache(timeout=1440)
