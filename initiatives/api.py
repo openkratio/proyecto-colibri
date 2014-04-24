@@ -21,9 +21,9 @@ class InitiativeResource(ColibriResource):
 
     class Meta:
         resource_name = "initiative"
-        queryset = Initiative.objects.all().select_related('author',
+        queryset = Initiative.objects.all().prefetch_related('author',
                                                            'author_group',
-                                                           'commissions',
+                                                           'comissions',
                                                            'votings')
         allowed_methods = ['get']
         filtering = {

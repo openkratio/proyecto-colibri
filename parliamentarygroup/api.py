@@ -41,7 +41,7 @@ class GroupMemberResource(ColibriResource):
                                readonly=True, null=True)
 
     class Meta:
-        queryset = GroupMember.objects.all().select_related('member')
+        queryset = GroupMember.objects.all().prefetch_related('member')
         allowed_methods = ['get']
         resource_name = "groupmember"
         filtering = {

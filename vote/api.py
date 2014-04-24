@@ -10,7 +10,7 @@ from vote.models import Voting, Vote, Session
 
 class VoteManagerResource(ColibriResource):
     class Meta:
-        queryset = Vote.objects.all().select_related(
+        queryset = Vote.objects.all().prefetch_related(
             'voting__session', 'member')
         allowed_methods = ['get']
         cache = SimpleCache(cache_name='default', timeout=1440)
