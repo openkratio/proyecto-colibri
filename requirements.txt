@@ -1,16 +1,14 @@
-django==1.5.2
-south==0.8.1
-#restore when this issue will be close https://github.com/rolandgeider/wger/issues/51
-#django-tastypie==0.10.0
-git+https://github.com/ewokcillo/django-tastypie.git
-django-admin-tools==0.5.1
+django
+south
+django-tastypie
+django-admin-tools
 feedparser
 PIL
 requests
 django-extensions
 pygraphviz
-scrapy==0.16.4
-psycopg2==2.5.1
+scrapy
+psycopg2
 pytz
-python-memcached==1.53
-beautifulsoup4==4.3.1
+python-memcached
+beautifulsoup4
