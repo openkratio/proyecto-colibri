@@ -1,0 +1,13 @@
+django
+south
+django-tastypie
+django-admin-tools
+feedparser
+pillow
+requests
+django-extensions
+pygraphviz
+scrapy
+pytz
+python-memcached
+beautifulsoup4
