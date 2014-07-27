@@ -9,7 +9,6 @@
 import imp
 import os
 import sys
-from django.core.management import setup_environ
 
 BOT_NAME = 'colibri'
 
@@ -34,4 +33,5 @@ def setup_django_env(path):
     # Add django project to sys.path
     sys.path.append(os.path.abspath(os.path.join(path, os.path.pardir)))
 
-setup_django_env('colibri/')
+# setup_django_env('colibri/')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "colibri.settings")
