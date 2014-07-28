@@ -23,9 +23,14 @@ def send_alert(initiative, alert):
         first_sended = sended_hour_ago.first()
         seconds_to_wait = (send_alert.sended - first_sended).seconds
         time.sleep(seconds_to_wait)
-
-    send_mail(alert.key_words, initiative.title, 'alert@proyectocolibri.es',
+    try:
+        msg = "%s\n%s" % (initiative.title, initiative.url)
+        send_mail(alert.key_words, msg,
+                  'alert@proyectocolibri.es',
                   [alert.user.email], fail_silently=False)
+    except:
+        send_alert.is_ok = False
+        send_alert.save()
 
 @shared_task
 def check_alert(initiative):

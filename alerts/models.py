@@ -19,6 +19,7 @@ class Alert(models.Model):
 class SendedAlert(models.Model):
     alert = models.ForeignKey(Alert)
     sended = models.DateTimeField(auto_now_add=True)
+    is_ok = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = _("Sended Alert")
