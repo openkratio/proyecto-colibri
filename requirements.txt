@@ -3,7 +3,7 @@ south
 django-tastypie
 django-admin-tools
 feedparser
-PIL
+pillow
 requests
 django-extensions
 pygraphviz

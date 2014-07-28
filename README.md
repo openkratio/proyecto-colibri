@@ -21,9 +21,6 @@ $> pip install -r requirements.txt
 If you don't plan to use posgresql, feel free to edit requirements.txt and delete the line:
 - psycopg2==2.5
 
-TODO: Create a requirements-dev.txt that allows to use sqlite without any edits.
-
-
 Run the project locally
 -----------------------
 Create the db:
@@ -33,6 +30,11 @@ $> python manage.py syncdb
 Run the migration scripts:
 
 $> python manage.py migrate
+
+Add initial data:
+
+Insert a line in term table for the 1st term: 1, X, 10, 11/20/2011, 11/20/2015.
+For that, you can use SQLite Manager or insert from console (python manage.py shell).
 
 Get the data:
 
