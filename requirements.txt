@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Django==1.6.5
 Pillow==2.5.1
 Scrapy==0.24.2
@@ -34,19 +33,3 @@ six==1.7.3
 w3lib==1.6
 wsgiref==0.1.2
 zope.interface==4.1.1
-=======
-django
-south
-django-tastypie
-django-admin-tools
-feedparser
-pillow
-requests
-django-extensions
-pygraphviz
-scrapy
-psycopg2
-pytz
-python-memcached
-beautifulsoup4
->>>>>>> a72f54029f4e4284aaea7e8904bbc37bceadb5d9
