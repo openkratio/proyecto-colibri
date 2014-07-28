@@ -9,7 +9,8 @@
 import imp
 import os
 import sys
-from django.core.management import setup_environ
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "colibri.settings")
+from django.conf import settings
 
 BOT_NAME = 'colibri'
 
@@ -20,18 +21,3 @@ DOWNLOADER_MIDDLEWARES = {
 }
 
 DOWNLOAD_DELAY = 0.5
-
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'scrap (+http://www.yourdomain.com)'
-
-
-def setup_django_env(path):
-    f, filename, desc = imp.find_module('settings', [path])
-    project = imp.load_module('settings', f, filename, desc)
-
-    setup_environ(project)
-
-    # Add django project to sys.path
-    sys.path.append(os.path.abspath(os.path.join(path, os.path.pardir)))
-
-setup_django_env('colibri/')

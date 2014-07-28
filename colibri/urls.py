@@ -33,7 +33,6 @@ v1_api.register(VotingResource())
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^admin_tools/', include('admin_tools.urls')),
     url(r'documentacion/', include('tastypie_swagger.urls', namespace='tastypie_swagger')),
     url(r'^api/', include(v1_api.urls)),
  #   url(r'^stats/', include('stats.urls')),

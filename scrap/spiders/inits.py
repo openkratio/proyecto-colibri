@@ -8,7 +8,9 @@ from dateutil import parser as dparser
 import re
 import urlparse
 
+from alerts.tasks import check_alert
 from commission.models import Commission
+from initiatives.models import Initiative
 from member.models import Member
 from parliamentarygroup.models import Group
 import scrap.items as items
@@ -20,12 +22,23 @@ ACTUAL_TERM = Term.objects.latest('id')
 class InitiativeSpider(CrawlSpider):
     name = 'initiatives'
     allowed_domains = ['congreso.es', ]
-    start_urls = ['http://www.congreso.es/portal/page/portal/Congreso/Congreso/Iniciativas/Indice de Iniciativas', ]
+    start_urls = ['http://www.congreso.es/portal/page/portal/Congreso/'
+                  'Congreso/Iniciativas/Indice de Iniciativas', ]
     rules = [
         Rule(SgmlLinkExtractor(
-            allow=['/portal/page/portal/Congreso/Congreso/Iniciativas/Indice%20de%20Iniciativas\?_piref73_1335503_73_1335500_1335500\.next_page=/wc/servidorCGI&CMD=VERLST&BASE=IW10&PIECE=\w+&FMT=INITXD1S\.fmt&FORM1=INITXLUS\.fmt&DOCS=\d+-\d+&QUERY=%28I%29\.ACIN1\.\+%26\+%28\d{3}%29\.SINI\.'], unique=True), 'parse_initiative'),
+            allow=['/portal/page/portal/Congreso/Congreso/Iniciativas/Indice%'
+                   '20de%20Iniciativas\?_piref73_1335503_73_1335500_1335500\.'
+                   'next_page=/wc/servidorCGI&CMD=VERLST&BASE=IW10&PIECE=\w+&'
+                   'FMT=INITXD1S\.fmt&FORM1=INITXLUS\.fmt&DOCS=\d+-\d+&QUERY='
+                   '%28I%29\.ACIN1\.\+%26\+%28\d{3}%29\.SINI\.'], unique=True),
+            'parse_initiative'),
         Rule(SgmlLinkExtractor(
-            allow=['/portal/page/portal/Congreso/Congreso/Iniciativas/Indice%20de%20Iniciativas\?_piref73_1335503_73_1335500_1335500\.next_page=/wc/servidorCGI&CMD=VERLST&BASE=IW10&FMT=INITXLUS\.fmt&DOCS=\d+-\d+&DOCORDER=FIFO&OPDEF=Y&QUERY=%28I%29\.ACIN1\.\+%26\+%28\d{3}%29\.SINI\.'], unique=True), follow=True),]
+            allow=['/portal/page/portal/Congreso/Congreso/Iniciativas/Indice'
+                   '%20de%20Iniciativas\?_piref73_1335503_73_1335500_1335500\.'
+                   'next_page=/wc/servidorCGI&CMD=VERLST&BASE=IW10&FMT=INITXLU'
+                   'S\.fmt&DOCS=\d+-\d+&DOCORDER=FIFO&OPDEF=Y&QUERY=%28I%29\.'
+                   'ACIN1\.\+%26\+%28\d{3}%29\.SINI\.'], unique=True),
+            follow=True),]
 
     def parse_initiative(self, response):
         x = HtmlXPathSelector(response)
@@ -51,7 +64,15 @@ class InitiativeSpider(CrawlSpider):
             item['register_date'] = register_date
             item['calification_date'] = calification_date
             item['initiative_type'] = initiative_type
+            try:
+                old_initiative = Initiative.objects.get(record=record)
+            except:
+                old_initiative = None
+
             initiative = item.save()
+
+            if old_initiative != initiative:
+                check_alert.delay(initiative)
 
             author_dip_re = x.select('//div[@id="RESULTADOS_BUSQUEDA"]/div[@class="resultados"]/div[@class="ficha_iniciativa"]/p[@class="texto"]/a').re('idDiputado=\d+')
             for author_dip in author_dip_re:

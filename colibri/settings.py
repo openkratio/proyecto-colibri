@@ -118,7 +118,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
     'main.middleware.crossdomain_middleware.XsSharing',
-    'stats.middleware.RequestMiddleware',
 )
 
 ROOT_URLCONF = 'colibri.urls'
@@ -134,10 +133,6 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-    'admin_tools',
-    'admin_tools.theming',
-    'admin_tools.menu',
-    'admin_tools.dashboard',
     'django.contrib.auth',
     'django.contrib.sites',
     'django.contrib.contenttypes',
@@ -156,11 +151,10 @@ INSTALLED_APPS = (
     'vote',
     'term',
     'main',
-    'django_extensions',
     'tastypie_swagger',
-    'stats',
     'initiatives',
     'commission',
+    'alerts',
 )
 
 # Only serve JSON format
@@ -225,6 +219,16 @@ LOGGING = {
     }
 }
 
+# celery
+CELERY_RESULT_BACKEND = 'amqp'
+
+# email
+EMAIL_HOST = "YOUR_SMTP_SERVER"
+EMAIL_HOST_PASSWORD = "YOUR USER_PASSWORD"
+EMAIL_HOST_USER = "YOUR_USER"
+EMAIL_PORT = "YOUR_PORT"
+TIME_QUOTE = 55
+NUM_QUOTE = 250
 
 try:
     from local_settings import *
