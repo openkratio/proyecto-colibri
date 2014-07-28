@@ -20,6 +20,7 @@ class Initiative(models.Model):
     comissions = models.ManyToManyField(Commission)
     votings = models.ManyToManyField(Voting)
     title = models.TextField(verbose_name=_("Title"), null=True)
+    url = models.URLField(max_length=500, default="")
 
     class Meta:
         verbose_name = _("Initiative")

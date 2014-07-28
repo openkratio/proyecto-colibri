@@ -48,6 +48,7 @@ class InitiativeSpider(CrawlSpider):
         if title_xpath:
             record = title_xpath.re('(\d+/\d+)').pop()
             item['record'] = record
+            item['url'] = response.url
             title = title_xpath.pop().extract()
 
             initiative_type = x.select('//p[@class="subtitulo_competencias"]/text()').pop().extract()
