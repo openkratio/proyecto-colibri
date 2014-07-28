@@ -16,7 +16,7 @@ from parliamentarygroup.models import Group
 import scrap.items as items
 from term.models import Term
 
-ACTUAL_TERM = Term.objects.latest('id')
+ACTUAL_TERM = Term.objects.latest('decimal')
 
 
 class InitiativeSpider(CrawlSpider):
