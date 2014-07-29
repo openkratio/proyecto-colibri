@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}  
+  <!-- Begin Contrib -->
+  
+  <div class="row">
+    <div class="twelve columns">
+      <p>Login with twitter</p>
+      <a href="{% url 'account_signup' %}">
+        <img src='{% static "main/images/Twitter_logo_blue.png" %}'>
+      </a>
+    </div>
+  </div>
+
+  <!-- End Contrib -->
+
+{% endblock %}

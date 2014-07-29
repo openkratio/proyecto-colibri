@@ -105,6 +105,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
     # required by django-admin-tools
     'django.core.context_processors.request',
+
+    # allauth specific context processors
+    "allauth.account.context_processors.account",
+    "allauth.socialaccount.context_processors.socialaccount",
 )
 
 MIDDLEWARE_CLASSES = (
@@ -119,6 +123,15 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.cache.FetchFromCacheMiddleware',
     'main.middleware.crossdomain_middleware.XsSharing',
 )
+
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
 
 ROOT_URLCONF = 'colibri.urls'
 
@@ -155,6 +168,12 @@ INSTALLED_APPS = (
     'initiatives',
     'commission',
     'alerts',
+    'dataminers',
+    #allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.twitter',
 )
 
 # Only serve JSON format

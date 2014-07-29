@@ -43,11 +43,9 @@
   font-style: italic;
 }
 
-
-#header {
-  margin-top: 5px;
+#login-menu{
+  padding-top: 1%;
 }
-
 
 .info-box {
   height: 250px;
@@ -55,10 +53,6 @@
 
 .profile-picture {
   width: 160px;
-}
-
-#search-text, #search-button {
-	
 }
 
 .votos-a-favor {

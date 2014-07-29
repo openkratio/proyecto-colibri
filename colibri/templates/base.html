@@ -1,3 +1,4 @@
+{% load url from future %}
 {% load staticfiles %}
 <!DOCTYPE html>
 
@@ -32,30 +33,54 @@
 	<script src="{% static "main/javascripts/foundation.min.js" %}"></script>
 	<script src="{% static "main/javascripts/jquery-ui-1.8.20.custom.min.js" %}"></script>
 	{% endblock %}
+  {% block extra_head %}
+  {% endblock %}
 
 </head>
 <body>
-
+  {% block body %}
 <!-- Header and Nav -->
 
+    <div id="login-menu" class="row">
+      {% if user.is_authenticated %}
+        <a class="right one" href="{% url 'account_logout' %}">Sign Out</a>
+      {% else %}
+        <a class="right one" href="{% url 'account_login' %}">Sign In</a>
+        <a class="right one" href="{% url 'account_signup' %}">Sign Up</a>
+      {% endif %}
+      </div>
   <div id="header" class="row">
     <div class="three columns">
       <a href="{% url 'main_index' %}"><img id="logo-colibri" src="{% static "main/images/colibri_blanco.png" %}"></a>
     </div>
     <div class="nine columns">
       <ul class="nav-bar right">
-		<li><a href="{% url 'main_index' %}">Inicio</a></li>
-    <li><a href="{% url 'main_apps' %}">Apps</a></li>
-		<li><a href="{% url 'tastypie_swagger:documentation' %}">Documentación</a></li>
-		<li><a href="{% url 'main_weare' %}">Somos</a></li>
-    <li><a href="{% url 'main_thanks' %}">Gracias</a></li>
+        <li><a href="{% url 'main_index' %}">Inicio</a></li>
+        <li><a href="{% url 'main_apps' %}">Apps</a></li>
+        <li><a href="{% url 'tastypie_swagger:documentation' %}">Documentación</a></li>
+		    <li><a href="{% url 'main_weare' %}">Somos</a></li>
+        <li><a href="{% url 'main_thanks' %}">Gracias</a></li>
       </ul>
     </div>
   </div>
+  {% if messages %}
+  <div>
+    <strong>Messages:</strong>
+    <ul>
+      {% for message in messages %}
+      <li>{{message}}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
 
   <!-- End Header and Nav -->
+  <div class="row">
+    <div class="twelve columns">
   {% block content %}
   {% endblock %}
+    </div>
+  </div>
   <!-- Footer -->
 
   <footer class="row">
@@ -74,7 +99,7 @@
       </div>
     </div>
   </footer>
-
+  {% endblock %}
   {% block footerscript %}
   {% endblock %}
 
@@ -92,4 +117,7 @@
 
   </script>
   {% endblock %}
+  {% block extra_body %}
+  {% endblock %}
 </body>
+</html>

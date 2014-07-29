@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 from tastypie.api import Api
 
@@ -35,9 +36,12 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'documentacion/', include('tastypie_swagger.urls', namespace='tastypie_swagger')),
     url(r'^api/', include(v1_api.urls)),
+    url(r'accounts/', include('allauth.urls')),
  #   url(r'^stats/', include('stats.urls')),
     url(r'^apps/$','main.views.apps', name="main_apps"),
     url(r'^somos/$','main.views.weare', name="main_weare"),
     url(r'^gracias/$','main.views.thanks', name="main_thanks"),
+    url(r'^accounts/profile/$',
+        TemplateView.as_view(template_name="dataminers/profile.html")),
     url(r'^$','main.views.index', name="main_index"),
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
