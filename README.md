@@ -33,8 +33,7 @@ $> python manage.py migrate
 
 Add initial data:
 
-Insert a line in term table for the 1st term: 1, X, 10, 11/20/2011, 11/20/2015.
-For that, you can use SQLite Manager or insert from console (python manage.py shell).
+$> python manage.py loaddata term/fixtures/initial.json
 
 Get the data:
 
