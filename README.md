@@ -10,7 +10,7 @@ These instructions have been tested with Ubuntu 12.04.
 
 Install required packages, including pip for managing dependencies:
 
-$> apt-get install python-dev python-setuptools python-pip
+$> apt-get install python-dev python-setuptools python-pip libffi-dev libssl-dev
 
 $> apt-get install libgraphviz-dev
 
