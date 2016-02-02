@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-{{STATIC_URL}}stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+	<!-- Set the viewport width to device width for mobile -->
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Proyecto Colibri</title>
+
+	<!-- Included CSS Files (Uncompressed) -->
+	<!--
+  <link rel="stylesheet" href="{% static "main/stylesheets/foundation.css" %}">
+	-->
+	<!-- Included CSS Files (Compressed) -->
+	<link rel="stylesheet" href="stylesheets/foundation.css">
+	<link rel="stylesheet" href="stylesheets/app.css">
+
+	<script src="javascripts/modernizr.foundation.js"></script>
+	<!-- Included JS Files (Compressed) -->
+	<script src="javascripts/jquery.js"></script>
+	<script src="javascripts/foundation.min.js"></script>
+	<script src="javascripts/jquery-ui-1.8.20.custom.min.js"></script>
+        <script src="javascripts/jquery.coda-slider-3.0.js"></script>
+
+</head>
+<body>
+
+<div class="row">
+  <div class="twelve columns">
+    <div class="alert">
+      <p>Nuestro Colibrí ha tenido que dejar de volar. <a href="http://openkratio.org/el-proyecto-colibri-tiene-que-dejar-de-volar/">Lee los motivos aquí</a>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Header and Nav -->
+
+  <div id="header" class="row">
+    <div class="three columns">
+      <a href="{% url 'main_index' %}"><img id="logo-colibri" src="images/colibri_blanco.png" %}"></a>
+    </div>
+    <div class="nine columns">
+      <ul class="nav-bar right">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="#apps">Apps</a></li>
+		    <li><a href="#somos">Equipo</a></li>
+        <li><a href="#gracias">Gracias</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- End Header and Nav -->
+  <div class="row">
+    <div class="twelve columns">
+
+      <!-- First Band (Slider) -->
+  <!-- The Orbit slider is initialized at the bottom of the page by calling .orbit() on #slider -->
+
+  <div class="row">
+    <div class="twelve columns">
+      <div id="slider-info" class="coda-slider">
+        <!-- <div class="info-box">
+          <div class="row">
+            <div class="four columns">
+              <span class="entypo-box webicon xbig"></span>
+            </div>
+            <div class="eight columns right-text">
+              <h1>Ordenamos para tí<br />los datos de Congreso.es</h1>
+              <h4 class="white-text">Para que encuentres rapidamente lo que estás buscando</h4>
+            </div>
+          </div>
+        </div>
+        <div class="info-box">
+          <div class="row">
+            <div class="eight columns">
+              <h1>Construye tu propia aplicación</h1>
+              <h4 class="white-text">Te ofrecemos la posibilidad de que construyas tu propia aplicación haciendo uso de nuestra API con datos públicos</h4>
+            </div>
+            <div class="four columns">
+              <span class="entypo-paper-plane webicon xbig"></span>
+            </div>
+          </div>
+        </div>
+        <div class="info-box">
+          <div class="row">
+            <div class="four columns">
+              <span class="entypo-sound webicon xbig"></span>
+            </div>
+            <div class="eight columns">
+              <h1>Apoya el Proyecto COLIBRI</h1>
+              <h4 class="white-text">Haz lo que quieras o puedas: difunde el proyecto, solicita información específica, realiza visualizaciones o estudios con los datos de Congreso.es</h4>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="twelve columns">
+      <hr />
+      <p class="submain-text white-text center-text">El PROYECTO COLIBRI es una iniciativa ciudadana que pretende servir de puente entre la comunidad de programadores y periodistas y la web del Congreso de los Diputados de España para así facilitar el acceso a la información que en dicha web se puede encontrar.</p>
+      <hr />
+    </div>
+  </div>
+
+
+  <!-- Three-up Content Blocks -->
+
+  <div class="row">
+
+    <div class="four columns center-text">
+      <span class="entypo-publish webicon big"></span>
+      <h4>REST API</h4>
+      <p>Ofrecemos una <a
+        href="http://es.wikipedia.org/wiki/Interfaz_de_programaci%C3%B3n_de_aplicaciones"
+        target="_blank">API</a> basada en servicios <a
+        href="http://en.wikipedia.org/wiki/Representational_state_transfer"
+        target="_blank">REST</a> para consumición de datos del Proyecto. Puedes
+      encontrar más información en la documentación oficial del mismo.</p>
+    </div>
+
+    <div class="four columns center-text">
+      <span class="entypo-chart-pie webicon big"></span>
+      <h4>Visualización</h4>
+      <p>Hemos desarrollado una aplicación web para consultar las votaciones del Congreso y queremos que sirva de base de futuros desarrollos que tanto nosotros como la comunidad pueda realizar.</p>
+    </div>
+
+    <div class="four columns center-text">
+      <span class="entypo-code webicon big"></span>
+      <h4>100% libre</h4>
+      <p>Tan libre como un pájaro. Ponemos a disposición de la comunidad tanto el código fuente del servidor de datos como los extractores de información de la web del Congreso junto con la aplicación web de visualización de datos.</p>
+    </div>
+
+  </div>
+
+
+        <div id="apps" class="row">
+          <div class="twelve columns">
+            <hr/>
+            <div class="panel">
+              <h4 class="center-text">Aplicaciones</h4>
+              <div class="row">
+                <div class="six columns">
+                  <h5>Open Congreso <span class="radius secondary label">WebApp</span></h5>
+                  <p>Trabajo desarrollado por  <a href="https://twitter.com/a_ditoro">Andrea Di Toro</a></p>
+                  <a href="http://opencongreso.es/" target="_blank">Accede a la app</a>
+                  <hr />
+                </div>
+                <div class="six columns">
+                  <h5>Congreso al día <span class="radius secondary label">WebApp</span></h5>
+                  <p>Trabajo desarrollado por  <a href="http://about.me/rafaparadela">Rafa Paradela</a></p>
+                  <a href="https://github.com/rafaparadela/congresoaldia" target="_blank">Accede al código de la app</a>
+                  <hr />
+                </div>
+                <div class="six columns">
+                  <h5>PicaFlor <span class="radius secondary label">WindowsPhone</span></h5>
+                  <p>Trabajo desarrollado por  <a href="http://twitter.com/josemmortega">José Manuel Montero</a></p>
+                  <a href="http://www.windowsphone.com/es-es/store/app/picaflor/01df0c96-7cd2-4f61-af56-87d6b3cdfa64" target="_blank">Accede a la app</a>
+                  <hr />
+                </div>
+                <div class="six columns">
+                  <h5>PicaFlor <span class="radius secondary label">Windows8</span></h5>
+                  <p>Trabajo desarrollado por  <a href="http://twitter.com/josemmortega">José Manuel Montero</a></p>
+                  <a href="http://apps.microsoft.com/windows/es-es/app/picaflor/328352b0-6abe-4d6f-a4c7-fda567487857" target="_blank">Accede a la app</a>
+                  <hr />
+                </div>
+                <div class="six columns">
+                  <h5>ColibriBook <span class="radius secondary label">Android</span></h5>
+                  <p>Trabajo desarrollado por <a href="https://github.com/pulimento">Javier Pulido</a> y <a href="https://github.com/mjim79">Miguel J. Jiménez</a> con la colaboracion de <a href="http://edipotrebol.es">edipotrebol</a></p>
+                  <p>Identidad grafica desarrollada por <a href="http://lopezbesteiro.es">Ale Lopez Besteiro</a></p>
+                  <a href="https://play.google.com/store/apps/details?id=es.openkratio.colibribook" target="_blank">Accede a la app</a>
+                  <hr />
+                </div>
+                <div class="six columns">
+                  <h5>Espana 2012-2013 <span class="radius secondary label">WebApp</span></h5>
+                  <p>Trabajo desarrollado por  <a href="https://github.com/michalskop">Michal Skop</a></p>
+                  <a href="http://bl.ocks.org/michalskop/5773523" target="_blank">Accede a la app</a>
+                  <hr />
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="somos" class="row">
+          <div class="twelve columns">
+            <hr/>
+            <div class="panel">
+              <h4 class="center-text">Equipo</h4>
+              <div class="row">
+                <div class="three columns center-text">
+                  <img src="images/ewokcillo.jpg" title="Foto de ewokcillo" class="profile-picture" />
+                </div>
+                <div class="nine columns">
+                  <h3><a href="http://endornotieneplaya.org">@ewokcillo</a></h3>
+                  <h5 class="white-text">SysAdmin &amp; Python developer</h5>
+                </div>
+              </div>
+              <div class="row">
+                <div class="three columns center-text">
+                  <img src="images/jneight.jpg" title="Foto de jneight" class="profile-picture" />
+                </div>
+                <div class="nine columns">
+                  <h3><a href="http://www.corderomartinez.es/">@jneight</a></h3>
+                  <h5 class="white-text">Python + Django developer</h5>
+                </div>
+              </div>
+              <div class="row">
+                <div class="three columns center-text">
+                  <img src="images/edipotrebol.jpg" title="Foto de edipotrebol" class="profile-picture" />
+                </div>
+                <div class="nine columns">
+                  <h3><a href="http://lacentral.coop/profile/pr3ssh">@pr3ssh</a></h3>
+                  <h5 class="white-text">Civic Hacker</h5>
+                </div>
+              </div>
+              <div class="row">
+                <div class="three columns center-text">
+                  <img src="http://placekitten.com.s3.amazonaws.com/homepage-samples/408/287.jpg" title="Foto de Openkratio Staff" class="profile-picture" />
+                </div>
+                <div class="nine columns">
+                  <h3>Openkratio Staff</h3>
+                  <h5 class="white-text">Con toda la fuerza de su colectivo</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="gracias" class="row">
+          <div class="twelve columns">
+            <hr/>
+            <div class="panel">
+              <h4 class="center-text">Gracias</h4>
+              <ul>
+                <li><a href="https://www.djangoproject.com/" target="_blank">Django</a></li>
+                <li><a href="http://tastypieapi.org" target="_blank">TastyPie</a></li>
+                <li><a href="http://www.python.org" target="_blank">Python</a></li>
+                            <li><a href="http://www.postgresql.org/" target="_blank">PostgreSQL</a></li>
+                <li><a href="http://foundation.zurb.com" target="_blank">Foundation</a></li>
+                <li><a href="http://weloveiconfonts.com" target="_blank">We love icon fonts</a></li>
+                <li><a href="https://github.com/KevinBatdorf/codaslider" target="_blank">Coda Slider</a></li>
+                            <li><a href="http://git-scm.com/" target="_blank">Git</a></li>
+                <li><a href="http://github.com/" target="_blank">Github</a></li>
+                <li>Datos obtenidos de Congreso.es</li>
+              </ul>
+              <p>Mencion especial para <a href="http://kadozkreaccion.es" target="_blank">KadozKreaccion</a> por la identidad grafica del proyecto.</p>
+            </div>
+          </div>
+        </div>
+
+
+
+    </div>
+  </div>
+
+
+  <!-- Footer -->
+
+  <footer class="row">
+    <div class="twelve columns">
+      <hr />
+      <div class="row">
+        <div class="six columns">
+          <p><span class="entypo-cc webicon"></span> Algunos derechos reservados, Proyecto de <a href="http://twitter.com/openkratio" target="_blank">OpenKratio</a></p>
+        </div>
+        <div class="six columns">
+          <ul class="link-list right">
+            <li><a href="http://github.com/openkratio/proyecto-colibri"><span class="entypo-github webicon small white-text"></span></a></li>
+            <li><a href="mailto:edipotrebol@gmail.com,azotillo@gmail.com,jneight@gmail.com?subject=ProyectoColibri"><span class="entypo-mail webicon small white-text"></span></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34687794-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+
+  <script type="text/javascript">
+  $(window).load(function() {
+    $('#slider-info').codaSlider({
+      continuous: false,
+      slideEaseDuration: '2000',
+      autoSlide: true,
+      autoHeight: false,
+      dynamicArrows: false
+    });
+  });
+</script>
+
+</body>
+</html>

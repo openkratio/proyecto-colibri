@@ -1,0 +1,115 @@
+@import url(http://weloveiconfonts.com/api/?family=entypo);
+
+/* entypo */
+[class*="entypo-"]:before {
+  font-family: 'entypo', sans-serif;
+}
+
+.webicon.xbig {
+  font-size: 240px;
+}
+
+.webicon.big {
+  font-size: 120px;
+}
+
+.webicon.medium {
+  font-size: 60px;
+}
+
+.webicon.small {
+  font-size: 40px;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.right-text {
+  text-align: right;
+}
+.white-text {
+  color: #ffffff;
+}
+
+
+.main-text {
+  font-size: 30px;
+  font-style: italic;
+}
+
+.submain-text {
+  font-size: 20px;
+  font-style: italic;
+}
+
+#login-menu{
+  padding-top: 1%;
+}
+
+.info-box {
+  height: 250px;
+}
+
+.profile-picture {
+  width: 160px;
+}
+
+.votos-a-favor {
+    color: #B0B90E;
+}
+
+.votos-en-contra {
+    color: #A53008;
+}
+
+.abstenciones {
+    color: #C3C3D4;
+}
+
+.seccion-a-favor {
+    background-color: #B0B903;
+    height: 300px;
+}
+
+.seccion-en-contra{
+    background-color: #A53008;
+    height: 300px;
+}
+
+/* -----------------------------------------
+   Header
+----------------------------------------- */
+
+.alert {
+  width: 100%;
+  text-align: center;
+  margin: 0px 0px 1rem;
+  padding: 1rem;
+  border-radius: 0px;
+  color: #fff;
+  background-color: #dd0000;
+  margin-top: 20px;
+}
+.alert a, .alert a:hover {
+  color: #fff;
+  font-weight: bold;
+}
+
+#logo-colibri{
+  margin-top: 10px;
+}
+/* -----------------------------------------
+   Page Name 1
+----------------------------------------- */
+.inline-text{
+    display: inline-block;
+}
+
+
+
+/* -----------------------------------------
+   Page Name 2
+----------------------------------------- */
+
+
