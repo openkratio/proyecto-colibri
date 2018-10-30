@@ -16,6 +16,7 @@ $> apt-get install libgraphviz-dev
 
 Install the listed requirements with:
 
+$> pip install cryptography
 $> pip install -r requirements.txt
 
 If you don't plan to use posgresql, feel free to edit requirements.txt and delete the line:
